@@ -1,0 +1,52 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.31101.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OdeToFood.Web", "OdeToFood\OdeToFood.Web.csproj", "{4BC00A13-3A12-47AC-A80A-0922AA168A59}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OdeToFood.Tests", "OdeToFood.Tests\OdeToFood.Tests.csproj", "{333BFC3C-5219-4A90-939F-639EB7CB123C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OdeToFood.Core", "OdeToFood.Core\OdeToFood.Core.csproj", "{A54C4602-E3CD-4813-8FD6-9E27BC801D67}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OdeToFood.BusinessLogic", "OdeToFood.BusinessLogic\OdeToFood.BusinessLogic.csproj", "{82CDEC9A-C90A-4EED-84F3-9A95F659DCBE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OdeToFood.Data", "OdeToFood.Data\OdeToFood.Data.csproj", "{F7690AC2-81DE-4E1F-AAC0-CBBFAFB38419}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OddToFood.Contracts", "OddToFood.Contracts\OddToFood.Contracts.csproj", "{5591E5EA-2F5F-46DF-804B-B55CCAFB5BAC}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{4BC00A13-3A12-47AC-A80A-0922AA168A59}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4BC00A13-3A12-47AC-A80A-0922AA168A59}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4BC00A13-3A12-47AC-A80A-0922AA168A59}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4BC00A13-3A12-47AC-A80A-0922AA168A59}.Release|Any CPU.Build.0 = Release|Any CPU
+		{333BFC3C-5219-4A90-939F-639EB7CB123C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{333BFC3C-5219-4A90-939F-639EB7CB123C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{333BFC3C-5219-4A90-939F-639EB7CB123C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{333BFC3C-5219-4A90-939F-639EB7CB123C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A54C4602-E3CD-4813-8FD6-9E27BC801D67}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A54C4602-E3CD-4813-8FD6-9E27BC801D67}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A54C4602-E3CD-4813-8FD6-9E27BC801D67}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A54C4602-E3CD-4813-8FD6-9E27BC801D67}.Release|Any CPU.Build.0 = Release|Any CPU
+		{82CDEC9A-C90A-4EED-84F3-9A95F659DCBE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{82CDEC9A-C90A-4EED-84F3-9A95F659DCBE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{82CDEC9A-C90A-4EED-84F3-9A95F659DCBE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{82CDEC9A-C90A-4EED-84F3-9A95F659DCBE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F7690AC2-81DE-4E1F-AAC0-CBBFAFB38419}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F7690AC2-81DE-4E1F-AAC0-CBBFAFB38419}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F7690AC2-81DE-4E1F-AAC0-CBBFAFB38419}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F7690AC2-81DE-4E1F-AAC0-CBBFAFB38419}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5591E5EA-2F5F-46DF-804B-B55CCAFB5BAC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5591E5EA-2F5F-46DF-804B-B55CCAFB5BAC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5591E5EA-2F5F-46DF-804B-B55CCAFB5BAC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5591E5EA-2F5F-46DF-804B-B55CCAFB5BAC}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
