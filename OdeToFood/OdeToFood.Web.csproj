@@ -39,6 +39,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AutoMapper">
+      <HintPath>..\packages\AutoMapper.4.0.4\lib\net45\AutoMapper.dll</HintPath>
+    </Reference>
     <Reference Include="Castle.Core">
       <HintPath>..\packages\Castle.Core.3.3.0\lib\net45\Castle.Core.dll</HintPath>
     </Reference>
@@ -174,8 +177,10 @@
     <Compile Include="App_Start\IdentityConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
+    <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\RestaurantController.cs" />
+    <Compile Include="Controllers\RestaurantReviewController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -189,6 +194,8 @@
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
+    <Compile Include="Views\ViewModels\RestaurantReviewViewModel.cs" />
+    <Compile Include="Views\ViewModels\RestaurantViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
@@ -210,6 +217,7 @@
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
+    <Content Include="Scripts\toggleReviews.js" />
     <Content Include="Scripts\_references.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
@@ -252,6 +260,11 @@
     <Content Include="Views\Restaurant\Details.cshtml" />
     <Content Include="Views\Restaurant\Edit.cshtml" />
     <Content Include="Views\Restaurant\Index.cshtml" />
+    <Content Include="Views\RestaurantReview\Create.cshtml" />
+    <Content Include="Views\RestaurantReview\Delete.cshtml" />
+    <Content Include="Views\RestaurantReview\Details.cshtml" />
+    <Content Include="Views\RestaurantReview\Edit.cshtml" />
+    <Content Include="Views\RestaurantReview\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -270,14 +283,6 @@
     <ProjectReference Include="..\OddToFood.Contracts\OddToFood.Contracts.csproj">
       <Project>{5591e5ea-2f5f-46df-804b-b55ccafb5bac}</Project>
       <Name>OddToFood.Contracts</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\OdeToFood.BusinessLogic\OdeToFood.BusinessLogic.csproj">
-      <Project>{82cdec9a-c90a-4eed-84f3-9a95f659dcbe}</Project>
-      <Name>OdeToFood.BusinessLogic</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\OdeToFood.Core\OdeToFood.Core.csproj">
-      <Project>{a54c4602-e3cd-4813-8fd6-9e27bc801d67}</Project>
-      <Name>OdeToFood.Core</Name>
     </ProjectReference>
     <ProjectReference Include="..\OdeToFood.Data\OdeToFood.Data.csproj">
       <Project>{f7690ac2-81de-4e1f-aac0-cbbfafb38419}</Project>

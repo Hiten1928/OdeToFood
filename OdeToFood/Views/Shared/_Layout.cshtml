@@ -22,10 +22,10 @@
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                    <li>@Html.ActionLink("About", "About", "Home")</li>
-                    <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
+                    <li>@Html.ActionLink("Retaurants", "Index", "Restaurant")</li>
+                    <li>@Html.ActionLink("Reviews", "Index", "RestaurantReview")</li>
                 </ul>
-                @Html.Partial("_LoginPartial")
+@*                @Html.Partial("_LoginPartial")*@
             </div>
         </div>
     </div>
@@ -33,12 +33,14 @@
         @RenderBody()
         <hr />
         <footer>
-            <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
+            
         </footer>
     </div>
 
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)
+    <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
+    <script src="~/Scripts/toggleReviews.js"></script>
 </body>
 </html>

@@ -6,10 +6,10 @@ using Castle.MicroKernel.SubSystems.Configuration;
 using Castle.Windsor;
 using Microsoft.Practices.ServiceLocation;
 using FluentValidation.Mvc;
-using OdeToFood.Core;
 using OdeToFood.Data;
-using OdeToFood.BusinessLogic;
 using OddToFood.Contracts;
+using OdeToFood.Data.Models;
+using OdeToFood.Data.Repositories;
 
 #endregion
 
@@ -35,8 +35,10 @@ namespace OdeToFood.Ioc.Installers
             container.Register(Component.For<DbContext>().ImplementedBy<OdeToFoodContext>().LifestyleSingleton());
             container.Register(Component.For(typeof(IRepository<>)).ImplementedBy(typeof(Repository<>)).LifestyleTransient());
 
-            container.Register(Component.For<IRestaurantManager>().ImplementedBy<RestaurantManager>().LifestylePerWebRequest());
-            container.Register(Component.For<IRestaurantReviewManager>().ImplementedBy<RestaurantReviewManager>().LifestylePerWebRequest());
+
+            container.Register(Component.For<DataContext>().LifestylePerWebRequest());
+            container.Register(Component.For<RestaurantRepository>().LifestylePerWebRequest());
+            container.Register(Component.For<RestaurantReviewRepository>().LifestylePerWebRequest());
            
             var controllerFactory = new WindsorControllerFactory(container.Kernel);
             ControllerBuilder.Current.SetControllerFactory(controllerFactory);

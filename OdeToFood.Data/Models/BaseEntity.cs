@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace OdeToFood.Core
+namespace OdeToFood.Data.Models
 {
     public class BaseEntity
     {

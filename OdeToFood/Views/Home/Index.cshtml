@@ -1,15 +1,14 @@
-﻿@model IEnumerable<OdeToFood.Core.Restaurant>
+﻿@model IEnumerable<OdeToFood.Data.Models.Restaurant>
 
 @{
     ViewBag.Title = "Index";
 }
 
-<h2>Index</h2>
-
-<p>
-    @Html.ActionLink("Restaurants List", "Index", "Restaurant")   
-</p>
-<p>
-    @Html.ActionLink("Restaurant Reviews List", "Index", "RestaurantReview")
-</p>
-
+<ul style="list-style-type: none;">
+    <li style="display: inline-block; padding-top: 25px; padding-right: 30px; margin-left: -40px;padding-left:0">
+        @Html.ActionLink("Restaurants List", "Index", "Restaurant")
+    </li>
+    <li style="display: inline-block;padding-top:25px">
+        @Html.ActionLink("Restaurant Reviews List", "Index", "RestaurantReview")
+    </li>
+</ul>

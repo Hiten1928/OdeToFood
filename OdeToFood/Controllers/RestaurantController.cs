@@ -6,31 +6,31 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
-using OdeToFood.Core;
 using Castle.Windsor;
 using OddToFood.Contracts;
+using OdeToFood.Data;
+using OdeToFood.Data.Models;
 
 namespace OdeToFood.Controllers
 {
     public class RestaurantController : Controller
     {
-        WindsorContainer container = new WindsorContainer();
-        private readonly IRestaurantManager _manager;
-        OdeToFoodContext _db = new OdeToFoodContext();
+        private readonly DataContext _dataContext;
 
-        public RestaurantController(IRestaurantManager manager)
+        public RestaurantController(DataContext dataContext)
         {
-            _manager = manager;
+            _dataContext = dataContext;
         }
 
         public ActionResult Index()
-        {            
-            return View(_db.Restaurants.ToList());
+        {
+            List<Restaurant> restaurantList = _dataContext.Restaurant.GetAll().ToList();
+            return View(restaurantList);
         }
 
         public ActionResult Details(int? id)
         {
-            Restaurant restaurant = (Restaurant)_manager.GetEntityById(id.Value);
+            Restaurant restaurant = _dataContext.Restaurant.Get(id.Value);
             return View(restaurant);
         }
 
@@ -41,25 +41,25 @@ namespace OdeToFood.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Name,Location")] Restaurant restaurant)
+        public ActionResult Create(Restaurant restaurant)
         {
-            _manager.Create(restaurant);
+            _dataContext.Restaurant.Add(restaurant);
             return RedirectToAction("Index");
         }
 
         public ActionResult Edit(int? id)
         {
-            Restaurant medicine = (Restaurant)_manager.GetEntityById(id.Value);
-            return View(medicine);
+            Restaurant restaurant = _dataContext.Restaurant.Get(id.Value);
+            return View(restaurant);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Name,Location")] Restaurant restaurant)
+        public ActionResult Edit(Restaurant restaurant)
         {
             if (ModelState.IsValid)
             {
-                _manager.ValidateEntity(restaurant);
+                _dataContext.Restaurant.Update(restaurant, restaurant.Id);
                 return RedirectToAction("Index");
             }
             return View(restaurant);
@@ -89,12 +89,13 @@ namespace OdeToFood.Controllers
 
         public ActionResult Delete(int id)
         {
-            _manager.DeleteEntity(id);
+            _dataContext.Restaurant.Delete(id);
             return RedirectToAction("Index");
         }
 
         protected override void Dispose(bool disposing)
         {
+            OdeToFoodContext _db = new OdeToFoodContext();
             if (disposing)
             {
                 _db.Dispose();
