@@ -1,4 +1,5 @@
-﻿@model OdeToFood.Data.Models.Order
+﻿@using OdeToFood.Data
+@model OdeToFood.Data.Models.Order
 
 
 @using (Html.BeginForm())
@@ -6,30 +7,30 @@
     @Html.AntiForgeryToken()
 
     <div class="form-horizontal">
+        <div id="validationPost" style="font-size: 18px; margin-bottom: 30px;display:none"></div>
         <h4>Fill in the form to place the order</h4>
-        <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <hr/>
         <div class="form-group">
-            @Html.LabelFor(model => model.TableNumber, "Table #: ", htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.Id, "Table #: ", htmlAttributes: new {@class = "control-label col-md-2"})
             <div class="col-md-10">
-                @Html.DisplayFor(model => model.TableNumber, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.TableNumber, "", new { @class = "text-danger" })
+                @Html.EditorFor(model => (new OdeToFoodContext().Tables.Find(model.TableId)).TableNumber, new {htmlAttributes = new {@class = "form-control"}})
+                @Html.ValidationMessageFor(model => model.Id, "", new {@class = "text-danger"})
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.PeopleCount, "People: ", htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.PeopleCount, "People: ", htmlAttributes: new {@class = "control-label col-md-2"})
             <div class="col-md-10">
-                @Html.EditorFor(model => model.PeopleCount, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.PeopleCount, "", new { @class = "text-danger" })
+                @Html.EditorFor(model => model.PeopleCount, new {htmlAttributes = new {@class = "form-control"}})
+                @Html.ValidationMessageFor(model => model.PeopleCount, "", new {@class = "text-danger"})
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.TimeFrom, "From Time: ", htmlAttributes: new { @class = "control-label col-md-2 " })
+            @Html.LabelFor(model => model.TimeFrom, "From Time: ", htmlAttributes: new {@class = "control-label col-md-2"})
             <div class="col-md-10">
-                @Html.EditorFor(model => model.TimeFrom, new { htmlAttributes = new { @class = "form-control dateTimePicker" } })
-                @Html.ValidationMessageFor(model => model.TimeFrom, "", new { @class = "text-danger" })
+                @Html.EditorFor(model => model.TimeFrom, new {htmlAttributes = new {@class = "form-control dateTimePicker"}})
+                @Html.ValidationMessageFor(model => model.TimeFrom, "", new {@class = "text-danger"})
             </div>
         </div>
 
@@ -42,25 +43,22 @@
         </div>
 
         <div class="form-group">
-            @Html.HiddenFor(model => model.RestaurantId)
-@*            @Html.LabelFor(model => model.RestaurantId, "Restaurant: ", htmlAttributes: new {@class = "control-label col-md-2"})*@
-@*            <div class="col-md-10">*@
-@*                @Html.DisplayFor(model => model.RestaurantId, new {htmlAttributes = new {@class = "form-control dateTimePicker"}})*@
-@*                @Html.ValidationMessageFor(model => model.RestaurantId, "", new {@class = "text-danger"})*@
-@*            </div>*@
+            @Html.HiddenFor(model => model.TableId)
+            @*            @Html.LabelFor(model => model.RestaurantId, "Restaurant: ", htmlAttributes: new {@class = "control-label col-md-2"})*@
+            @*            <div class="col-md-10">*@
+            @*                @Html.DisplayFor(model => model.RestaurantId, new {htmlAttributes = new {@class = "form-control dateTimePicker"}})*@
+            @*                @Html.ValidationMessageFor(model => model.RestaurantId, "", new {@class = "text-danger"})*@
+            @*            </div>*@
         </div>
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default" />
+                <input id="submitButton" type="submit" value="Create" data-url="@Url.Action("PlaceOrder", "BookTable", Model)" class=" btn btn-default" />
             </div>
         </div>
     </div>
 }
 
-<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
@@ -76,6 +74,21 @@
             minDate: '-1970/01/01',
             maxDate: '+1970/01/08',
             format: 'd.m.Y H:i'
+        });
+
+
+        //sublit button click
+        $("#submitButton").on("click", function () {
+            event.preventDefault()
+            $.ajax({
+                url: $(this).data('url'),
+                type: 'POST',
+                cache: false,
+                success: function (result) {
+                    $('#validationPost').html(result);
+                    $("#validationPost").css("display","block")
+                }
+            });
         });
     });
 </script>

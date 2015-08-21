@@ -50,9 +50,9 @@ namespace OdeToFood.Controllers
                 Mapper.CreateMap<RestaurantViewModel, Restaurant>();
                 Restaurant restaurant = Mapper.Map<Restaurant>(restaurantViewModel);
                 List<Table> tablesInTheRestaurant = new List<Table>();
-                for (int i = 0; i < restaurantViewModel.TableCount;i++)
+                for (int i = 0; i < restaurantViewModel.TableCount; i++)
                 {
-                    tablesInTheRestaurant.Add(new Table(){Id = i, IsFree = true});
+                    tablesInTheRestaurant.Add(new Table(){TableNumber = i+1});
                 }
                 restaurant.Tables = tablesInTheRestaurant;
                 _dataContext.Restaurant.Add(restaurant);
@@ -79,28 +79,6 @@ namespace OdeToFood.Controllers
             }
             return View(restaurant);
         }
-
-        //public ActionResult Delete(int? id)
-        //{
-        //    if (id == null)
-        //    {
-        //        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-        //    }
-        //    Restaurant restaurant = _db.Restaurants.Find(id);
-        //    if (restaurant == null)
-        //    {
-        //        return HttpNotFound();
-        //    }
-        //    return View(restaurant);
-        //}
-
-
-        //[ValidateAntiForgeryToken]
-        //public ActionResult DeleteConfirmed(int id)
-        //{
-        //    _manager.DeleteEntity(id);
-        //    return RedirectToAction("Index");
-        //}
 
         public ActionResult Delete(int id)
         {
