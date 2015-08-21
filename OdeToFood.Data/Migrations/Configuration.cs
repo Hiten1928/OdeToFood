@@ -1,3 +1,6 @@
+using System.Collections.Generic;
+using OdeToFood.Data.Models;
+
 namespace OdeToFood.Data.Migrations
 {
     using System;
@@ -27,6 +30,7 @@ namespace OdeToFood.Data.Migrations
             //      new Person { FullName = "Rowan Miller" }
             //    );
             //
+           
         }
     }
 }

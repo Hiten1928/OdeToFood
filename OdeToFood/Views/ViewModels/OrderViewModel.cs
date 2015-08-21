@@ -1,20 +1,20 @@
-﻿using System;
+﻿using OdeToFood.Data.Models;
+using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Web;
 
-namespace OdeToFood.Data.Models
+namespace OdeToFood.Views.ViewModels
 {
-    public class Order
+    public class OrderViewModel
     {
-        [Key]
         public int Id { get; set; }
+
         public int TableNumber { get; set; }
         public int PeopleCount { get; set; }
         public DateTime TimeFrom { get; set; }
         public DateTime TimeTo { get; set; }
-        public int RestaurantId { get; set; }
+
+        public Restaurant Restaurant { get; set; }
     }
 }

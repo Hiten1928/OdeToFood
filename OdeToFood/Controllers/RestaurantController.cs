@@ -6,10 +6,12 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using AutoMapper;
 using Castle.Windsor;
 using OddToFood.Contracts;
 using OdeToFood.Data;
 using OdeToFood.Data.Models;
+using OdeToFood.Views.ViewModels;
 
 namespace OdeToFood.Controllers
 {
@@ -41,10 +43,23 @@ namespace OdeToFood.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(Restaurant restaurant)
+        public ActionResult Create(RestaurantViewModel restaurantViewModel)
         {
-            _dataContext.Restaurant.Add(restaurant);
-            return RedirectToAction("Index");
+            if (ModelState.IsValid)
+            {
+                Mapper.CreateMap<RestaurantViewModel, Restaurant>();
+                Restaurant restaurant = Mapper.Map<Restaurant>(restaurantViewModel);
+                List<Table> tablesInTheRestaurant = new List<Table>();
+                for (int i = 0; i < restaurantViewModel.TableCount;i++)
+                {
+                    tablesInTheRestaurant.Add(new Table(){Id = i, IsFree = true});
+                }
+                restaurant.Tables = tablesInTheRestaurant;
+                _dataContext.Restaurant.Add(restaurant);
+                return RedirectToAction("Index");
+            }
+            return View(restaurantViewModel);
+
         }
 
         public ActionResult Edit(int? id)

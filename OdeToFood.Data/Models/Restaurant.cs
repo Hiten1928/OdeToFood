@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
+using System.Security.Permissions;
 using OddToFood.Contracts;
 
 namespace OdeToFood.Data.Models
@@ -14,6 +15,10 @@ namespace OdeToFood.Data.Models
         public int Id { get; set; }
         public string Name { get; set; }
         public string Location { get; set; }
+        public List<Table> Tables { get; set; }
+
         public virtual ICollection<RestaurantReview> Reviews { get; set; }
+        public virtual ICollection<Order> Orders { get; set; }
+        
     }
 }

@@ -1,0 +1,82 @@
+﻿@model OdeToFood.Data.Models.Order
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>Fill in the form to place the order</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.TableNumber, "Table #: ", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DisplayFor(model => model.TableNumber, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.TableNumber, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.PeopleCount, "People: ", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.PeopleCount, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.PeopleCount, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.TimeFrom, "From Time: ", htmlAttributes: new { @class = "control-label col-md-2 " })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.TimeFrom, new { htmlAttributes = new { @class = "form-control dateTimePicker" } })
+                @Html.ValidationMessageFor(model => model.TimeFrom, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.TimeTo, "To Time: ", htmlAttributes: new {@class = "control-label col-md-2"})
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.TimeTo, new {htmlAttributes = new {@class = "form-control dateTimePicker"}})
+                @Html.ValidationMessageFor(model => model.TimeTo, "", new {@class = "text-danger"})
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.HiddenFor(model => model.RestaurantId)
+@*            @Html.LabelFor(model => model.RestaurantId, "Restaurant: ", htmlAttributes: new {@class = "control-label col-md-2"})*@
+@*            <div class="col-md-10">*@
+@*                @Html.DisplayFor(model => model.RestaurantId, new {htmlAttributes = new {@class = "form-control dateTimePicker"}})*@
+@*                @Html.ValidationMessageFor(model => model.RestaurantId, "", new {@class = "text-danger"})*@
+@*            </div>*@
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+@Scripts.Render("~/bundles/jquery")
+<link rel="stylesheet" href="~/Content/jquery.datetimepicker.css">
+<script src="~/Scripts/jquery.datetimepicker.js"></script>
+<script>
+    $(document).ready(function () {
+        var dateFrom = new Date();
+        var dateTo = dateFrom + 7;
+        jQuery('.dateTimePicker').datetimepicker({
+            minDate: '-1970/01/01',
+            maxDate: '+1970/01/08',
+            format: 'd.m.Y H:i'
+        });
+    });
+</script>
+

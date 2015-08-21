@@ -11,6 +11,7 @@ using Castle.Windsor.Installer;
 using FluentValidation.Mvc;
 using Castle.MicroKernel.Registration;
 using Castle.MicroKernel.SubSystems.Configuration;
+using OdeToFood.Data;
 using OdeToFood.Ioc;
 
 namespace OdeToFood
@@ -30,6 +31,7 @@ namespace OdeToFood
             FluentValidationModelValidatorProvider.Configure();
 
             FluentValidation.Mvc.FluentValidationModelValidatorProvider.Configure(x => x.ValidatorFactory = new WindsorFluentValidatorFactory(_windsorContainer.Kernel));
+            Database.SetInitializer<OdeToFoodContext>(null);
         }
 
         protected void Application_End()

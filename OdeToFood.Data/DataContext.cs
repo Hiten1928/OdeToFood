@@ -9,11 +9,13 @@ namespace OdeToFood.Data
         public RestaurantReviewRepository RestaurantReview { get; set; }
 
         public RestaurantRepository Restaurant { get; set; }
+        public OrderRepository Order { get; set; }
 
-        public DataContext(RestaurantRepository restaurantRepository, RestaurantReviewRepository restaurantReviewRepository)
+        public DataContext(RestaurantRepository restaurantRepository, RestaurantReviewRepository restaurantReviewRepository, OrderRepository orderRepositoty)
         {
             Restaurant = restaurantRepository;
             RestaurantReview = restaurantReviewRepository;
+            Order = orderRepositoty;
         }
 //        public void Create(IDbEntity review)
 //        {

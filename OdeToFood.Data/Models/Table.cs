@@ -7,14 +7,10 @@ using System.Threading.Tasks;
 
 namespace OdeToFood.Data.Models
 {
-    public class Order
+    public class Table
     {
         [Key]
         public int Id { get; set; }
-        public int TableNumber { get; set; }
-        public int PeopleCount { get; set; }
-        public DateTime TimeFrom { get; set; }
-        public DateTime TimeTo { get; set; }
-        public int RestaurantId { get; set; }
+        public bool IsFree { get; set; }
     }
 }
