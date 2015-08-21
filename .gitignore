@@ -44,3 +44,7 @@ _ReSharper*/
 
 # Office Temp Files
 ~$*
+
+# MS SQL Express
+*.mdf
+*.ldf
