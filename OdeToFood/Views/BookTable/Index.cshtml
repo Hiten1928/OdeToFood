@@ -5,27 +5,84 @@
 
 <h2>Tables booking</h2>
 <div class="row">
-
-
-
     <div class="col-ld-6 col-md-6" style="background-color: lightseagreen; height: 420px; margin-top: 20px; padding: 5px; border-radius: 10px">
-
-
         @foreach (var table in Model.Tables)
         {
-            <div class="col-ld-4 col-md-4 text-center tableBg"><span id="1" data-url="@Url.Action("PlaceOrder", "BookTable", new { id = table.Id, restaurantId = TempData["RestaurantId"] })" class="glyph" style="font-size: 6em;">@table.TableNumber</span></div>
+            <div class="col-ld-4 col-md-4 text-center">
+                <div class="tableBg"><span data-tableid=@table.Id data-url="@Url.Action("PlaceOrder", "BookTable", new {id = table.Id, restaurantId = TempData["RestaurantId"]})" class="glyph" style="font-size: 6em;">@table.TableNumber</span></div>
+            </div>
         }
-
     </div>
-    <div class="col-ld-6 col-md-6 msmqpartial" style="background-color: ghostwhite; height: 420px; margin-top: 20px; padding: 30px; border-radius: 10px">
-
+    <div class="col-ld-6 col-md-6 msmqpartial" style="background-color: ghostwhite; height: 420px; margin-top: 20px; padding: 30px; border-radius: 10px; border: 3px solid lightseagreen">
+    </div>
+</div>
+<div class="row" style="margin-top:20px">
+    <div id="freeTimePanel" class="col-md-12 col-lg-12" style="background: ghostwhite; border-radius: 10px; padding: 20px;display:none">
+        <h4>Select the date to see the avialable time for the table:</h4>
+        <div class="form-group">
+            <input type="text" id="datePicker" class="form-control" style="margin-left: 15px" />
+        </div>
+        <div id="avialableTimeList"></div>
     </div>
 </div>
 
-
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
 @Scripts.Render("~/bundles/jquery")
+<link rel="stylesheet" href="~/Content/jquery.datetimepicker.css">
+<script src="~/Scripts/jquery.datetimepicker.js"></script>
 <script>
     jQuery(document).ready(function () {
+        var tableClickedId;
+
+        $('span.glyph').click(function () {
+            $.ajax({
+                url: $(this).data('url'),
+                type: 'GET',
+                cache: false,
+                success: function (result) {
+                    $('.msmqpartial').html(result);
+                }
+            });
+
+            tableClickedId = $(this).data("tableid");
+            $("#freeTimePanel").css("display", "block");
+            var params = { tableId: $(this).data("tableid"), date: new Date() };
+            $.ajax({
+                url: "@Url.Action("GetAvialableTimes", "BookTable")",
+                contentType: "application/json",
+                data: JSON.stringify(params),
+                type: 'POST',
+                cache: false,
+                success: function (result) {
+                    $("#avialableTimeList").html(result);
+                }
+            });
+
+            $("#datePicker").val(new Date().dateFormat("Y/m/d"));
+            $("#datePicker").blur(function () {
+                var params = { tableId: tableClickedId, date: $(this).val() };
+                alert(params.tableId + " " + params.date);
+                $.ajax({
+                    url: "@Url.Action("GetAvialableTimes", "BookTable")",
+                    contentType: "application/json",
+                    data: JSON.stringify(params),
+                    type: 'POST',
+                    cache: false,
+                    success: function (result) {
+                        $("#avialableTimeList").html(result);
+                    }
+                });
+            });
+
+            return false;
+        });
+
+
+
+
+
         $(".glyph").click(function () {
             $(".glyph").css("color", "#333");
             var allGlyphs = $(".glyph");
@@ -34,8 +91,7 @@
             }
             $(this).attr("data-click", "clicked");
             $(this).css("color", "white");
-            $(this).parent().css({"background": "#00ced1", "border-radius":"10px"});
-
+            $(this).parent().css({ "background": "#00ced1", "border-radius": "10px" });
         });
 
         $(".glyph").parent().mouseover(function () {
@@ -48,20 +104,7 @@
                 $(this).css("color", "#333");
                 $(this).css("cursor", "pointer");
             }
-        });
+        })
 
-
-
-        $('span.glyph').click(function () {
-            $.ajax({
-                url: $(this).data('url'),
-                type: 'GET',
-                cache: false,
-                success: function (result) {
-                    $('.msmqpartial').html(result);
-                }
-            });
-            return false;
-        });
     });
 </script>

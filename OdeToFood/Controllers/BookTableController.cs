@@ -1,8 +1,11 @@
 ﻿using OdeToFood.Data.Models;
 using OdeToFood.Views.ViewModels;
 using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
+using System.Runtime.InteropServices.ComTypes;
 using System.Web;
 using System.Web.Mvc;
 using AutoMapper;
@@ -33,6 +36,7 @@ namespace OdeToFood.Controllers
             order.TimeFrom = DateTime.Now;
             order.TimeTo = DateTime.Now;
             order.TableId = id;
+            order.PeopleCount = 2;
 
 
             return PartialView("_PlaceOrder", order);
@@ -43,13 +47,27 @@ namespace OdeToFood.Controllers
         {
             if (ModelState.IsValid)
             {
-                var ordersForTable = DataContext.Order.FindAll(o => o.TableId == order.TableId );
+//                var ordersForTable = DataContext.Order.FindAll(o => o.TableId == order.TableId );
+//                bool isAvialable = true;
+//                DateTime timeFromCeil = RoundUp(order.TimeFrom, TimeSpan.FromMinutes(60));
+//                order.TimeFrom = timeFromCeil;
+//                foreach (var o in ordersForTable)
+//                {
+//                    if (order.TimeFrom.Hour == o.TimeFrom.Hour && order.TimeFrom.Day == o.TimeFrom.Day && order.TimeFrom.Month == o.TimeFrom.Month)
+//                    {
+//                        isAvialable = false;
+//                    }
+//                }
+//                if (!isAvialable)
+//                {
+//                    return Content("Table is not avialable at the specified time.");
+//                }
+                var ordersForTable = DataContext.Order.FindAll(o => o.TableId == order.TableId);
                 bool isAvialable = true;
                 DateTime timeFromCeil = RoundUp(order.TimeFrom, TimeSpan.FromMinutes(60));
-                order.TimeFrom = timeFromCeil;
                 foreach (var o in ordersForTable)
                 {
-                    if (order.TimeFrom == o.TimeFrom)
+                    if (timeFromCeil.Hour == o.TimeFrom.Hour && timeFromCeil.Day == o.TimeFrom.Day && timeFromCeil.Month == o.TimeFrom.Month)
                     {
                         isAvialable = false;
                     }
@@ -62,12 +80,55 @@ namespace OdeToFood.Controllers
                 DataContext.Order.Add(order);
                 return Content("You have placed your order successfully.");
             }
-            return Content("Wrong input.");
+            return Content("Model State is not valid.");
         }
+
+        [HttpPost]
+        public bool IsTableAvialable(int tableId, DateTime time)
+        {
+            var ordersForTable = DataContext.Order.FindAll(o => o.TableId == tableId);
+            bool isAvialable = true;
+            DateTime timeFromCeil = RoundUp(time, TimeSpan.FromMinutes(60));
+            foreach (var o in ordersForTable)
+            {
+                if (timeFromCeil.Hour == o.TimeFrom.Hour && timeFromCeil.Day == o.TimeFrom.Day && timeFromCeil.Month == o.TimeFrom.Month)
+                {
+                    isAvialable = false;
+                }
+            }
+            return isAvialable;
+        }
+
+        [HttpPost]
+        public ActionResult GetAvialableTimes(int tableId, DateTime date)
+        {
+            var tableOrders = DataContext.Order.FindAll(o => o.TableId == tableId);
+            List<DateTime> takenTimesForTheDate = new List<DateTime>();
+            foreach (var t in tableOrders)
+            {
+                if (t.TimeFrom.Date == date.Date)
+                {
+                    takenTimesForTheDate.Add(t.TimeFrom);
+                }
+            }
+            List<DateTime> freeTimes = new List<DateTime>();
+            for (int i = 0; i < 24; i++)
+            {
+                if (takenTimesForTheDate.Any(o => o.Hour == i))
+                {
+                    continue;
+                }
+                freeTimes.Add(new DateTime(date.Year, date.Month, date.Day, i, 0, 0, 0));
+            }
+            return View("_ViewFreeTime", freeTimes);
+        }
+
 
         DateTime RoundUp(DateTime dt, TimeSpan d)
         {
             return new DateTime(((dt.Ticks + d.Ticks - 1) / d.Ticks) * d.Ticks);
         }
+
+
     }
 }
