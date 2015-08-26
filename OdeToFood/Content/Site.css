@@ -26,3 +26,8 @@ textarea {
 #reviewsTr {
     display: none;
 }
+
+span.glyph:hover {
+    color: #fff!important;
+    cursor: pointer;
+}

@@ -37,8 +37,6 @@ namespace OdeToFood.Controllers
             order.TimeTo = DateTime.Now;
             order.TableId = id;
             order.PeopleCount = 2;
-
-
             return PartialView("_PlaceOrder", order);
         }
 
@@ -47,21 +45,6 @@ namespace OdeToFood.Controllers
         {
             if (ModelState.IsValid)
             {
-//                var ordersForTable = DataContext.Order.FindAll(o => o.TableId == order.TableId );
-//                bool isAvialable = true;
-//                DateTime timeFromCeil = RoundUp(order.TimeFrom, TimeSpan.FromMinutes(60));
-//                order.TimeFrom = timeFromCeil;
-//                foreach (var o in ordersForTable)
-//                {
-//                    if (order.TimeFrom.Hour == o.TimeFrom.Hour && order.TimeFrom.Day == o.TimeFrom.Day && order.TimeFrom.Month == o.TimeFrom.Month)
-//                    {
-//                        isAvialable = false;
-//                    }
-//                }
-//                if (!isAvialable)
-//                {
-//                    return Content("Table is not avialable at the specified time.");
-//                }
                 var ordersForTable = DataContext.Order.FindAll(o => o.TableId == order.TableId);
                 bool isAvialable = true;
                 DateTime timeFromCeil = RoundUp(order.TimeFrom, TimeSpan.FromMinutes(60));
@@ -76,7 +59,8 @@ namespace OdeToFood.Controllers
                 {
                     return Content("Table is not avialable at the specified time.");
                 }
-
+                order.TimeFrom = timeFromCeil;
+                order.TimeTo = timeFromCeil.AddHours(1);
                 DataContext.Order.Add(order);
                 return Content("You have placed your order successfully.");
             }
@@ -128,7 +112,5 @@ namespace OdeToFood.Controllers
         {
             return new DateTime(((dt.Ticks + d.Ticks - 1) / d.Ticks) * d.Ticks);
         }
-
-
     }
 }

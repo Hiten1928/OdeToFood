@@ -11,51 +11,50 @@
     <div class="form-horizontal">
         <div id="validationPost" style="font-size: 18px; margin-bottom: 30px;display:none"></div>
         <h4>Fill in the form to place the order</h4>
-        <hr/>
-        @Html.HiddenFor(model => model.Id, new {id="modelId"})
+        <hr />
+        @Html.HiddenFor(model => model.Id, new { id = "modelId" })
         <div class="form-group">
-            @Html.LabelFor(model => model.TableId, "Table #: ", htmlAttributes: new {@class = "control-label col-md-2"})
+            @Html.LabelFor(model => model.TableId, "Table #: ", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => (new OdeToFoodContext().Tables.Find(model.TableId)).TableNumber, new { htmlAttributes = new { @class = "form-control"} })
-                @Html.ValidationMessageFor(model => model.TableId, "", new {@class = "text-danger"})
+                @Html.EditorFor(model => (new OdeToFoodContext().Tables.Find(model.TableId)).TableNumber, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.TableId, "", new { @class = "text-danger" })
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.PeopleCount, "People: ", htmlAttributes: new {@class = "control-label col-md-2"})
+            @Html.LabelFor(model => model.PeopleCount, "People: ", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.PeopleCount, new {htmlAttributes = new {@class = "form-control", id="peopleCount"}})
-                @Html.ValidationMessageFor(model => model.PeopleCount, "", new {@class = "text-danger"})
+                @Html.EditorFor(model => model.PeopleCount, new { htmlAttributes = new { @class = "form-control", id = "peopleCount" } })
+                @Html.ValidationMessageFor(model => model.PeopleCount, "", new { @class = "text-danger" })
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.TimeFrom, "From Time: ", htmlAttributes: new {@class = "control-label col-md-2"})
+            @Html.LabelFor(model => model.TimeFrom, "From Time: ", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.TimeFrom, new {htmlAttributes = new {@class = "form-control dateTimePicker", id="timeFrom"}})
-                @Html.ValidationMessageFor(model => model.TimeFrom, "", new {@class = "text-danger"})
+                @Html.EditorFor(model => model.TimeFrom, new { htmlAttributes = new { @class = "form-control dateTimePicker", id = "timeFrom" } })
+                @Html.ValidationMessageFor(model => model.TimeFrom, "", new { @class = "text-danger" })
                 <span class="glyphicon glyphicon-ok" style="position: relative; top: -25px; left: 300px;color:transparent"></span>
             </div>
         </div>
 
         <div class="form-group">
             <div class="col-md-10">
-                @Html.HiddenFor(model => model.TimeTo, new {id="timeTo"} )
+                @Html.HiddenFor(model => model.TimeTo, new { id = "timeTo" })
             </div>
         </div>
 
         <div class="form-group">
-            @Html.HiddenFor(model => model.TableId,new {id="tblId"})
+            @Html.HiddenFor(model => model.TableId, new { id = "tblId" })
         </div>
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input id="submitButton" type="submit" value="Create" data-url="@Url.Action("PlaceOrder", "BookTable", Model)" class=" btn btn-default"/>
+                <input id="submitButton" type="submit" value="Create" data-url="@Url.Action("PlaceOrder", "BookTable", Model)" class=" btn btn-default" />
             </div>
         </div>
     </div>
 }
-
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
@@ -65,19 +64,18 @@
 <script src="~/Scripts/jquery.datetimepicker.js"></script>
 <script>
     $(document).ready(function () {
-        var dateFrom = new Date();
-        var dateTo = dateFrom + 7;
-//        jQuery('.dateTimePicker').datetimepicker({
-//            minDate: '-1970/01/01',
-//            maxDate: '+1970/01/08',
-//            format: 'd.m.Y H:i'
-//        });
 
+        //setting up the dateTimePicker
+        jQuery('.dateTimePicker').datetimepicker({
+            minDate: '-1970/01/01',
+            maxDate: '+1970/01/08',
+            format: 'd.m.Y H:i'
+        });
 
         //sublit button click
-        var params = {TableId : $("#tblId").val(), PeopleCount : $("#peopleCount").val(), TimeFrom : $("#timeFrom").val(), TimeTo : $("#timeTo").val()};
         $("#submitButton").on("click", function () {
             event.preventDefault();
+            var params = { TableId: $("#tblId").val(), PeopleCount: $("#peopleCount").val(), TimeFrom: $("#timeFrom").val(), TimeTo: $("#timeTo").val() };
             $.ajax({
                 url: "@Url.Action("PlaceOrder", "BookTable")",
                 contentType: "application/json",
@@ -91,7 +89,8 @@
             });
         });
 
-        $(".dateTimePicker").blur(function() {
+        //check is the date chosen in dateTimePicker is avialable
+        $(".dateTimePicker").blur(function () {
             var params = { tableId: $("#tblId").val(), time: $(".dateTimePicker").val() };
             $.ajax({
                 url: "@Url.Action("IsTableAvialable", "BookTable")",
