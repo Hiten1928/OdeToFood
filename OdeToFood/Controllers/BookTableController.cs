@@ -21,6 +21,7 @@ namespace OdeToFood.Controllers
         {
         }
 
+        [Authorize]
         public ActionResult Index(int id)
         {
             TempData["RestaurantId"] = id;
