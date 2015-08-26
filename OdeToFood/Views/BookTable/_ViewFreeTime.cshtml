@@ -18,11 +18,13 @@
     </div>
 }
 
-<script>
-    $(document).ready(function() {
-        $(".avialableTime").click(function() {
-            $(".dateTimePicker").val($(this).text());
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $(".avialableTime").click(function () {
+                $(".dateTimePicker").val($(this).text());
+            });
         });
-    });
-</script>    
+    </script>
+}
 

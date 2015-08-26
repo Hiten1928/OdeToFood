@@ -28,43 +28,26 @@
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
-}
-@Scripts.Render("~/bundles/jquery")
-<link rel="stylesheet" href="~/Content/jquery.datetimepicker.css">
-<script src="~/Scripts/jquery.datetimepicker.js"></script>
-<script>
-    jQuery(document).ready(function () {
-        var tableClickedId;
-        //on table number click event
-        $('span.glyph').click(function () {
-            //getting create order form
-            $.ajax({
-                url: $(this).data('url'),
-                type: 'GET',
-                cache: false,
-                success: function (result) {
-                    $('.msmqpartial').html(result);
-                }
-            });
+    <link rel="stylesheet" href="~/Content/jquery.datetimepicker.css">
+    <script src="~/Scripts/jquery.datetimepicker.js"></script>
+    <script>
+        jQuery(document).ready(function () {
+            var tableClickedId;
+            //on table number click event
+            $('span.glyph').click(function () {
+                //getting create order form
+                $.ajax({
+                    url: $(this).data('url'),
+                    type: 'GET',
+                    cache: false,
+                    success: function (result) {
+                        $('.msmqpartial').html(result);
+                    }
+                });
 
-            //getting all the times avialable for the table
-            $("#freeTimePanel").css("display", "block");
-            var params = { tableId: $(this).data("tableid"), date: new Date() };
-            $.ajax({
-                url: "@Url.Action("GetAvialableTimes", "BookTable")",
-                contentType: "application/json",
-                data: JSON.stringify(params),
-                type: 'POST',
-                cache: false,
-                success: function (result) {
-                    $("#avialableTimeList").html(result);
-                }
-            });
-
-            //all avialable times for the table if the date changes
-            $("#datePicker").val(new Date().dateFormat("Y/m/d"));
-            $("#datePicker").blur(function () {
-                var params = { tableId: tableClickedId, date: $(this).val() };
+                //getting all the times avialable for the table
+                $("#freeTimePanel").css("display", "block");
+                var params = { tableId: $(this).data("tableid"), date: new Date() };
                 $.ajax({
                     url: "@Url.Action("GetAvialableTimes", "BookTable")",
                     contentType: "application/json",
@@ -75,14 +58,31 @@
                         $("#avialableTimeList").html(result);
                     }
                 });
-            });
-            return false;
-        });
 
-        //table click effect
-        $(".glyph").click(function () {
-            $(".glyph").css("color", "#444");
-            $(this).css("color", "white");
+                //all avialable times for the table if the date changes
+                $("#datePicker").val(new Date().dateFormat("Y/m/d"));
+                $("#datePicker").blur(function () {
+                    var params = { tableId: tableClickedId, date: $(this).val() };
+                    $.ajax({
+                        url: "@Url.Action("GetAvialableTimes", "BookTable")",
+                        contentType: "application/json",
+                        data: JSON.stringify(params),
+                        type: 'POST',
+                        cache: false,
+                        success: function (result) {
+                            $("#avialableTimeList").html(result);
+                        }
+                    });
+                });
+                return false;
+            });
+
+            //table click effect
+            $(".glyph").click(function () {
+                $(".glyph").css("color", "#444");
+                $(this).css("color", "white");
+            });
         });
-    });
-</script>
+    </script>
+}
+
