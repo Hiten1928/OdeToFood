@@ -105,7 +105,7 @@ namespace OdeToFood.Controllers
                 }
                 freeTimes.Add(new DateTime(date.Year, date.Month, date.Day, i, 0, 0, 0));
             }
-            return View("_ViewFreeTime", freeTimes);
+            return PartialView("_ViewFreeTime", freeTimes);
         }
 
         public ActionResult GetAvialableTables(DateTime time, int restaurantId)

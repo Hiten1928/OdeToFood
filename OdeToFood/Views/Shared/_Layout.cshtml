@@ -6,7 +6,8 @@
     <title>@ViewBag.Title - My ASP.NET Application</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
-
+    @Scripts.Render("~/bundles/jquery")
+    <link rel="stylesheet" href="~/Content/jquery.datetimepicker.css">
 </head>
 <body>
     <div class="navbar navbar-inverse navbar-fixed-top">
@@ -41,13 +42,14 @@
         </footer>
     </div>
 
-    @Scripts.Render("~/bundles/jquery")
+   
     @Scripts.Render("~/bundles/bootstrap")
+    <script src="~/Scripts/jquery.datetimepicker.js"></script>
 
     @RenderSection("Scripts", required: false)
-    @RenderSection("ScriptsPlaceOrder", required: false)
-    @RenderSection("ScriptsViewFreeTime",required:false)
-    @RenderSection("ScriptsGetAvialableTables", required: false)
+
+
+
     <script src="~/Scripts/toggleReviews.js"></script>
 </body>
 </html>
