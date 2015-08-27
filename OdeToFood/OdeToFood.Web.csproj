@@ -201,6 +201,7 @@
     <Compile Include="Views\ViewModels\OrderViewModel.cs" />
     <Compile Include="Views\ViewModels\RestaurantReviewViewModel.cs" />
     <Compile Include="Views\ViewModels\RestaurantViewModel.cs" />
+    <Compile Include="Views\ViewModels\TableViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
@@ -279,6 +280,8 @@
     <Content Include="Views\BookTable\_PlaceOrder.cshtml" />
     <Content Include="Views\BookTable\_ViewFreeTime.cshtml" />
     <Content Include="Views\Order\Index.cshtml" />
+    <Content Include="Views\BookTable\_PlaceOrderResponce.cshtml" />
+    <Content Include="Views\BookTable\_GetAvialableTables.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

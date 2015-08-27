@@ -31,3 +31,7 @@ span.glyph:hover {
     color: #fff!important;
     cursor: pointer;
 }
+.tables:hover {
+    cursor: pointer;
+    background: azure!important;
+}

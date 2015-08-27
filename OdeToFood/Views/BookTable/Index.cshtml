@@ -1,9 +1,11 @@
-﻿@model OdeToFood.Data.Models.Restaurant
+﻿@using System.Web.UI.WebControls
+@model OdeToFood.Data.Models.Restaurant
 @{
     ViewBag.Title = "title";
 }
 
-<h2 class="text-center">Tables booking</h2>
+<h2 class="text-center" style="margin-top:40px">Tables booking</h2>
+
 <div class="row">
     <div class="col-ld-6 col-md-6" style="background-color: lightseagreen; height: 460px; margin-top: 20px; padding: 5px; border-radius: 10px">
         @foreach (var table in Model.Tables)
@@ -14,11 +16,17 @@
         }
     </div>
     <div class="col-ld-6 col-md-6 msmqpartial" style="background-color: ghostwhite; height: 460px; margin-top: 20px; padding: 30px; border-radius: 10px; border: 3px solid lightseagreen">
+        <h3 class="text-center">Click on the table to book</h3>
     </div>
 </div>
-<div class="row" style="margin-top:20px">
-    <div id="freeTimePanel" class="col-md-12 col-lg-12" style="background: ghostwhite; border-radius: 10px; padding: 20px;display:none">
-        <h4>Select the date to see the avialable time for the table:</h4>
+<div class="row" style="margin-top: 20px">
+    <div id="avialableTableDiv" class="col-md-6 col-lg-6" style="background: ghostwhite; padding: 20px;">
+        <h4>Select the time to see avialable tables:</h4>
+        <input type="text" id="timeForAvialability" class="form-control" />
+        <div id="avialableTableList" style="margin-top:20px"></div>
+    </div>
+    <div id="freeTimePanel" class="col-md-6 col-lg-6" style="background: ghostwhite; padding: 20px; display: none">
+        <h4 style="margin-left:15px">Select the date to see the avialable time for the table:</h4>
         <div class="form-group">
             <input type="text" id="datePicker" class="form-control" style="margin-left: 15px" />
         </div>
@@ -32,6 +40,28 @@
     <script src="~/Scripts/jquery.datetimepicker.js"></script>
     <script>
         jQuery(document).ready(function () {
+
+            var date = new Date();
+            $("#timeForAvialability").val(date.dateFormat("Y/m/d") + " " + date.toTimeString().replace(/.*(\d{2}:\d{2}:\d{2}).*/, "$1"));
+
+            $("#timeForAvialability").blur(function () {
+                var model = @Html.Raw(Json.Encode(Model.Id));
+                var params = { time: $(this).val(), restaurantId : model };
+                $.ajax({
+                    url: "@Url.Action("GetAvialableTables", "BookTable")",
+                    contentType: "application/json",
+                    data: JSON.stringify(params),
+                    type: 'POST',
+                    cache: false,
+                    success: function (result) {
+                        $('#avialableTableList').html(result);
+                    }
+                });
+            });
+            $("#timeForAvialability").click(function() {
+                $(this).datetimepicker();
+            });
+
             var tableClickedId;
             //on table number click event
             $('span.glyph').click(function () {
@@ -82,7 +112,7 @@
                 $(".glyph").css("color", "#444");
                 $(this).css("color", "white");
             });
+
         });
     </script>
 }
-

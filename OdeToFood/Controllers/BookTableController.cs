@@ -10,6 +10,7 @@ using System.Web;
 using System.Web.Mvc;
 using AutoMapper;
 using OdeToFood.Data;
+using OdeToFood.Views.ViewModels;
 
 namespace OdeToFood.Controllers
 {
@@ -21,7 +22,6 @@ namespace OdeToFood.Controllers
         {
         }
 
-        [Authorize]
         public ActionResult Index(int id)
         {
             TempData["RestaurantId"] = id;
@@ -108,6 +108,39 @@ namespace OdeToFood.Controllers
             return View("_ViewFreeTime", freeTimes);
         }
 
+        public ActionResult GetAvialableTables(DateTime time, int restaurantId)
+        {
+            var context = new OdeToFoodContext();
+            var ordersForTheRestaurant =
+                DataContext.Order.GetAll().Where(t => t.Table.RestaurantId == restaurantId).ToList();
+            var ordersForGivenTime = new List<Order>();
+            var timeCeil = RoundUp(time, TimeSpan.FromMinutes(60));
+            foreach (Order o in ordersForTheRestaurant)
+            {
+                if (o.TimeFrom == timeCeil)
+                {
+                    ordersForGivenTime.Add(o);
+                }
+            }
+            var allTablesForRestaurant = context.Tables.Where(t => t.RestaurantId == restaurantId).ToList();
+            var avialableTables = new List<Table>();
+            foreach (Table t in allTablesForRestaurant)
+            {
+                var isAvialable = true;
+                foreach (Order o in ordersForGivenTime)
+                {
+                    if (t.Id == o.TableId)
+                    {
+                        isAvialable = false;
+                    }
+                }
+                if (isAvialable)
+                {
+                    avialableTables.Add(t);
+                }
+            }
+            return PartialView("_GetAvialableTables", avialableTables);
+        }
 
         DateTime RoundUp(DateTime dt, TimeSpan d)
         {

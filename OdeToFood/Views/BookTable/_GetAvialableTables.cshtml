@@ -1,0 +1,22 @@
+﻿@model List<OdeToFood.Data.Models.Table>
+
+
+@foreach (var table in Model)
+{
+    <ul class="list-group">
+        <li class="list-group-item tables">Table #@table.TableNumber</li>
+    </ul>
+}
+
+@section ScriptsGetAvialableTables {
+    <script>
+        $(document).ready(function () {
+            $(".tables").click(function () {
+                event.preventDefault();
+                var tableNumber = $(this).text().substring(7);
+                $("#tableNumber").val(tableNumber);
+                $("#timeFrom").val($("#timeForAvialability").val());
+            });
+        });
+    </script>
+}
