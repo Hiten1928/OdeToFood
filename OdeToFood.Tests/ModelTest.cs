@@ -18,7 +18,6 @@ namespace OdeToFood.Tests
             var _db = new OdeToFoodContext();
             Order order = new Order()
             {
-                Id = 152,
                 PeopleCount = 1,
                 TableId = 50,
                 TimeFrom = DateTime.Now.AddDays(4),

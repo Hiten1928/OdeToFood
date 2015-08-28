@@ -12,7 +12,7 @@ namespace OdeToFood.Data.Models
     {
         [Key]
         public int Id { get; set; }
-        [Range(1,4)]
+        [Range(1,6)]
         public int PeopleCount { get; set; }
         public DateTime TimeFrom { get; set; }
         public DateTime TimeTo { get; set; }

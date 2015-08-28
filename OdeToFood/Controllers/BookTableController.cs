@@ -14,6 +14,7 @@ using OdeToFood.Views.ViewModels;
 
 namespace OdeToFood.Controllers
 {
+    [Authorize]
     public class BookTableController : BaseController
     {
 

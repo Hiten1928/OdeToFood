@@ -34,7 +34,9 @@ namespace OdeToFood.Tests
         public void TestPlaceOrder()
         {
             var controller = new BookTableController(dataContext);
-            var result = controller.PlaceOrder(50,9) as PartialViewResult;
+            var table = context.Tables.FirstOrDefault();
+            var restaurant = context.Restaurants.FirstOrDefault();
+            var result = controller.PlaceOrder(table.Id,restaurant.Id) as PartialViewResult;
             Assert.AreEqual("_PlaceOrder", result.ViewName);
         }
 
@@ -42,14 +44,16 @@ namespace OdeToFood.Tests
         public void TestPlaceOrderPostInvalidModel()
         {
             var controller = new BookTableController(dataContext);
-            Order order = new Order()
+            var tableId = context.Tables.FirstOrDefault().Id;
+            var order = context.Orders.FirstOrDefault();
+
+            Order newOrder = new Order()
             {
-                Id = 150,
                 PeopleCount = 2,
-                TableId = 50,
-                TimeFrom = DateTime.Now.AddDays(3),
-                TimeTo = DateTime.Now.AddDays(3).AddHours(1),
-                Table = context.Tables.Find(50)
+                TableId = order.TableId,
+                TimeFrom = order.TimeFrom,
+                TimeTo = order.TimeTo,
+                Table = context.Tables.Find(order.TableId)
             };
 
             var result = controller.PlaceOrder(order) as ContentResult;
@@ -60,10 +64,12 @@ namespace OdeToFood.Tests
         [Test]
         public void IsTableAvialableTest()
         {
-            int tableId = 50;
+            var order = context.Orders.FirstOrDefault();
+            var table = context.Tables.FirstOrDefault();
+            int tableId = table.Id;
             DateTime timeFrom = new DateTime(2015, 8, 26, 14, 0, 0);
             var controller = new BookTableController(dataContext);
-            bool result = controller.IsTableAvialable(tableId, timeFrom);
+            bool result = controller.IsTableAvialable(order.TableId, order.TimeFrom);
             Assert.IsFalse(result);
         }
 
@@ -72,7 +78,8 @@ namespace OdeToFood.Tests
         {
             var controller = new BookTableController(dataContext);
             DateTime timeToCheck = new DateTime(2015, 8, 26, 14, 0, 0);
-            var result = controller.GetAvialableTimes(50, timeToCheck) as ViewResult;
+            Table table = context.Tables.FirstOrDefault();
+            var result = controller.GetAvialableTimes(table.Id, timeToCheck) as PartialViewResult;
             Assert.AreEqual("_ViewFreeTime", result.ViewName);
             Assert.IsNotNull(result.Model);
         }
