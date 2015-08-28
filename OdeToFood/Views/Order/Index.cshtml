@@ -1,0 +1,41 @@
+﻿@model IEnumerable<OdeToFood.Data.Models.Order>
+
+
+<table class="table" style="margin-top:30px">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.PeopleCount)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TimeFrom)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TimeTo)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TableId)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.PeopleCount)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TimeFrom)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TimeTo)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TableId)
+        </td>
+        <td>
+            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
+        </td>
+    </tr>
+}
+
+</table>

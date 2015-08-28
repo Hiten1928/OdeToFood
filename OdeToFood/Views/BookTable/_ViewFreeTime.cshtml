@@ -1,0 +1,28 @@
+﻿@using System.Globalization
+@using OdeToFood.Data
+
+@model IEnumerable<DateTime>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+
+        <ul class="list-group">
+            @foreach (var date in Model)
+            {
+                <li class="list-group-item"><a class="avialableTime" href="#">@date.Day.ToString("00").@date.Month.ToString("00").@date.Year @date.Hour.ToString("00"):@date.Minute.ToString("00"):@date.Second.ToString("00")</a></li>
+            }
+        </ul>
+    </div>
+}
+
+<script>
+    $(document).ready(function () {
+        $(".avialableTime").click(function () {
+            $(".dateTimePicker").val($(this).text());
+        });
+    });
+</script>
+

@@ -10,51 +10,52 @@
     @Html.ActionLink("Create a restaurant", "Create")
 </p>
 
-<table class="table" style="border:none">
-
 
     @foreach (var item in Model)
     {
-        <tr class="restaurantTr">
-            <td>
+        <div class="restaurantTr row" style="padding: 20px 0 20px 0">
+            <div class="col-lg-4 col-md-4">
                 @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
+            </div>
+            <div class="col-lg-4 col-md-4">
                 @Html.DisplayFor(modelItem => item.Location)
-            </td>
+            </div>
 
-            <td>
-                @Html.ActionLink("Edit", "Edit", new {id = item.Id}) |
-                @Html.ActionLink("Details", "Details", new {id = item.Id}) |
-                @Html.ActionLink("Delete", "Delete", new {id = item.Id}) |
-                @Html.ActionLink("Add a review", "Create", "RestaurantReview", new {id = item.Id}, null) |
+            <div class="col-lg-4 col-md-4">
+                @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.Id }) |
+                @Html.ActionLink("Add a review", "Create", "RestaurantReview", new { id = item.Id }, null) |
+                @Html.ActionLink("Book a table", "Index", "BookTable", new { id = item.Id }, null) |
+            </div>
+        </div>
 
-            </td>
-        </tr>
-
-    <tr class="reviewsTr" style ="display:none">
-        @if (item.Reviews != null)
+        
+            
+        if (item.Reviews != null)
         {
             foreach (var review in item.Reviews)
             {
-                <td>
-                    @Html.Label("Rating: ")
-                    @Html.DisplayFor(r => review.Rating)
-                </td>
-                <td>
-                    @Html.Label("Comment: ")
-                    @Html.DisplayFor(r => review.Body)
-                </td>
-                    <td>
-                        @Html.ActionLink("Edit", "Edit", "RestaurantReview", new {id = review.Id}, null) |
-                        @Html.ActionLink("Details", "Details", "RestaurantReview", new {id = review.Id}, null) |
-                        @Html.ActionLink("Delete", "Delete", "RestaurantReview", new {id = review.Id}, null) 
-                    </td>
-                }
+                <div class="reviewsTr row" style="display: none;">
+                    <div class="col-lg-4 col-md-4">
+                        @Html.Label("Rating: ")
+                        @Html.DisplayFor(r => review.Rating)
+                    </div>
+                    <div class="col-lg-4 col-md-4">
+                        @Html.Label("Comment: ")
+                        @Html.DisplayFor(r => review.Body)
+                    </div>
+                    <div class="col-lg-4 col-md-4">
+                        @Html.ActionLink("Edit", "Edit", "RestaurantReview", new { id = review.Id }, null) |
+                        @Html.ActionLink("Details", "Details", "RestaurantReview", new { id = review.Id }, null) |
+                        @Html.ActionLink("Delete", "Delete", "RestaurantReview", new { id = review.Id }, null)
+                    </div>
+                </div>
             }
-        </tr>
+        }
+
 
     }
 
-</table>
+
 

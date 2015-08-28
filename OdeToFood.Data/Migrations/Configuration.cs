@@ -1,3 +1,6 @@
+using System.Collections.Generic;
+using OdeToFood.Data.Models;
+
 namespace OdeToFood.Data.Migrations
 {
     using System;
@@ -27,6 +30,34 @@ namespace OdeToFood.Data.Migrations
             //      new Person { FullName = "Rowan Miller" }
             //    );
             //
+            Restaurant restaurant = new Restaurant()
+            {
+                Location = "London",
+                Name = "Zomato"
+            };
+            context.Restaurants.AddOrUpdate(restaurant);
+            Table table1 = new Table()
+            {
+                TableNumber = 1,
+                RestaurantId = restaurant.Id,
+                Restaurant = restaurant
+            };
+            Table table2 = new Table()
+            {
+                TableNumber = 2,
+                RestaurantId = restaurant.Id,
+                Restaurant = restaurant
+            };
+            context.Tables.AddOrUpdate(table1);
+            context.Tables.AddOrUpdate(table2);
+            Order order = new Order()
+            {
+                PeopleCount = 2,
+                Table = table1,
+                TableId = table1.Id,
+                TimeFrom = new DateTime(),
+                TimeTo = new DateTime().AddHours(1)
+            };
         }
     }
 }

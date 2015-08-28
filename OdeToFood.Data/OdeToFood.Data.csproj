@@ -56,10 +56,13 @@
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\BaseEntity.cs" />
+    <Compile Include="Models\Order.cs" />
     <Compile Include="Models\Restaurant.cs" />
     <Compile Include="Models\RestaurantReview.cs" />
+    <Compile Include="Models\Table.cs" />
     <Compile Include="OdeToFoodContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repositories\OrderRepository.cs" />
     <Compile Include="Repositories\RestaurantRepository.cs" />
     <Compile Include="Repositories\RestaurantReviewRepository.cs" />
     <Compile Include="Repository.cs" />

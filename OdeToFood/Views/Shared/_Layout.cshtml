@@ -6,7 +6,8 @@
     <title>@ViewBag.Title - My ASP.NET Application</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
-
+    @Scripts.Render("~/bundles/jquery")
+    <link rel="stylesheet" href="~/Content/jquery.datetimepicker.css">
 </head>
 <body>
     <div class="navbar navbar-inverse navbar-fixed-top">
@@ -17,15 +18,16 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                @Html.ActionLink("Application name", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+                @Html.ActionLink("Ode To Food", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
             </div>
             <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
+                <ul class="nav navbar-nav  pull-right" style="margin-top: 5px;">
                     <li>@Html.ActionLink("Home", "Index", "Home")</li>
                     <li>@Html.ActionLink("Retaurants", "Index", "Restaurant")</li>
                     <li>@Html.ActionLink("Reviews", "Index", "RestaurantReview")</li>
+                    <li>@Html.Partial("_LoginPartial")</li>
                 </ul>
-@*                @Html.Partial("_LoginPartial")*@
+                
             </div>
         </div>
     </div>
@@ -33,14 +35,21 @@
         @RenderBody()
         <hr />
         <footer>
-            
+            <div class="fb-page" data-href="https://www.facebook.com/facebook"
+                 data-width="380" data-hide-cover="false" data-show-facepile="false"
+                 data-show-posts="false">
+            </div>
         </footer>
     </div>
 
-    @Scripts.Render("~/bundles/jquery")
+   
     @Scripts.Render("~/bundles/bootstrap")
-    @RenderSection("scripts", required: false)
-    <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
+    <script src="~/Scripts/jquery.datetimepicker.js"></script>
+
+    @RenderSection("Scripts", required: false)
+
+
+
     <script src="~/Scripts/toggleReviews.js"></script>
 </body>
 </html>

@@ -1,0 +1,21 @@
+﻿@model List<OdeToFood.Data.Models.Table>
+
+
+@foreach (var table in Model)
+{
+    <ul class="list-group">
+        <li class="list-group-item tables">Table #@table.TableNumber</li>
+        @Html.HiddenFor(t => table.Id, new { data_tableid = table.Id , id ="avialableTableId"})
+    </ul>
+}
+
+<script>
+    $(document).ready(function () {
+        $(".tables").click(function () {
+            var tableNumber = $(this).text().substring(7);
+            $("#tableNumber").val(tableNumber);
+            $("#timeFrom").val($("#timeForAvialability").val());
+            $("#tblId").val($("#avialableTableId").data("tableid"));
+        });
+    });
+</script>

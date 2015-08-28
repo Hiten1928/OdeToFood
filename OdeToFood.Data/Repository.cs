@@ -60,7 +60,7 @@ namespace OdeToFood.Data
             return existing;
         }
 
-        public void Delete(int key)
+        public virtual void Delete(int key)
         {
             T objDelete = _context.Set<T>().Find(key);
             if (objDelete != null)

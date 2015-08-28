@@ -13,6 +13,12 @@ namespace OdeToFood
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
+            routes.Add(new Route("Account/Login", new MvcRouteHandler())
+            {
+                Defaults = new RouteValueDictionary(new { controller = "Account", action = "Login" }),
+                DataTokens = new RouteValueDictionary(new { scheme = "https" })
+            });
+
             routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",

@@ -5,10 +5,13 @@
 }
 
 <ul style="list-style-type: none;">
-    <li style="display: inline-block; padding-top: 25px; padding-right: 30px; margin-left: -40px;padding-left:0">
-        @Html.ActionLink("Restaurants List", "Index", "Restaurant")
+    <li style="padding-top: 25px; padding-right: 30px; margin-left: -40px;padding-left:0">
+        @Html.ActionLink("Restaurants", "Index", "Restaurant")
     </li>
-    <li style="display: inline-block;padding-top:25px">
-        @Html.ActionLink("Restaurant Reviews List", "Index", "RestaurantReview")
+    <li style="padding-top: 25px; margin-left: -40px;">
+        @Html.ActionLink("Restaurant Reviews", "Index", "RestaurantReview")
+    </li>
+    <li style="padding-top: 25px;margin-left: -40px;">
+        @Html.ActionLink("Orders", "Index", "Order")
     </li>
 </ul>
