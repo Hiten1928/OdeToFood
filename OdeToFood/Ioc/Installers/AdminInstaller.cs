@@ -1,13 +1,13 @@
 ﻿#region Using statemetns
+
 using System.Data.Entity;
 using System.Web.Mvc;
 using Castle.MicroKernel.Registration;
 using Castle.MicroKernel.SubSystems.Configuration;
 using Castle.Windsor;
 using Microsoft.Practices.ServiceLocation;
-using FluentValidation.Mvc;
-using OdeToFood.Data;
 using OddToFood.Contracts;
+using OdeToFood.Data;
 using OdeToFood.Data.Models;
 using OdeToFood.Data.Repositories;
 

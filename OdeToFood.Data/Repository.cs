@@ -10,38 +10,38 @@ namespace OdeToFood.Data
     public class Repository<T> : IRepository<T> where T : class
     {
 
-        protected OdeToFoodContext _context;
+        protected OdeToFoodContext Context;
 
         public Repository(DbContext context)
         {
-            _context = (OdeToFoodContext)context;
+            Context = (OdeToFoodContext)context;
         }
 
         public ICollection<T> GetAll()
         {
 
-            return _context.Set<T>().ToList();
+            return Context.Set<T>().ToList();
         }
 
         public T Get(int id)
         {
-            return _context.Set<T>().Find(id);
+            return Context.Set<T>().Find(id);
         }
 
         public T Find(Expression<Func<T, bool>> match)
         {
-            return _context.Set<T>().SingleOrDefault(match);
+            return Context.Set<T>().SingleOrDefault(match);
         }
 
         public ICollection<T> FindAll(Expression<Func<T, bool>> match)
         {
-            return _context.Set<T>().Where(match).ToList();
+            return Context.Set<T>().Where(match).ToList();
         }
 
         public T Add(T t)
         {
-            _context.Set<T>().Add(t);
-            _context.SaveChanges();
+            Context.Set<T>().Add(t);
+            Context.SaveChanges();
             return t;
         }
 
@@ -52,22 +52,22 @@ namespace OdeToFood.Data
                 return null;
             }
 
-            T existing = _context.Set<T>().Find(key);
+            T existing = Context.Set<T>().Find(key);
             if (existing != null)
             {
-                _context.Entry(existing).CurrentValues.SetValues(updated);
-                _context.SaveChanges();
+                Context.Entry(existing).CurrentValues.SetValues(updated);
+                Context.SaveChanges();
             }
             return existing;
         }
 
         public virtual void Delete(int key)
         {
-            T objDelete = _context.Set<T>().Find(key);
+            T objDelete = Context.Set<T>().Find(key);
             if (objDelete != null)
             {
-                _context.Set<T>().Remove(objDelete);
-                _context.SaveChanges();
+                Context.Set<T>().Remove(objDelete);
+                Context.SaveChanges();
             }
         }
     }

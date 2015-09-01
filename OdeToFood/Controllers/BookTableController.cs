@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Web.Mvc;
+using log4net;
 using OdeToFood.Data;
 using OdeToFood.Data.Models;
 
@@ -11,13 +12,18 @@ namespace OdeToFood.Controllers
     [Authorize]
     public class BookTableController : BaseController
     {
-        readonly log4net.ILog _logger = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+        readonly ILog _logger = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
         public BookTableController(DataContext dataContext)
             : base(dataContext)
         {
         }
 
+        /// <summary>
+        /// Gets a restaurant spesified by id
+        /// </summary>
+        /// <param name="id">Id of the restaurant</param>
+        /// <returns>View and sends restaurant instance to it</returns>
         public ActionResult Index(int id)
         {
             TempData["RestaurantId"] = id;
@@ -30,6 +36,12 @@ namespace OdeToFood.Controllers
             return View(restaurant);
         }
 
+        /// <summary>
+        /// Sends a partial view to create a new Order
+        /// </summary>
+        /// <param name="id">Id of the table that is being booked</param>
+        /// <param name="restaurantId">Id of the restautrant table belongs to</param>
+        /// <returns>Partial view and sends an empty Order instance to it</returns>
         [HttpGet]
         public ActionResult PlaceOrder(int id, int restaurantId)
         {
@@ -41,6 +53,11 @@ namespace OdeToFood.Controllers
             return PartialView("_PlaceOrder", order);
         }
 
+        /// <summary>
+        /// Checks whether the table is avialable in the spesified time and saves the order to the database 
+        /// </summary>
+        /// <param name="order">Newly created Order instance</param>
+        /// <returns>Content about Order state</returns>
         [HttpPost]
         public ActionResult PlaceOrder(Order order)
         {
@@ -53,13 +70,14 @@ namespace OdeToFood.Controllers
                 }
                 bool isAvialable = true;
                 DateTime timeFromCeil = RoundUp(order.TimeFrom, TimeSpan.FromMinutes(60));
-                foreach (var o in ordersForTable)
-                {
-                    if (timeFromCeil.Hour == o.TimeFrom.Hour && timeFromCeil.Day == o.TimeFrom.Day && timeFromCeil.Month == o.TimeFrom.Month)
+                if (ordersForTable != null)
+                    foreach (var o in ordersForTable)
                     {
-                        isAvialable = false;
+                        if (timeFromCeil.Hour == o.TimeFrom.Hour && timeFromCeil.Day == o.TimeFrom.Day && timeFromCeil.Month == o.TimeFrom.Month)
+                        {
+                            isAvialable = false;
+                        }
                     }
-                }
                 if (!isAvialable)
                 {
                     return Content("Table is not avialable at the specified time.");
@@ -80,6 +98,12 @@ namespace OdeToFood.Controllers
             return Content("Model State is not valid.");
         }
 
+        /// <summary>
+        /// Checks whether table is avialable for specified time
+        /// </summary>
+        /// <param name="tableId">Id of the table that is being chked for avialability</param>
+        /// <param name="time">Time to check for avialablity</param>
+        /// <returns>True or false depending on table avialability</returns>
         [HttpPost]
         public bool IsTableAvialable(int tableId, DateTime time)
         {
@@ -90,16 +114,23 @@ namespace OdeToFood.Controllers
             }
             bool isAvialable = true;
             DateTime timeFromCeil = RoundUp(time, TimeSpan.FromMinutes(60));
-            foreach (var o in ordersForTable)
-            {
-                if (timeFromCeil.Hour == o.TimeFrom.Hour && timeFromCeil.Day == o.TimeFrom.Day && timeFromCeil.Month == o.TimeFrom.Month)
+            if (ordersForTable != null)
+                foreach (var o in ordersForTable)
                 {
-                    isAvialable = false;
+                    if (timeFromCeil.Hour == o.TimeFrom.Hour && timeFromCeil.Day == o.TimeFrom.Day && timeFromCeil.Month == o.TimeFrom.Month)
+                    {
+                        isAvialable = false;
+                    }
                 }
-            }
             return isAvialable;
         }
 
+        /// <summary>
+        /// Gets all times for specified date that is avialable for the table. Time interval is 1h.
+        /// </summary>
+        /// <param name="tableId">Id of the table that is being checked for avialability</param>
+        /// <param name="date">The date for table avialability</param>
+        /// <returns>Partial view and sends the list of DateTime instances taht is avialable for specified table and date</returns>
         [HttpPost]
         public ActionResult GetAvialableTimes(int tableId, DateTime date)
         {
@@ -133,6 +164,12 @@ namespace OdeToFood.Controllers
             return PartialView("_ViewFreeTime", freeTimes);
         }
 
+        /// <summary>
+        /// Gets all tables that it avialable for specified restaurant and date
+        /// </summary>
+        /// <param name="time">The date for avialability checking</param>
+        /// <param name="restaurantId">Restaurant Id that is being checked for avialable tables</param>
+        /// <returns>Partial view and sends the list of avialable tables to it</returns>
         public ActionResult GetAvialableTables(DateTime time, int restaurantId)
         {
             var context = new OdeToFoodContext();
@@ -173,6 +210,12 @@ namespace OdeToFood.Controllers
             return PartialView("_GetAvialableTables", avialableTables);
         }
 
+        /// <summary>
+        /// Takes a DateTime object and an interval in minutes. Ceils the minute value to the next interval spesified by TimeSpan param
+        /// </summary>
+        /// <param name="dt">DateTime object that is being rounded</param>
+        /// <param name="d">Interval that rounding should happen to</param>
+        /// <returns>Rounded DateTime object</returns>
         DateTime RoundUp(DateTime dt, TimeSpan d)
         {
             return new DateTime(((dt.Ticks + d.Ticks - 1) / d.Ticks) * d.Ticks);

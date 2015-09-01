@@ -18,14 +18,13 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                @*                @Html.ActionLink("ODE TO FOOD", "Index", "Home", new { area = "" }, new { @class = "navbar-brand", style="margin-top:7px;color:#fff;" })*@
-                <img src="~/Content/images/Logo-Useful_Food.png" style="height: 60px" />
+                <a href='@Url.Action("Index", "Home")'><img src="~/Content/images/Logo-Useful_Food.png" style="height: 60px" id="logo" /></a>
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav navbar-right" style="margin-top: 5px">
                     <li>@Html.ActionLink("Home", "Index", "Home", null, new { style = "color:#fff;font-size:18px;font-family:OpenSans" })</li>
                     <li>@Html.ActionLink("Retaurants", "Index", "Restaurant", null, new { style = "color:#fff;font-size:18px;font-family:OpenSans" })</li>
-                    <li>@Html.ActionLink("Reviews", "Index", "RestaurantReview", null, new {style = "color:#fff;font-size:18px;font-family:OpenSans"})</li>
+                    <li>@Html.ActionLink("Reviews", "Index", "RestaurantReview", null, new { style = "color:#fff;font-size:18px;font-family:OpenSans" })</li>
                     <li>@Html.ActionLink("Orders", "Index", "Order", null, new { style = "color:#fff;font-size:18px;font-family:OpenSans" })</li>
                     <li>@Html.Partial("_LoginPartial")</li>
                 </ul>
@@ -39,7 +38,7 @@
         <footer>
             <div class="container-fluid" style="background: gainsboro; height: 80px; margin-top: 60px">
                 <div class="container" style="padding-top:30px">Copyright &copy;OdeToFood LLC. All rights reserved.</div>
-                
+
             </div>
         </footer>
     </div>

@@ -12,13 +12,13 @@
 <table class="table">
     <tr>
         <th>
-            @Html.Display("Rating")
+            <p>Rating</p>
         </th>
         <th>
-            @Html.Display("Body")
+            <p>Body</p>
         </th>
         <th>
-            @Html.Display("Restaurant")
+            <p>Restaurant</p>
         </th>
         <th></th>
     </tr>
@@ -33,13 +33,6 @@
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.RestaurantFor.Name)
-            @*            @Html.DisplayFor(modelItem => item.RestaurantId)*@
-            @*            @Html.DropDownListFor(*@
-            @*                modelItem => item.RestaurantId,*@
-            @*                    new SelectList(item., "Id", "Address"),*@
-            @*                    "-- Select a order date --"*@
-            @*                )*@
-            @*            @Html.ValidationMessageFor(x => x.PharmacyId)*@
         </td>
         <td>
             @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |

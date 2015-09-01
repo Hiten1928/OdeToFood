@@ -1,6 +1,4 @@
-﻿using OddToFood.Contracts;
-using OdeToFood.Data.Models;
-using OdeToFood.Data.Repositories;
+﻿using OdeToFood.Data.Repositories;
 
 namespace OdeToFood.Data
 {

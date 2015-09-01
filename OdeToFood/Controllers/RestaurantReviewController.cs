@@ -1,36 +1,40 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Web.Mvc;
-using Castle.Windsor;
-using OddToFood.Contracts;
+using AutoMapper;
+using log4net;
 using OdeToFood.Data;
 using OdeToFood.Data.Models;
 using OdeToFood.Views.ViewModels;
-using AutoMapper;
 
 namespace OdeToFood.Controllers
 {
     public class RestaurantReviewController : BaseController
     {
-        readonly log4net.ILog _logger = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+        readonly ILog _logger = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
         public RestaurantReviewController(DataContext dataContext) : base (dataContext)
         {
             
         }
 
+        /// <summary>
+        /// Gets all review,maps them to the review view models and returns it to the view
+        /// </summary>
+        /// <returns>View and sends a list of ReviewViewModels to it</returns>
         public ActionResult Index()
         {
             List<RestaurantReviewViewModel> reviewViewModels = new List<RestaurantReviewViewModel>();
-            List<RestaurantReview> reviews = new List<RestaurantReview>();
+            List<RestaurantReview> reviews;
             try
             {
                 reviews = DataContext.RestaurantReview.GetAll().ToList();
             }
             catch (Exception ex)
             {
-                _logger.Error("Problem occured while getting reviews from the database.");
+                _logger.Error("Problem occured while getting reviews from the database. Exception: " + ex.Message);
                 return Content("Sorry. Problem occured. Cannot list reviews.");
             }
             foreach (var item in reviews)
@@ -44,16 +48,21 @@ namespace OdeToFood.Controllers
             return View(reviewViewModels);
         }
 
-        public ActionResult Details(int? id)
+        /// <summary>
+        /// Gets the restaurant reviews spesified by id and returns it to the view
+        /// </summary>
+        /// <param name="id">Id of the restaurant review to see details</param>
+        /// <returns>View and sends restaurant review instance spesified by id to it</returns>
+        public ActionResult Details(int id)
         {
             RestaurantReview review;
             try
             {
-                review = DataContext.RestaurantReview.Get(id.Value);
+                review = DataContext.RestaurantReview.Get(id);
             }
             catch (Exception ex)
             {
-                _logger.Error("Cannot get the review specified by id.");
+                _logger.Error("Cannot get the review specified by id. Exception: " + ex.Message);
                 return Content("Sorry. Error occued. Review detail cannot be displayed.");
             }
             Mapper.CreateMap<RestaurantReview, RestaurantReviewViewModel>();
@@ -61,6 +70,10 @@ namespace OdeToFood.Controllers
             return View(reviewViewModel);
         }
 
+        /// <summary>
+        /// Creates a new instance of RestaurantRewviewViewModel and sends it to the view
+        /// </summary>
+        /// <returns>View and sends review view model to it</returns>
         public ActionResult Create()
         {
             RestaurantReviewViewModel viewModel = new RestaurantReviewViewModel()
@@ -71,6 +84,11 @@ namespace OdeToFood.Controllers
             return View(viewModel);
         }
 
+        /// <summary>
+        /// Adds a new restaurant review to the database if the model is valid 
+        /// </summary>
+        /// <param name="restaurantReview">Restaurant review passed by user</param>
+        /// <returns>If the restaurant review has been added to the database successfully redirects to Index action. Otherwise, returns the same view.</returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create(RestaurantReviewViewModel restaurantReview)
@@ -89,19 +107,24 @@ namespace OdeToFood.Controllers
             }
             catch (Exception ex)
             {
-                _logger.Error("Exception occured while adding new instance of RestaurantReview to the database.");
+                _logger.Error("Exception occured while adding new instance of RestaurantReview to the database. Exception: " + ex.Message);
                 return Content("Sorry. Error occured. Review hasn't been saved.");
             }
 
             return View(restaurantReview);
         }
 
-        public ActionResult Edit(int? id)
+        /// <summary>
+        /// Gets the restaurant review spesified by id and sends it to the view
+        /// </summary>
+        /// <param name="id">Id of thre restaurant review to edit</param>
+        /// <returns>View and sends restaurant review instance to it</returns>
+        public ActionResult Edit(int id)
         {
             RestaurantReview review;
             try
             {
-                review = DataContext.RestaurantReview.Get(id.Value);
+                review = DataContext.RestaurantReview.Get(id);
                 if (review == null)
                 {
                     return Content("Specified restaurant Id is not valid.");
@@ -109,7 +132,7 @@ namespace OdeToFood.Controllers
             }
             catch (Exception ex)
             {
-                _logger.Error("Error occured while getting restaurant review by id.");
+                _logger.Error("Error occured while getting restaurant review by id. Exception: " + ex.Message);
                 return Content("Selected review cannot be found.");
             }
             Mapper.CreateMap<RestaurantReview, RestaurantReviewViewModel>();
@@ -121,12 +144,17 @@ namespace OdeToFood.Controllers
             }
             catch (Exception ex)
             {
-                _logger.Error("Exception occured while getting restaurants for RestaurantReview.");
+                _logger.Error("Exception occured while getting restaurants for RestaurantReview. Exception: " + ex.Message);
                 return Content("Sorry. Error occured. Selected review cannot be edited.");
             }
             return View(reviewViewModel);
         }
 
+        /// <summary>
+        /// Updates the restaurant review instance with new values if the model state is valid
+        /// </summary>
+        /// <param name="restaurantReview">Restaurant review instance posted by user</param>
+        /// <returns>If the restaurant review has beed updated succesfully redirects to Index action. Otherwise, returns the view for editing</returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit(RestaurantReviewViewModel restaurantReview)
@@ -151,6 +179,12 @@ namespace OdeToFood.Controllers
             return View(restaurantReview);
         }
 
+        /// <summary>
+        /// Deletes the restaurant review specified by id
+        /// </summary>
+        /// <param name="id">If od the restaurant review to delete</param>
+        /// <returns>Redirects to Index action</returns>
+
         public ActionResult Delete(int id)
         {
             try
@@ -159,7 +193,7 @@ namespace OdeToFood.Controllers
             }
             catch (Exception ex)
             {
-                _logger.Error("Exception occured while deleting RestaurantReview.");
+                _logger.Error("Exception occured while deleting RestaurantReview. Exception: "+ ex.Message);
                 return Content("Sorry. Error occured. Cannot delete the review.");
             }
             return RedirectToAction("Index");
@@ -167,10 +201,10 @@ namespace OdeToFood.Controllers
 
         protected override void Dispose(bool disposing)
         {
-            OdeToFoodContext _db = new OdeToFoodContext();
+            OdeToFoodContext db = new OdeToFoodContext();
             if (disposing)
             {
-                _db.Dispose();
+                db.Dispose();
             }
             base.Dispose(disposing);
         }

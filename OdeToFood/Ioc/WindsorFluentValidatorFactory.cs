@@ -1,9 +1,6 @@
-﻿using Castle.MicroKernel;
+﻿using System;
+using Castle.MicroKernel;
 using FluentValidation;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 
 namespace OdeToFood.Ioc {
     public class WindsorFluentValidatorFactory : ValidatorFactoryBase {

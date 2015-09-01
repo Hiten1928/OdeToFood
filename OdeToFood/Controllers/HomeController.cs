@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
-using System.Data.Entity;
-using Castle.Core.Internal;
 using OdeToFood.Data;
 using OdeToFood.Data.Models;
 
@@ -22,6 +18,10 @@ namespace OdeToFood.Controllers
             return View();
         }
 
+        /// <summary>
+        /// Gets all the restaurants and returns it to the view
+        /// </summary>
+        /// <returns>Partial view and sends teh list of Restaurant to it</returns>
         public ActionResult GetRestaurants()
         {
             List<Restaurant> restaurants = DataContext.Restaurant.GetAll().ToList();
@@ -29,11 +29,5 @@ namespace OdeToFood.Controllers
             return PartialView("_GetRestaurants", restaurants);
         }
 
-        public ActionResult Contact()
-        {
-            ViewBag.Message = "Your contact page.";
-
-            return View();
-        }
     }
 }
