@@ -22,9 +22,10 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav  pull-right" style="margin-top: 5px;">
-                    <li>@Html.ActionLink("Home", "Index", "Home")</li>
+                    <li>@Html.ActionLink("Home", "Index", "Home",null,new{style="fomt-family:OpenSans"})</li>
                     <li>@Html.ActionLink("Retaurants", "Index", "Restaurant")</li>
                     <li>@Html.ActionLink("Reviews", "Index", "RestaurantReview")</li>
+                    <li>@Html.ActionLink("Orders", "Index", "Order")</li>
                     <li>@Html.Partial("_LoginPartial")</li>
                 </ul>
                 

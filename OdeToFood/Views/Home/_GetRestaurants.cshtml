@@ -1,0 +1,36 @@
+﻿@model List<OdeToFood.Data.Models.Restaurant>
+
+<div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+    @if (Model != null)
+    {
+        foreach (var item in Model)
+        {
+            <div class="panel panel-default">
+                <div class="panel-heading" role="tab" id="headingOne">
+                    <h4 class="panel-title">
+                        <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne" style="font-weight:bold">
+                            @item.Name, @item.Location
+                        </a>
+                    </h4>
+                </div>
+                <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
+                    <div class="panel-body">
+                        @foreach (var review in item.Reviews)
+                        {
+                            <div class="row" style="margin-top: 15px;margin-bottom:15px">
+                                <div class="col-lg-4 col-md-4 col-sm-4">
+                                    @for (int i = 0; i < review.Rating; i++)
+                                    {
+                                        <img src="~/Content/images/icon-rating.png" style="float: left; height: 30px"/>
+                                    }
+                                </div>
+                                <div class="col-lg-2 col-md-2 col-sm-2" style="font-size: 16px; color: #2F99BD; font-weight: bold; text-decoration: underline;font-family:Arial">@review.ReviewerName</div>
+                                <div class="col-lg-6 col-md-6 col-sm-6" style="font-size:16px;">@review.Body</div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        }
+    }
+</div>

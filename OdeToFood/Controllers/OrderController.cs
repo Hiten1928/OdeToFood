@@ -11,6 +11,7 @@ namespace OdeToFood.Controllers
     public class OrderController : Controller
     {
         private readonly DataContext _dataContext;
+        readonly log4net.ILog _logger = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
         public OrderController(DataContext dataContext)
         {
@@ -19,13 +20,30 @@ namespace OdeToFood.Controllers
 
         public ActionResult Index()
         {
-            List<Order> orders = _dataContext.Order.GetAll().ToList();
+            IEnumerable<Order> orders = new List<Order>();
+            try
+            {
+                orders = _dataContext.Order.GetAll().ToList();
+            }
+            catch (Exception ex)
+            {
+                _logger.Error("Cannot connect to the database.");
+                return Content("Exception occured while connecting to the database.");
+            }
+
             return View(orders);
         }
 
         public ActionResult Delete(int id)
         {
-            _dataContext.Order.Delete(id);
+            try
+            {
+                _dataContext.Order.Delete(id);
+            }
+            catch(Exception ex)
+            {
+                _logger.Error("Cannot delete Order entity spesified by Id.");
+            }
             return RedirectToAction("Index");
         }
     }

@@ -1,0 +1,6 @@
+ERROR 2015-08-31 17:58:52,788 13317ms BookTableController    Index              - First log from index class
+INFO  2015-09-01 11:23:37,987 32154ms BookTableController    Index              - From action
+INFO  2015-09-01 11:28:39,829 12288ms BookTableController    Index              - From action
+ERROR 2015-09-01 11:59:20,706 37332ms BookTableController    Index              - Spesified restaurant Id is not valid.
+ERROR 2015-09-01 11:59:26,298 42923ms BookTableController    Index              - Spesified restaurant Id is not valid.
+ERROR 2015-09-01 17:28:59,576  7711ms RestaurantController   Index              - Cannot connect to the database.

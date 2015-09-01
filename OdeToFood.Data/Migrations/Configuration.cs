@@ -33,7 +33,8 @@ namespace OdeToFood.Data.Migrations
             Restaurant restaurant = new Restaurant()
             {
                 Location = "London",
-                Name = "Zomato"
+                Name = "Zomato",
+ 
             };
             context.Restaurants.AddOrUpdate(restaurant);
             Table table1 = new Table()
@@ -50,6 +51,22 @@ namespace OdeToFood.Data.Migrations
             };
             context.Tables.AddOrUpdate(table1);
             context.Tables.AddOrUpdate(table2);
+            RestaurantReview review1 = new RestaurantReview()
+            {
+                Rating = 10,
+                Body = "Nice job!",
+                ReviewerName = "John Smith",
+                RestaurantId = restaurant.Id
+            };
+            RestaurantReview review2 = new RestaurantReview()
+            {
+                Rating = 3,
+                Body = "Bad serveice!",
+                ReviewerName = "Diana Marcos",
+                RestaurantId = restaurant.Id
+            };
+            context.Reviews.Add(review1);
+            context.Reviews.Add(review2);
             Order order = new Order()
             {
                 PeopleCount = 2,

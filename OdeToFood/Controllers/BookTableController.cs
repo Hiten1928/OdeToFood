@@ -1,22 +1,17 @@
-﻿using OdeToFood.Data.Models;
-using OdeToFood.Views.ViewModels;
-using System;
-using System.Collections;
+﻿using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
-using System.Runtime.InteropServices.ComTypes;
-using System.Web;
+using System.Reflection;
 using System.Web.Mvc;
-using AutoMapper;
 using OdeToFood.Data;
-using OdeToFood.Views.ViewModels;
+using OdeToFood.Data.Models;
 
 namespace OdeToFood.Controllers
 {
     [Authorize]
     public class BookTableController : BaseController
     {
+        readonly log4net.ILog _logger = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
         public BookTableController(DataContext dataContext)
             : base(dataContext)
@@ -27,13 +22,17 @@ namespace OdeToFood.Controllers
         {
             TempData["RestaurantId"] = id;
             Restaurant restaurant = DataContext.Restaurant.Get(id);
+            if (restaurant == null)
+            {
+                _logger.Error("Spesified restaurant Id is not valid.");
+                return RedirectToAction("Index", "Restaurant");
+            }
             return View(restaurant);
         }
 
         [HttpGet]
         public ActionResult PlaceOrder(int id, int restaurantId)
         {
-            var db = new OdeToFoodContext();
             Order order = new Order();
             order.TimeFrom = DateTime.Now;
             order.TimeTo = DateTime.Now;
@@ -48,6 +47,10 @@ namespace OdeToFood.Controllers
             if (ModelState.IsValid)
             {
                 var ordersForTable = DataContext.Order.FindAll(o => o.TableId == order.TableId);
+                if (ordersForTable == null)
+                {
+                    _logger.Error("Table id in the Order model is not valid. Orders for this table are not found");
+                }
                 bool isAvialable = true;
                 DateTime timeFromCeil = RoundUp(order.TimeFrom, TimeSpan.FromMinutes(60));
                 foreach (var o in ordersForTable)
@@ -63,7 +66,15 @@ namespace OdeToFood.Controllers
                 }
                 order.TimeFrom = timeFromCeil;
                 order.TimeTo = timeFromCeil.AddHours(1);
-                DataContext.Order.Add(order);
+                try
+                {
+                    DataContext.Order.Add(order);
+                }
+                catch(Exception ex)
+                {
+                    _logger.Error("Cannot insert Order to the database. Check the connection");
+                    return Content(ex.Message);
+                }
                 return Content("You have placed your order successfully.");
             }
             return Content("Model State is not valid.");
@@ -73,6 +84,10 @@ namespace OdeToFood.Controllers
         public bool IsTableAvialable(int tableId, DateTime time)
         {
             var ordersForTable = DataContext.Order.FindAll(o => o.TableId == tableId);
+            if (ordersForTable == null)
+            {
+                _logger.Info("Spesified table Id is not valid.");
+            }
             bool isAvialable = true;
             DateTime timeFromCeil = RoundUp(time, TimeSpan.FromMinutes(60));
             foreach (var o in ordersForTable)
@@ -89,12 +104,21 @@ namespace OdeToFood.Controllers
         public ActionResult GetAvialableTimes(int tableId, DateTime date)
         {
             var tableOrders = DataContext.Order.FindAll(o => o.TableId == tableId);
-            List<DateTime> takenTimesForTheDate = new List<DateTime>();
-            foreach (var t in tableOrders)
+            var context = new OdeToFoodContext();
+            if (context.Tables.Find(tableId) == null)
             {
-                if (t.TimeFrom.Date == date.Date)
+                _logger.Error("Spesified table id is not found.");
+                return Content("Spesified table id is not found.");
+            }
+            List<DateTime> takenTimesForTheDate = new List<DateTime>();
+            if (tableOrders != null)
+            {
+                foreach (var t in tableOrders)
                 {
-                    takenTimesForTheDate.Add(t.TimeFrom);
+                    if (t.TimeFrom.Date == date.Date)
+                    {
+                        takenTimesForTheDate.Add(t.TimeFrom);
+                    }
                 }
             }
             List<DateTime> freeTimes = new List<DateTime>();
@@ -116,28 +140,34 @@ namespace OdeToFood.Controllers
                 DataContext.Order.GetAll().Where(t => t.Table.RestaurantId == restaurantId).ToList();
             var ordersForGivenTime = new List<Order>();
             var timeCeil = RoundUp(time, TimeSpan.FromMinutes(60));
-            foreach (Order o in ordersForTheRestaurant)
+            if (ordersForTheRestaurant.Count != 0)
             {
-                if (o.TimeFrom == timeCeil)
+                foreach (Order o in ordersForTheRestaurant)
                 {
-                    ordersForGivenTime.Add(o);
+                    if (o.TimeFrom == timeCeil)
+                    {
+                        ordersForGivenTime.Add(o);
+                    }
                 }
             }
             var allTablesForRestaurant = context.Tables.Where(t => t.RestaurantId == restaurantId).ToList();
             var avialableTables = new List<Table>();
-            foreach (Table t in allTablesForRestaurant)
+            if (allTablesForRestaurant.Count != 0)
             {
-                var isAvialable = true;
-                foreach (Order o in ordersForGivenTime)
+                foreach (Table t in allTablesForRestaurant)
                 {
-                    if (t.Id == o.TableId)
+                    var isAvialable = true;
+                    foreach (Order o in ordersForGivenTime)
                     {
-                        isAvialable = false;
+                        if (t.Id == o.TableId)
+                        {
+                            isAvialable = false;
+                        }
                     }
-                }
-                if (isAvialable)
-                {
-                    avialableTables.Add(t);
+                    if (isAvialable)
+                    {
+                        avialableTables.Add(t);
+                    }
                 }
             }
             return PartialView("_GetAvialableTables", avialableTables);

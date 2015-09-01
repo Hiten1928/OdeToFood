@@ -18,6 +18,7 @@ namespace OdeToFood.Controllers
     public class RestaurantController : Controller
     {
         private readonly DataContext _dataContext;
+        readonly log4net.ILog _logger = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
         public RestaurantController(DataContext dataContext)
         {
@@ -26,13 +27,32 @@ namespace OdeToFood.Controllers
 
         public ActionResult Index()
         {
-            List<Restaurant> restaurantList = _dataContext.Restaurant.GetAll().ToList();
+            List<Restaurant> restaurantList = new List<Restaurant>();
+            try
+            {
+                restaurantList = _dataContext.Restaurant.GetAll().ToList();
+            }
+            catch (Exception ex)
+            {
+                _logger.Error("Cannot connect to the database.");
+                return Content("Sorry. Restaurants cannot be displayed.");
+            }
             return View(restaurantList);
         }
 
         public ActionResult Details(int? id)
         {
-            Restaurant restaurant = _dataContext.Restaurant.Get(id.Value);
+            Restaurant restaurant = new Restaurant();
+            try
+            {
+                restaurant = _dataContext.Restaurant.Get(id.Value);
+                if (restaurant == null) return Content("Spesified restaurant Id is not valid.");
+            }
+            catch (Exception ex)
+            {
+                _logger.Error("Exception occured while selecting data from the database.");
+                return Content("Sorry. Restaurant details cannot be displayed.");
+            }
             return View(restaurant);
         }
 
@@ -55,7 +75,15 @@ namespace OdeToFood.Controllers
                     tablesInTheRestaurant.Add(new Table(){TableNumber = i+1});
                 }
                 restaurant.Tables = tablesInTheRestaurant;
-                _dataContext.Restaurant.Add(restaurant);
+                try
+                {
+                    _dataContext.Restaurant.Add(restaurant);
+                }
+                catch (Exception ex)
+                {
+                    _logger.Error("Exception occured while inserting data to the Restaurants table.");
+                    return Content("An error occured. Restaurant hasn't been saved.");
+                }
                 return RedirectToAction("Index");
             }
             return View(restaurantViewModel);
@@ -64,7 +92,20 @@ namespace OdeToFood.Controllers
 
         public ActionResult Edit(int? id)
         {
-            Restaurant restaurant = _dataContext.Restaurant.Get(id.Value);
+            Restaurant restaurant = new Restaurant();
+            try
+            {
+                restaurant = _dataContext.Restaurant.Get(id.Value);
+                if (restaurant == null)
+                {
+                    return Content("Specified Restaurant Id is not valid");
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.Error("The problem occured while connecting to the database");
+                return Content("Sorry. Restaurant cannot be found.");
+            }
             return View(restaurant);
         }
 
@@ -74,7 +115,15 @@ namespace OdeToFood.Controllers
         {
             if (ModelState.IsValid)
             {
-                _dataContext.Restaurant.Update(restaurant, restaurant.Id);
+                try
+                {
+                    _dataContext.Restaurant.Update(restaurant, restaurant.Id);
+                }
+                catch (Exception ex)
+                {
+                    _logger.Error("Problem occured while updating Restaurant in the database.");
+                    return Content("Sorry. An error occured. Restaurant hasn't been updated.");
+                }
                 return RedirectToAction("Index");
             }
             return View(restaurant);
@@ -82,7 +131,15 @@ namespace OdeToFood.Controllers
 
         public ActionResult Delete(int id)
         {
-            _dataContext.Restaurant.Delete(id);
+            try
+            {
+                _dataContext.Restaurant.Delete(id);
+            }
+            catch (Exception ex)
+            {
+                _logger.Error("An error occured while deleting restaurant from the database.");
+                return Content("Sorry. Error occured. Can't delete the restaurant.");
+            }
             return RedirectToAction("Index");
         }
 

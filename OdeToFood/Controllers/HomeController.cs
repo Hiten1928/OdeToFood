@@ -4,22 +4,29 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Data.Entity;
+using Castle.Core.Internal;
+using OdeToFood.Data;
+using OdeToFood.Data.Models;
 
 namespace OdeToFood.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController : BaseController
     {
+        public HomeController(DataContext dataContext)
+            : base(dataContext)
+        {
+        }
+
         public ActionResult Index()
         {
             return View();
         }
 
-
-        public ActionResult About()
+        public ActionResult GetRestaurants()
         {
-            ViewBag.Message = "Your application description page.";
+            List<Restaurant> restaurants = DataContext.Restaurant.GetAll().ToList();
 
-            return View();
+            return PartialView("_GetRestaurants", restaurants);
         }
 
         public ActionResult Contact()

@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Linq.Expressions;
 using OddToFood.Contracts;
-using System.Data.Entity;
 
 namespace OdeToFood.Data
 {
@@ -21,6 +19,7 @@ namespace OdeToFood.Data
 
         public ICollection<T> GetAll()
         {
+
             return _context.Set<T>().ToList();
         }
 
@@ -49,7 +48,9 @@ namespace OdeToFood.Data
         public T Update(T updated, int key)
         {
             if (updated == null)
+            {
                 return null;
+            }
 
             T existing = _context.Set<T>().Find(key);
             if (existing != null)

@@ -21,7 +21,7 @@ namespace OdeToFood.Models
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
         public ApplicationDbContext()
-            : base("SecondaryConnection", throwIfV1Schema: false)
+            : base("SqlConnection", throwIfV1Schema: false)
         {
         }
 

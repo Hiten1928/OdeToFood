@@ -14,6 +14,8 @@ namespace OdeToFood.Data.Models
         public int Id { get; set; }
         public int Rating { get; set; }
         public string Body { get; set; }
+        [Required]
+        public string ReviewerName { get; set; }
         public int RestaurantId { get; set; }
 
         public virtual Restaurant Restaurant { get; set; }
