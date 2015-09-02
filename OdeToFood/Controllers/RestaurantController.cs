@@ -14,7 +14,7 @@ namespace OdeToFood.Controllers
     public class RestaurantController : Controller
     {
         private readonly DataContext _dataContext;
-        readonly ILog _logger = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+        readonly ILog _logger = LogManager.GetLogger(typeof(RestaurantController));
 
         public RestaurantController(DataContext dataContext)
         {
@@ -34,7 +34,7 @@ namespace OdeToFood.Controllers
             }
             catch (Exception ex)
             {
-                _logger.Error("Cannot connect to the database. Exception: " + ex.Message);
+                _logger.Error(ex.Message + ex.StackTrace);
                 return Content("Sorry. Restaurants cannot be displayed.");
             }
             return View(restaurantList);
@@ -54,7 +54,7 @@ namespace OdeToFood.Controllers
             }
             catch (Exception ex)
             {
-                _logger.Error("Exception occured while selecting data from the database. Exception: " + ex.Message);
+                _logger.Error(ex.Message + ex.StackTrace);
                 return Content("Sorry. Restaurant details cannot be displayed.");
             }
             return View(restaurant);
@@ -90,7 +90,7 @@ namespace OdeToFood.Controllers
                 }
                 catch (Exception ex)
                 {
-                    _logger.Error("Exception occured while inserting data to the Restaurants table. Exception: " + ex.Message);
+                    _logger.Error(ex.Message + ex.StackTrace);
                     return Content("An error occured. Restaurant hasn't been saved.");
                 }
                 return RedirectToAction("Index");
@@ -117,7 +117,7 @@ namespace OdeToFood.Controllers
             }
             catch (Exception ex)
             {
-                _logger.Error("The problem occured while connecting to the database. Exception: " + ex.Message);
+                _logger.Error(ex.Message + ex.StackTrace);
                 return Content("Sorry. Restaurant cannot be found.");
             }
             return View(restaurant);
@@ -140,7 +140,7 @@ namespace OdeToFood.Controllers
                 }
                 catch (Exception ex)
                 {
-                    _logger.Error("Problem occured while updating Restaurant in the database. Exception: " + ex.Message);
+                    _logger.Error(ex.Message + ex.StackTrace);
                     return Content("Sorry. An error occured. Restaurant hasn't been updated.");
                 }
                 return RedirectToAction("Index");
@@ -161,20 +161,10 @@ namespace OdeToFood.Controllers
             }
             catch (Exception ex)
             {
-                _logger.Error("An error occured while deleting restaurant from the database. Exception: "+ex.Message);
+                _logger.Error(ex.Message + ex.StackTrace);
                 return Content("Sorry. Error occured. Can't delete the restaurant.");
             }
             return RedirectToAction("Index");
-        }
-
-        protected override void Dispose(bool disposing)
-        {
-            OdeToFoodContext db = new OdeToFoodContext();
-            if (disposing)
-            {
-                db.Dispose();
-            }
-            base.Dispose(disposing);
         }
     }
 }

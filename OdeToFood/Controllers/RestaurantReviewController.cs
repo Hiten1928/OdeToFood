@@ -13,7 +13,7 @@ namespace OdeToFood.Controllers
 {
     public class RestaurantReviewController : BaseController
     {
-        readonly ILog _logger = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+        readonly ILog _logger = LogManager.GetLogger(typeof(RestaurantReviewController));
 
         public RestaurantReviewController(DataContext dataContext) : base (dataContext)
         {
@@ -34,7 +34,7 @@ namespace OdeToFood.Controllers
             }
             catch (Exception ex)
             {
-                _logger.Error("Problem occured while getting reviews from the database. Exception: " + ex.Message);
+                _logger.Error(ex.Message + ex.StackTrace);
                 return Content("Sorry. Problem occured. Cannot list reviews.");
             }
             foreach (var item in reviews)
@@ -62,7 +62,7 @@ namespace OdeToFood.Controllers
             }
             catch (Exception ex)
             {
-                _logger.Error("Cannot get the review specified by id. Exception: " + ex.Message);
+                _logger.Error(ex.Message + ex.StackTrace);
                 return Content("Sorry. Error occued. Review detail cannot be displayed.");
             }
             Mapper.CreateMap<RestaurantReview, RestaurantReviewViewModel>();
@@ -107,7 +107,7 @@ namespace OdeToFood.Controllers
             }
             catch (Exception ex)
             {
-                _logger.Error("Exception occured while adding new instance of RestaurantReview to the database. Exception: " + ex.Message);
+                _logger.Error(ex.Message + ex.StackTrace);
                 return Content("Sorry. Error occured. Review hasn't been saved.");
             }
 
@@ -132,7 +132,7 @@ namespace OdeToFood.Controllers
             }
             catch (Exception ex)
             {
-                _logger.Error("Error occured while getting restaurant review by id. Exception: " + ex.Message);
+                _logger.Error(ex.Message + ex.StackTrace);
                 return Content("Selected review cannot be found.");
             }
             Mapper.CreateMap<RestaurantReview, RestaurantReviewViewModel>();
@@ -144,7 +144,7 @@ namespace OdeToFood.Controllers
             }
             catch (Exception ex)
             {
-                _logger.Error("Exception occured while getting restaurants for RestaurantReview. Exception: " + ex.Message);
+                _logger.Error(ex.Message + ex.StackTrace);
                 return Content("Sorry. Error occured. Selected review cannot be edited.");
             }
             return View(reviewViewModel);
@@ -170,7 +170,7 @@ namespace OdeToFood.Controllers
                 }
                 catch (Exception ex)
                 {
-                    _logger.Error("Error occured while updating restaurant review: " + ex.Message);
+                    _logger.Error(ex.Message + ex.StackTrace);
                 }
                 return RedirectToAction("Index");
             }
@@ -193,20 +193,10 @@ namespace OdeToFood.Controllers
             }
             catch (Exception ex)
             {
-                _logger.Error("Exception occured while deleting RestaurantReview. Exception: "+ ex.Message);
+                _logger.Error(ex.Message + ex.StackTrace);
                 return Content("Sorry. Error occured. Cannot delete the review.");
             }
             return RedirectToAction("Index");
-        }
-
-        protected override void Dispose(bool disposing)
-        {
-            OdeToFoodContext db = new OdeToFoodContext();
-            if (disposing)
-            {
-                db.Dispose();
-            }
-            base.Dispose(disposing);
         }
     }
 }

@@ -22,12 +22,6 @@ namespace OdeToFood.Controllers.API
 
         public IEnumerable<Restaurant> Get()
         {
-//            var context = new OdeToFoodContext();
-//            var restaurantRepository = new RestaurantRepository(context);
-            if (_dataContext == null)
-            {
-                throw new Exception("DATACONTEXT IS NULL");
-            }
             return _dataContext.Restaurant.GetAll();
         } 
     }

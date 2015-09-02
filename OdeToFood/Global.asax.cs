@@ -40,7 +40,7 @@ namespace OdeToFood
             WebApiConfig.Register(GlobalConfiguration.Configuration);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
 
-            log4net.Config.XmlConfigurator.Configure(new FileInfo(Server.MapPath("~/Web.config")));
+            log4net.Config.XmlConfigurator.Configure();
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
 
             BundleConfig.RegisterBundles(BundleTable.Bundles);

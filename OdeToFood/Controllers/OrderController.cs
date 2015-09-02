@@ -12,7 +12,7 @@ namespace OdeToFood.Controllers
     public class OrderController : Controller
     {
         private readonly DataContext _dataContext;
-        readonly ILog _logger = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+        readonly ILog _logger = LogManager.GetLogger(typeof(OrderController));
 
         public OrderController(DataContext dataContext)
         {
@@ -32,7 +32,7 @@ namespace OdeToFood.Controllers
             }
             catch (Exception ex)
             {
-                _logger.Error("Cannot connect to the database. Exception: " + ex.Message);
+                _logger.Error(ex.Message + ex.StackTrace);
                 return Content("Exception occured while connecting to the database.");
             }
 
@@ -52,7 +52,7 @@ namespace OdeToFood.Controllers
             }
             catch(Exception ex)
             {
-                _logger.Error("Cannot delete Order entity spesified by Id. Exception: " + ex.Message);
+                _logger.Error(ex.Message + ex.StackTrace);
             }
             return RedirectToAction("Index");
         }
