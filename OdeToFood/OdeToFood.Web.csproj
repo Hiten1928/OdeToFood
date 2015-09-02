@@ -222,6 +222,7 @@
     <Compile Include="IoC.Api\Installers\WebWindsorInstaller.cs" />
     <Compile Include="Ioc\Installers\AdminInstaller.cs" />
     <Compile Include="Ioc\Installers\FluentValidatorsInstaller.cs" />
+    <Compile Include="Ioc\WindsorCompositionRoot.cs" />
     <Compile Include="Ioc\WindsorControllerFactory.cs" />
     <Compile Include="Ioc\WindsorFluentValidatorFactory.cs" />
     <Compile Include="Ioc\WindsorServiceLocator.cs" />

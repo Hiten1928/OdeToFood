@@ -1,4 +1,5 @@
-﻿using System.Web.Mvc;
+﻿using System.Web.Http;
+using System.Web.Mvc;
 using Castle.MicroKernel.Registration;
 using Castle.MicroKernel.SubSystems.Configuration;
 using Castle.Windsor;
@@ -17,7 +18,7 @@ namespace OdeToFood.IoC.Installers
 
             container.Register(Classes
                 .FromAssembly(typeof (ContainerApplication).Assembly)
-                .BasedOn<IController>()
+                .BasedOn<ApiController>()
                 .LifestylePerWebRequest());
         }
     }

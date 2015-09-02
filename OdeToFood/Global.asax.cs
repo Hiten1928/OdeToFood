@@ -7,6 +7,7 @@ using System.Linq;
 using System.Reflection;
 using System.Web;
 using System.Web.Http;
+using System.Web.Http.Dispatcher;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
@@ -22,12 +23,16 @@ namespace OdeToFood
 {
     public class MvcApplication : System.Web.HttpApplication
     {
-        WindsorContainer _windsorContainer = new WindsorContainer();
+        private WindsorContainer _windsorContainer;
 
 
         protected void Application_Start()
         {
             InitializeWindsor();
+
+            GlobalConfiguration.Configuration.Services.Replace(
+            typeof(IHttpControllerActivator),
+            new WindsorCompositionRoot(_windsorContainer));
 
             AreaRegistration.RegisterAllAreas();
 
@@ -56,7 +61,7 @@ namespace OdeToFood
 
         private void InitializeWindsor()
         {
-            var _windsorContainer = new WindsorContainer();
+            _windsorContainer = new WindsorContainer();
             _windsorContainer.Install(FromAssembly.This());
 
             ControllerBuilder.Current.SetControllerFactory(new WindsorControllerFactory(_windsorContainer.Kernel));
