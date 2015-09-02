@@ -4,3 +4,4 @@ INFO  2015-09-01 11:28:39,829 12288ms BookTableController    Index              
 ERROR 2015-09-01 11:59:20,706 37332ms BookTableController    Index              - Spesified restaurant Id is not valid.
 ERROR 2015-09-01 11:59:26,298 42923ms BookTableController    Index              - Spesified restaurant Id is not valid.
 ERROR 2015-09-01 17:28:59,576  7711ms RestaurantController   Index              - Cannot connect to the database.
+ERROR 2015-09-02 15:29:30,089  8408ms RestaurantController   Index              - Cannot connect to the database. Exception: An error occurred while executing the command definition. See the inner exception for details.
