@@ -202,9 +202,13 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\API\OrderController.cs" />
     <Compile Include="Controllers\API\RestaurantController.cs" />
+    <Compile Include="Controllers\API\RestaurantReviewController.cs" />
+    <Compile Include="Controllers\API\TableController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\BookTableController.cs" />
+    <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\OrderController.cs" />
@@ -325,9 +329,11 @@
     <Content Include="Views\BookTable\_GetAvialableTables.cshtml" />
     <Content Include="Views\Shared\_FrontPageLayout.cshtml" />
     <Content Include="Views\Home\_GetRestaurants.cshtml" />
+    <Content Include="Views\Error\HttpError.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\Table\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

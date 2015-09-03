@@ -16,6 +16,7 @@ using Castle.Windsor.Installer;
 using FluentValidation.Mvc;
 using Castle.MicroKernel.Registration;
 using Castle.MicroKernel.SubSystems.Configuration;
+using Common.Logging;
 using OdeToFood.Data;
 using OdeToFood.Ioc;
 
@@ -24,6 +25,7 @@ namespace OdeToFood
     public class MvcApplication : System.Web.HttpApplication
     {
         private WindsorContainer _windsorContainer;
+        private static readonly ILog log = LogManager.GetLogger(typeof(MvcApplication));
 
 
         protected void Application_Start()
@@ -56,6 +58,22 @@ namespace OdeToFood
             if (_windsorContainer != null)
             {
                 _windsorContainer.Dispose();
+            }
+        }
+
+        protected void Application_Error(object sender, EventArgs e)
+        {
+            Exception ex = Server.GetLastError().GetBaseException();
+            log.Error(ex.Message, ex);
+
+            Response.Clear();
+            HttpException httpException = ex as HttpException;
+            if (httpException != null)
+            {
+                string action;
+
+                Server.ClearError();
+                Response.Redirect(String.Format("~/Error/HttpError/?message={0}", ex.Message));
             }
         }
 

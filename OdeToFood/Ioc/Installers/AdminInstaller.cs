@@ -40,6 +40,7 @@ namespace OdeToFood.Ioc.Installers
             container.Register(Component.For<RestaurantRepository>().LifestylePerWebRequest());
             container.Register(Component.For<RestaurantReviewRepository>().LifestylePerWebRequest());
             container.Register(Component.For<OrderRepository>().LifestylePerWebRequest());
+            container.Register(Component.For<TableRepository>().LifestylePerWebRequest());
            
             var controllerFactory = new WindsorControllerFactory(container.Kernel);
             ControllerBuilder.Current.SetControllerFactory(controllerFactory);
