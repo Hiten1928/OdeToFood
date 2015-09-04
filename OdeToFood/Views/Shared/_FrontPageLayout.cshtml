@@ -1,0 +1,49 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - My ASP.NET Application</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    @Scripts.Render("~/bundles/jquery")
+    <link rel="stylesheet" href="~/Content/Site.css">
+</head>
+<body>
+    <div class="navbar navbar-fixed-top" style="background: black; opacity: 0.8;height:60px">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a href='@Url.Action("Index", "Home")'><img src="~/Content/images/Logo-Useful_Food.png" style="height: 60px" id="logo" /></a>
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav navbar-right" style="margin-top: 5px">
+                    <li>@Html.ActionLink("Home", "Index", "Home", null, new { style = "color:#fff;font-size:18px;font-family:OpenSans" })</li>
+                    <li>@Html.ActionLink("Retaurants", "Index", "Restaurant", null, new { style = "color:#fff;font-size:18px;font-family:OpenSans" })</li>
+                    <li>@Html.ActionLink("Reviews", "Index", "RestaurantReview", null, new { style = "color:#fff;font-size:18px;font-family:OpenSans" })</li>
+                    <li>@Html.ActionLink("Orders", "Index", "Order", null, new { style = "color:#fff;font-size:18px;font-family:OpenSans" })</li>
+                    <li>@Html.Partial("_LoginPartial")</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="container-fluid">
+        @RenderBody()
+        <hr />
+        <footer>
+            <div class="container-fluid" style="background: gainsboro; height: 80px; margin-top: 60px">
+                <div class="container" style="padding-top:30px">Copyright &copy;OdeToFood LLC. All rights reserved.</div>
+
+            </div>
+        </footer>
+    </div>
+
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("Scripts", required: false)
+</body>
+</html>

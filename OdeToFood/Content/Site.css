@@ -1,8 +1,14 @@
-﻿body {
-    padding-top: 50px;
-    padding-bottom: 20px;
+﻿@font-face {
+    font-family: OpenSans;
+    src: url(../fonts/opensans.ttf);
 }
 
+body {
+    padding-top: 50px;
+    padding-bottom: 20px;
+    font-family: OpenSans !important;
+}
+html,body{height:100%;}
 /* Set padding to keep content from hitting the edges */
 .body-content {
     padding-left: 15px;
@@ -34,4 +40,14 @@ span.glyph:hover {
 .tables:hover {
     cursor: pointer;
     background: azure!important;
+}
+.carousel,.item,.active {
+    height:100%!important;
+}
+.carousel-inner {
+    height:100%;
+}
+ul.nav a:hover {
+    background: none !important;
+    color: goldenrod!important;
 }

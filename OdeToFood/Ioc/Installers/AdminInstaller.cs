@@ -1,13 +1,13 @@
 ﻿#region Using statemetns
+
 using System.Data.Entity;
 using System.Web.Mvc;
 using Castle.MicroKernel.Registration;
 using Castle.MicroKernel.SubSystems.Configuration;
 using Castle.Windsor;
 using Microsoft.Practices.ServiceLocation;
-using FluentValidation.Mvc;
-using OdeToFood.Data;
 using OddToFood.Contracts;
+using OdeToFood.Data;
 using OdeToFood.Data.Models;
 using OdeToFood.Data.Repositories;
 
@@ -40,6 +40,7 @@ namespace OdeToFood.Ioc.Installers
             container.Register(Component.For<RestaurantRepository>().LifestylePerWebRequest());
             container.Register(Component.For<RestaurantReviewRepository>().LifestylePerWebRequest());
             container.Register(Component.For<OrderRepository>().LifestylePerWebRequest());
+            container.Register(Component.For<TableRepository>().LifestylePerWebRequest());
            
             var controllerFactory = new WindsorControllerFactory(container.Kernel);
             ControllerBuilder.Current.SetControllerFactory(controllerFactory);

@@ -1,8 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Diagnostics;
+using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Web;
+using System.Web.Http;
+using System.Web.Http.Dispatcher;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
@@ -11,6 +16,7 @@ using Castle.Windsor.Installer;
 using FluentValidation.Mvc;
 using Castle.MicroKernel.Registration;
 using Castle.MicroKernel.SubSystems.Configuration;
+using Common.Logging;
 using OdeToFood.Data;
 using OdeToFood.Ioc;
 
@@ -18,15 +24,27 @@ namespace OdeToFood
 {
     public class MvcApplication : System.Web.HttpApplication
     {
-        WindsorContainer _windsorContainer = new WindsorContainer();
+        private WindsorContainer _windsorContainer;
+        private static readonly ILog log = LogManager.GetLogger(typeof(MvcApplication));
+
 
         protected void Application_Start()
         {
             InitializeWindsor();
+
+            GlobalConfiguration.Configuration.Services.Replace(
+            typeof(IHttpControllerActivator),
+            new WindsorCompositionRoot(_windsorContainer));
+
             AreaRegistration.RegisterAllAreas();
-            //GlobalFilters.Filters.Add(new RequireHttpsAttribute());
+
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
+            WebApiConfig.Register(GlobalConfiguration.Configuration);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
+
+            log4net.Config.XmlConfigurator.Configure();
+            FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
+
             BundleConfig.RegisterBundles(BundleTable.Bundles);
 
             FluentValidationModelValidatorProvider.Configure();
@@ -43,9 +61,25 @@ namespace OdeToFood
             }
         }
 
+        protected void Application_Error(object sender, EventArgs e)
+        {
+            Exception ex = Server.GetLastError().GetBaseException();
+            log.Error(ex.Message, ex);
+
+            Response.Clear();
+            HttpException httpException = ex as HttpException;
+            if (httpException != null)
+            {
+                string action;
+
+                Server.ClearError();
+                Response.Redirect(String.Format("~/Error/HttpError/?message={0}", ex.Message));
+            }
+        }
+
         private void InitializeWindsor()
         {
-            var _windsorContainer = new WindsorContainer();
+            _windsorContainer = new WindsorContainer();
             _windsorContainer.Install(FromAssembly.This());
 
             ControllerBuilder.Current.SetControllerFactory(new WindsorControllerFactory(_windsorContainer.Kernel));

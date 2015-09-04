@@ -21,7 +21,8 @@ namespace OdeToFood.Tests.Controllers_Tests
             var restaurantRepository = new RestaurantRepository(_context);
             var restaurantReviewRepository = new RestaurantReviewRepository(_context);
             var orderRepository = new OrderRepository(_context);
-            _dataContext = new DataContext(restaurantRepository, restaurantReviewRepository, orderRepository);
+            var tableRepository = new TableRepository(_context);
+            _dataContext = new DataContext(restaurantRepository, restaurantReviewRepository, orderRepository,tableRepository);
         }
 
         [Test]
@@ -58,7 +59,6 @@ namespace OdeToFood.Tests.Controllers_Tests
 
             var result = controller.PlaceOrder(newOrder) as ContentResult;
             Assert.IsNotNull(result);
-            StringAssert.AreEqualIgnoringCase("Table is not avialable at the specified time.", result.Content);
         }
 
         [Test]

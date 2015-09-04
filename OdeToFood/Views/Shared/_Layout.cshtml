@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="~/Content/jquery.datetimepicker.css">
 </head>
 <body>
-    <div class="navbar navbar-inverse navbar-fixed-top">
+    <div class="navbar navbar-fixed-top" style="background: black; opacity: 0.8;height:60px">
         <div class="container">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -18,16 +18,17 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                @Html.ActionLink("Ode To Food", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+                <a href='@Url.Action("Index", "Home")'><img src="~/Content/images/Logo-Useful_Food.png" style="height: 60px" id="logo" /></a>
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav  pull-right" style="margin-top: 5px;">
-                    <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                    <li>@Html.ActionLink("Retaurants", "Index", "Restaurant")</li>
-                    <li>@Html.ActionLink("Reviews", "Index", "RestaurantReview")</li>
+                    <li>@Html.ActionLink("Home", "Index", "Home", null, new { style = "color:#fff;font-size:18px;font-family:OpenSans" })</li>
+                    <li>@Html.ActionLink("Retaurants", "Index", "Restaurant", null, new { style = "color:#fff;font-size:18px;font-family:OpenSans" })</li>
+                    <li>@Html.ActionLink("Reviews", "Index", "RestaurantReview", null, new { style = "color:#fff;font-size:18px;font-family:OpenSans" })</li>
+                    <li>@Html.ActionLink("Orders", "Index", "Order", null, new { style = "color:#fff;font-size:18px;font-family:OpenSans" })</li>
                     <li>@Html.Partial("_LoginPartial")</li>
                 </ul>
-                
+
             </div>
         </div>
     </div>

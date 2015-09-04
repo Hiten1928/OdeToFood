@@ -1,32 +1,33 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
-using System.Data.Entity;
+using OdeToFood.Data;
+using OdeToFood.Data.Models;
 
 namespace OdeToFood.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController : BaseController
     {
+        public HomeController(DataContext dataContext)
+            : base(dataContext)
+        {
+        }
+
         public ActionResult Index()
         {
             return View();
         }
 
-
-        public ActionResult About()
+        /// <summary>
+        /// Gets all the restaurants and returns it to the view
+        /// </summary>
+        /// <returns>Partial view and sends teh list of Restaurant to it</returns>
+        public ActionResult GetRestaurants()
         {
-            ViewBag.Message = "Your application description page.";
+            List<Restaurant> restaurants = DataContext.Restaurant.GetAll().ToList();
 
-            return View();
+            return PartialView("_GetRestaurants", restaurants);
         }
 
-        public ActionResult Contact()
-        {
-            ViewBag.Message = "Your contact page.";
-
-            return View();
-        }
     }
 }

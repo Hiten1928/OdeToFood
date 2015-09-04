@@ -14,6 +14,7 @@ namespace OdeToFood.Views.ViewModels
         public int Rating { get; set; }
         [StringLength(1024)]
         public string Body { get; set; }
+        public string ReviewerName { get; set; }
         public int RestaurantId { get; set; }
     }
 }

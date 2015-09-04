@@ -1,5 +1,4 @@
 ﻿using System.Data.Entity;
-using System.Data.Entity.ModelConfiguration.Conventions;
 using OdeToFood.Data.Models;
 
 namespace OdeToFood.Data
