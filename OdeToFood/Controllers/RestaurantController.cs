@@ -34,7 +34,7 @@ namespace OdeToFood.Controllers
             }
             catch (Exception ex)
             {
-                _logger.Error(ex.Message + ex.StackTrace);
+                _logger.Error(ex);
                 return Content("Sorry. Restaurants cannot be displayed.");
             }
             return View(restaurantList);
@@ -54,7 +54,7 @@ namespace OdeToFood.Controllers
             }
             catch (Exception ex)
             {
-                _logger.Error(ex.Message + ex.StackTrace);
+                _logger.Error(ex);
                 return Content("Sorry. Restaurant details cannot be displayed.");
             }
             return View(restaurant);
@@ -90,7 +90,7 @@ namespace OdeToFood.Controllers
                 }
                 catch (Exception ex)
                 {
-                    _logger.Error(ex.Message + ex.StackTrace);
+                    _logger.Error(ex);
                     return Content("An error occured. Restaurant hasn't been saved.");
                 }
                 return RedirectToAction("Index");
@@ -117,7 +117,7 @@ namespace OdeToFood.Controllers
             }
             catch (Exception ex)
             {
-                _logger.Error(ex.Message + ex.StackTrace);
+                _logger.Error(ex);
                 return Content("Sorry. Restaurant cannot be found.");
             }
             return View(restaurant);
@@ -140,7 +140,7 @@ namespace OdeToFood.Controllers
                 }
                 catch (Exception ex)
                 {
-                    _logger.Error(ex.Message + ex.StackTrace);
+                    _logger.Error(ex);
                     return Content("Sorry. An error occured. Restaurant hasn't been updated.");
                 }
                 return RedirectToAction("Index");
@@ -161,7 +161,7 @@ namespace OdeToFood.Controllers
             }
             catch (Exception ex)
             {
-                _logger.Error(ex.Message + ex.StackTrace);
+                _logger.Error(ex);
                 return Content("Sorry. Error occured. Can't delete the restaurant.");
             }
             return RedirectToAction("Index");

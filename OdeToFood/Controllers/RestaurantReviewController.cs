@@ -34,7 +34,7 @@ namespace OdeToFood.Controllers
             }
             catch (Exception ex)
             {
-                _logger.Error(ex.Message + ex.StackTrace);
+                _logger.Error(ex);
                 return Content("Sorry. Problem occured. Cannot list reviews.");
             }
             foreach (var item in reviews)
@@ -62,7 +62,7 @@ namespace OdeToFood.Controllers
             }
             catch (Exception ex)
             {
-                _logger.Error(ex.Message + ex.StackTrace);
+                _logger.Error(ex);
                 return Content("Sorry. Error occued. Review detail cannot be displayed.");
             }
             Mapper.CreateMap<RestaurantReview, RestaurantReviewViewModel>();
@@ -107,7 +107,7 @@ namespace OdeToFood.Controllers
             }
             catch (Exception ex)
             {
-                _logger.Error(ex.Message + ex.StackTrace);
+                _logger.Error(ex);
                 return Content("Sorry. Error occured. Review hasn't been saved.");
             }
 
@@ -132,7 +132,7 @@ namespace OdeToFood.Controllers
             }
             catch (Exception ex)
             {
-                _logger.Error(ex.Message + ex.StackTrace);
+                _logger.Error(ex);
                 return Content("Selected review cannot be found.");
             }
             Mapper.CreateMap<RestaurantReview, RestaurantReviewViewModel>();
@@ -144,7 +144,7 @@ namespace OdeToFood.Controllers
             }
             catch (Exception ex)
             {
-                _logger.Error(ex.Message + ex.StackTrace);
+                _logger.Error(ex);
                 return Content("Sorry. Error occured. Selected review cannot be edited.");
             }
             return View(reviewViewModel);
@@ -170,7 +170,7 @@ namespace OdeToFood.Controllers
                 }
                 catch (Exception ex)
                 {
-                    _logger.Error(ex.Message + ex.StackTrace);
+                    _logger.Error(ex);
                 }
                 return RedirectToAction("Index");
             }
@@ -193,7 +193,7 @@ namespace OdeToFood.Controllers
             }
             catch (Exception ex)
             {
-                _logger.Error(ex.Message + ex.StackTrace);
+                _logger.Error(ex);
                 return Content("Sorry. Error occured. Cannot delete the review.");
             }
             return RedirectToAction("Index");

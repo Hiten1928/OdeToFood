@@ -23,7 +23,6 @@ namespace OdeToFood.Controllers.API
         }
 
 
-        // GET: api/RestaurantReview
         /// <summary>
         /// Gets all RestaurantReviews
         /// </summary>
@@ -33,7 +32,6 @@ namespace OdeToFood.Controllers.API
             return _dataContext.RestaurantReview.GetAll();
         }
 
-        // GET: api/RestaurantReview/5
         /// <summary>
         /// Gets an RestaurantReview spesified by id
         /// </summary>
@@ -50,7 +48,6 @@ namespace OdeToFood.Controllers.API
             return Ok(restaurantReview);
         }
 
-        // PUT: api/RestaurantReview/5
         /// <summary>
         /// Updates an existing instance of RestaurantReview in the database
         /// </summary>
@@ -83,7 +80,6 @@ namespace OdeToFood.Controllers.API
             return StatusCode(HttpStatusCode.NoContent);
         }
 
-        // POST: api/RestaurantReview
         /// <summary>
         /// Creates a new instance of RestaurantReview and saves it to the database
         /// </summary>
@@ -100,7 +96,6 @@ namespace OdeToFood.Controllers.API
             return CreatedAtRoute("DefaultApi", new { id = restaurantReview.Id }, restaurantReview);
         }
 
-        // DELETE: api/RestaurantReview/5
         /// <summary>
         /// Deletes a RestaurantReview from teh database
         /// </summary>

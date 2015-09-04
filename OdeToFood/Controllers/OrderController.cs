@@ -32,7 +32,7 @@ namespace OdeToFood.Controllers
             }
             catch (Exception ex)
             {
-                _logger.Error(ex.Message + ex.StackTrace);
+                _logger.Error(ex);
                 return Content("Exception occured while connecting to the database.");
             }
 
@@ -52,7 +52,7 @@ namespace OdeToFood.Controllers
             }
             catch(Exception ex)
             {
-                _logger.Error(ex.Message + ex.StackTrace);
+                _logger.Error(ex);
             }
             return RedirectToAction("Index");
         }

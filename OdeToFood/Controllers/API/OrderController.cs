@@ -22,7 +22,6 @@ namespace OdeToFood.Controllers.API
             _dataContext = dataContext;
         }
 
-        // GET: api/Order
         /// <summary>
         /// Gets all orders
         /// </summary>
@@ -32,7 +31,6 @@ namespace OdeToFood.Controllers.API
             return _dataContext.Order.GetAll();
         }
 
-        // GET: api/Order/5
         /// <summary>
         /// Gets an order spesified by id
         /// </summary>
@@ -49,7 +47,6 @@ namespace OdeToFood.Controllers.API
             return Ok(order);
         }
 
-        // PUT: api/Order/5
         /// <summary>
         /// Updates an existing instance of order in the database
         /// </summary>
@@ -82,7 +79,6 @@ namespace OdeToFood.Controllers.API
             return StatusCode(HttpStatusCode.NoContent);
         }
 
-        // POST: api/Order
         /// <summary>
         /// Creates a new instance of order and saves it to the database
         /// </summary>
@@ -99,7 +95,6 @@ namespace OdeToFood.Controllers.API
             return CreatedAtRoute("DefaultApi", new { id = order.Id }, order);
         }
 
-        // DELETE: api/Order/5
         /// <summary>
         /// Deletes an order from teh database
         /// </summary>

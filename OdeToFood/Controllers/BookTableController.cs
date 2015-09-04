@@ -115,15 +115,8 @@ namespace OdeToFood.Controllers
         {
             var tables = DataContext.Restaurant.Get(restaurantId).Tables;
             var timeCeil = RoundUp(time, TimeSpan.FromMinutes(60));
-            List<Table> avialableTables = new List<Table>();
-            tables.Each(t =>
-            {
-                if (DataContext.Order.FindAll(o => o.TableId == t.Id).All(od => od.TimeFrom != timeCeil))
-                {
-                    avialableTables.Add(t);
-                }
-            });
-            return PartialView("_GetAvialableTables", avialableTables);
+            var result = tables.Where(t => DataContext.Order.FindAll(o => o.TableId == t.Id).All(od => od.TimeFrom != timeCeil));
+            return PartialView("_GetAvialableTables", result);
         }
 
         /// <summary>
@@ -132,7 +125,7 @@ namespace OdeToFood.Controllers
         /// <param name="dateTime">DateTime object that is being rounded</param>
         /// <param name="interval">Interval that rounding should happen to</param>
         /// <returns>Rounded DateTime object</returns>
-        DateTime RoundUp(DateTime dateTime, TimeSpan interval)
+        private DateTime RoundUp(DateTime dateTime, TimeSpan interval)
         {
             return new DateTime(((dateTime.Ticks + interval.Ticks - 1) / interval.Ticks) * interval.Ticks);
         }
@@ -143,7 +136,7 @@ namespace OdeToFood.Controllers
         /// <param name="tableId">Id of the table that is being checked</param>
         /// <param name="time">Time for table avialability</param>
         /// <returns>True or false depending on table avialability</returns>
-        bool IsAvialable(int tableId, DateTime time)
+        private bool IsAvialable(int tableId, DateTime time)
         {
             DateTime timeFromCeil = RoundUp(time, TimeSpan.FromMinutes(60));
             bool isTableTaken = false;
@@ -154,7 +147,7 @@ namespace OdeToFood.Controllers
             }
             catch (Exception ex)
             {
-                _logger.Error("Error while running query. Exception: " + ex.Message);
+                _logger.Error(ex);
             }
             return !isTableTaken;
         }

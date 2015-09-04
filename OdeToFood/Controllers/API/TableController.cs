@@ -23,7 +23,6 @@ namespace OdeToFood.Controllers.API
             _dataContext = dataContext;
         }
 
-        // GET: api/Table
         /// <summary>
         /// Gets all tables
         /// </summary>
@@ -33,7 +32,6 @@ namespace OdeToFood.Controllers.API
             return _dataContext.Table.GetAll();
         }
 
-        // GET: api/Table/5
         /// <summary>
         /// Gets a table spesified by id
         /// </summary>
@@ -64,7 +62,6 @@ namespace OdeToFood.Controllers.API
             return tables;
         }
 
-        // PUT: api/Table/5
         /// <summary>
         /// Updates an existing instance of table in the database
         /// </summary>
@@ -97,7 +94,6 @@ namespace OdeToFood.Controllers.API
             return StatusCode(HttpStatusCode.NoContent);
         }
 
-        // POST: api/Table
         /// <summary>
         /// Creates a new instance of table and saves it to the database
         /// </summary>
@@ -114,7 +110,6 @@ namespace OdeToFood.Controllers.API
             return CreatedAtRoute("DefaultApi", new { id = table.Id }, table);
         }
 
-        // DELETE: api/Table/5
         /// <summary>
         /// Deletes a table from teh database
         /// </summary>
@@ -148,7 +143,7 @@ namespace OdeToFood.Controllers.API
         /// <param name="dateTime">DateTime object that is being rounded</param>
         /// <param name="interval">Interval that rounding should happen to</param>
         /// <returns>Rounded DateTime object</returns>
-        DateTime RoundUp(DateTime dateTime, TimeSpan interval)
+        private DateTime RoundUp(DateTime dateTime, TimeSpan interval)
         {
             return new DateTime(((dateTime.Ticks + interval.Ticks - 1) / interval.Ticks) * interval.Ticks);
         }
