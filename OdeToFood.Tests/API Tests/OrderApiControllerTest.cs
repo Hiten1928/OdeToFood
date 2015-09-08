@@ -45,13 +45,13 @@ namespace OdeToFood.Tests.API_Tests
         public void TestGetOrder()
         {
             OrderController controller = new OrderController(_dataContext);
-            controller.PostOrder(new Order()
-            {
-                PeopleCount = 2,
-                TableId = _dataContext.Table.GetAll().First().Id,
-                TimeFrom = DateTime.Now.AddHours(6),
-                TimeTo = DateTime.Now.AddHours(7)
-            });
+//            controller.PostOrder(new Order()
+//            {
+//                PeopleCount = 2,
+//                TableId = _dataContext.Table.GetAll().First().Id,
+//                TimeFrom = DateTime.Now.AddHours(6),
+//                TimeTo = DateTime.Now.AddHours(7)
+//            });
             Order order = _dataContext.Order.GetAll().FirstOrDefault();
             IHttpActionResult actionResult = controller.GetOrder(order.Id);
             var contentResult = actionResult as OkNegotiatedContentResult<Order>;
@@ -75,19 +75,23 @@ namespace OdeToFood.Tests.API_Tests
         public void TestPutOrder()
         {
             OrderController controller = new OrderController(_dataContext);
-            Order order = new Order()
-            {
-                PeopleCount = 2,
-                TableId = _dataContext.Table.GetAll().First().Id,
-                TimeFrom = DateTime.Now.AddHours(5),
-                TimeTo = DateTime.Now.AddHours(6)
-            };
-            _dataContext.Order.Add(order);
+//            Order order = new Order()
+//            {
+//                PeopleCount = 2,
+//                TableId = _dataContext.Table.GetAll().First().Id,
+//                TimeFrom = DateTime.Now.AddHours(5),
+//                TimeTo = DateTime.Now.AddHours(6)
+//            };
+//            _dataContext.Order.Add(order);
+            Order order = _dataContext.Order.GetAll().First();
+            var tempPeopleCount = order.PeopleCount;
             order.PeopleCount = 4;
             IHttpActionResult actionResult = controller.PutOrder(order.Id, order);
 
             Assert.IsInstanceOf(typeof (StatusCodeResult), actionResult);
 
+            order.PeopleCount = tempPeopleCount;
+            controller.PutOrder(order.Id, order);
         }
 
         [Test]
@@ -106,36 +110,43 @@ namespace OdeToFood.Tests.API_Tests
         public void TestPostOrder()
         {
             OrderController controller = new OrderController(_dataContext);
-            IHttpActionResult actionResult = controller.PostOrder(new Order()
+            var order = new Order()
             {
                 PeopleCount = 2,
                 TableId = _dataContext.Table.GetAll().First().Id,
                 TimeFrom = DateTime.Now.AddHours(6),
                 TimeTo = DateTime.Now.AddHours(7)
-            });
+            };
+            IHttpActionResult actionResult = controller.PostOrder(order);
             var createdResult = actionResult as CreatedAtRouteNegotiatedContentResult<Order>;
             Assert.IsNotNull(createdResult);
             Assert.AreEqual("DefaultApi", createdResult.RouteName);
+            var orderToDelete = _dataContext.Order.GetAll().Last();
+            _dataContext.Order.Delete(orderToDelete.Id);
         }
 
         [Test]
         public void TestDeleteOrder()
         {
             OrderController controller = new OrderController(_dataContext);
-            controller.PostOrder(new Order()
+            var order = new Order()
             {
                 PeopleCount = 2,
                 TableId = _dataContext.Table.GetAll().First().Id,
                 TimeFrom = DateTime.Now.AddHours(6),
                 TimeTo = DateTime.Now.AddHours(7)
-            });
-            Order order = _dataContext.Order.GetAll().First();
-            IHttpActionResult actionResult = controller.GetOrder(order.Id);
+            };
+            controller.PostOrder(order);
+            Order orderToTest = _dataContext.Order.GetAll().Last();
+            IHttpActionResult actionResult = controller.DeleteOrder(order.Id);
             var contentResult = actionResult as OkNegotiatedContentResult<Order>;
 
             Assert.IsNotNull(contentResult);
-            Assert.IsNotNull(contentResult.Content);
-            Assert.AreEqual(order.Id, contentResult.Content.Id);
+        }
+
+        private DateTime RoundUp(DateTime dateTime, TimeSpan interval)
+        {
+            return new DateTime(((dateTime.Ticks + interval.Ticks - 1) / interval.Ticks) * interval.Ticks);
         }
     }
 }

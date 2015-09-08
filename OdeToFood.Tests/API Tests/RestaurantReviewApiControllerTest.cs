@@ -67,48 +67,62 @@ namespace OdeToFood.Tests.API_Tests
         public void TestPutRestaurantReview()
         {
             RestaurantReviewController controller = new RestaurantReviewController(_dataContext);
-            RestaurantReview restaurantReview = new RestaurantReview()
-            {
-                ReviewerName = "John",
-                Body = "Good",
-                Rating = 5,
-                RestaurantId = _dataContext.Restaurant.GetAll().First().Id
-            };
-            _dataContext.RestaurantReview.Add(restaurantReview);
+//            RestaurantReview restaurantReview = new RestaurantReview()
+//            {
+//                ReviewerName = "John",
+//                Body = "Good",
+//                Rating = 5,
+//                RestaurantId = _dataContext.Restaurant.GetAll().First().Id
+//            };
+//            _dataContext.RestaurantReview.Add(restaurantReview);
+            RestaurantReview restaurantReview = _dataContext.RestaurantReview.GetAll().First();
+            var tempRating = restaurantReview.Rating;
             restaurantReview.Rating = 10;
             IHttpActionResult actionResult = controller.PutRestaurantReview(restaurantReview.Id, restaurantReview);
 
             Assert.IsInstanceOf(typeof(StatusCodeResult), actionResult);
-
+            restaurantReview.Rating = tempRating;
+            controller.PutRestaurantReview(restaurantReview.Id, restaurantReview);
         }
 
         [Test]
         public void TestPostRestaurantReview()
         {
             RestaurantReviewController controller = new RestaurantReviewController(_dataContext);
-            IHttpActionResult actionResult = controller.PostRestaurantReview(new RestaurantReview()
+            var review = new RestaurantReview()
             {
                 ReviewerName = "John",
                 Body = "Good",
-                Rating = 5,
+                Rating = 6,
                 RestaurantId = _dataContext.Restaurant.GetAll().First().Id
-            });
+            };
+            IHttpActionResult actionResult = controller.PostRestaurantReview(review);
             var createdResult = actionResult as CreatedAtRouteNegotiatedContentResult<RestaurantReview>;
             Assert.IsNotNull(createdResult);
             Assert.AreEqual("DefaultApi", createdResult.RouteName);
+
+            var reviewToDelete = _dataContext.RestaurantReview.GetAll().Last();
+            _dataContext.RestaurantReview.Delete(reviewToDelete.Id);
         }
 
         [Test]
         public void TestDeleteRestaurantReview()
         {
             RestaurantReviewController controller = new RestaurantReviewController(_dataContext);
-            RestaurantReview restaurantReview = _dataContext.RestaurantReview.GetAll().First();
-            IHttpActionResult actionResult = controller.GetRestaurantReview(restaurantReview.Id);
-            var contentResult = actionResult as OkNegotiatedContentResult<RestaurantReview>;
+            var review = new RestaurantReview()
+            {
+                ReviewerName = "John",
+                Body = "Good",
+                Rating = 5,
+                RestaurantId = _dataContext.Restaurant.GetAll().First().Id
+            };
+            _dataContext.RestaurantReview.Add(review);
+            var reviewToDelete = _dataContext.RestaurantReview.GetAll().Last();
+            IHttpActionResult actionResult = controller.DeleteRestaurantReview(reviewToDelete.Id);
+            OkNegotiatedContentResult<RestaurantReview> result =
+                actionResult as OkNegotiatedContentResult<RestaurantReview>;
 
-            Assert.IsNotNull(contentResult);
-            Assert.IsNotNull(contentResult.Content);
-            Assert.AreEqual(restaurantReview.Id, contentResult.Content.Id);
+            Assert.IsNotNull(result);
         }
     }
 }

@@ -109,7 +109,7 @@ namespace OdeToFood.Controllers.API
             {
                 return NotFound();
             }
-            _dataContext.Order.Delete(id);
+            _dataContext.RestaurantReview.Delete(id);
             return Ok(restaurantReview);
         }
 

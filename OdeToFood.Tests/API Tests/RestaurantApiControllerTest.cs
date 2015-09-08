@@ -67,17 +67,21 @@ namespace OdeToFood.Tests.API_Tests
         public void TestPutRestaurant()
         {
             RestaurantController controller = new RestaurantController(_dataContext);
-            Restaurant restaurant = new Restaurant()
-            {
-                Location = "NY",
-                Name = "Subway"
-            };
-            _dataContext.Restaurant.Add(restaurant);
+//            Restaurant restaurant = new Restaurant()
+//            {
+//                Location = "NY",
+//                Name = "Subway"
+//            };
+//            _dataContext.Restaurant.Add(restaurant);
+            var restaurant = _dataContext.Restaurant.GetAll().FirstOrDefault();
+            var tempName = restaurant.Name;
             restaurant.Name = "Chitos";
             IHttpActionResult actionResult = controller.PutRestaurant(restaurant.Id, restaurant);
 
             Assert.IsInstanceOf(typeof(StatusCodeResult), actionResult);
 
+            restaurant.Name = tempName;
+            controller.PutRestaurant(restaurant.Id, restaurant);
         }
 
         [Test]
@@ -92,19 +96,21 @@ namespace OdeToFood.Tests.API_Tests
             var createdResult = actionResult as CreatedAtRouteNegotiatedContentResult<Restaurant>;
             Assert.IsNotNull(createdResult);
             Assert.AreEqual("DefaultApi", createdResult.RouteName);
+            var mafiaRestaurant = _dataContext.Restaurant.Find(r => r.Name == "Mafia" && r.Location == "Kharkiv");
+            _dataContext.Restaurant.Delete(mafiaRestaurant.Id);
         }
 
         [Test]
         public void TestDeleteRestaurant()
         {
             RestaurantController controller = new RestaurantController(_dataContext);
-            Restaurant restaurant = _dataContext.Restaurant.GetAll().First();
-            IHttpActionResult actionResult = controller.GetRestaurant(restaurant.Id);
+            Restaurant restaurant = new Restaurant() {Location = "Kharkiv", Name = "Favourite"};
+            _dataContext.Restaurant.Add(restaurant);
+
+            IHttpActionResult actionResult = controller.DeleteRestaurant(restaurant.Id);
             var contentResult = actionResult as OkNegotiatedContentResult<Restaurant>;
 
             Assert.IsNotNull(contentResult);
-            Assert.IsNotNull(contentResult.Content);
-            Assert.AreEqual(restaurant.Id, contentResult.Content.Id);
         }
     }
 }

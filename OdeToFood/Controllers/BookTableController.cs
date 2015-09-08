@@ -139,17 +139,17 @@ namespace OdeToFood.Controllers
         private bool IsAvialable(int tableId, DateTime time)
         {
             DateTime timeFromCeil = RoundUp(time, TimeSpan.FromMinutes(60));
-            bool isTableTaken = false;
+            bool isTableAvialable = true;
             try
             {
-                isTableTaken = DataContext.Order.FindAll(o => o.TableId == tableId)
+                isTableAvialable = DataContext.Order.FindAll(o => o.TableId == tableId)
                     .Any(o => o.TimeFrom == timeFromCeil);
             }
             catch (Exception ex)
             {
                 _logger.Error(ex);
             }
-            return !isTableTaken;
+            return isTableAvialable;
         }
     }
 }

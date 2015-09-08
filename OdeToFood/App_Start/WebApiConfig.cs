@@ -9,9 +9,6 @@ namespace OdeToFood
     {
         public static void Register(HttpConfiguration configuration)
         {
-//            var corsAttr = new EnableCorsAttribute("*", "*", "*");
-//            configuration.EnableCors(corsAttr);
-
             configuration.Routes.MapHttpRoute("API Default", "api/{controller}/{id}",
                 new { id = RouteParameter.Optional });
 

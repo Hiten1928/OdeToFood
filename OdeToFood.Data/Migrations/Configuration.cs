@@ -18,6 +18,24 @@ namespace OdeToFood.Data.Migrations
 
         protected override void Seed(OdeToFoodContext context)
         {
+            var restaurants = context.Restaurants.ToList();
+            var orders = context.Orders.ToList();
+            var reviews = context.Reviews.ToList();
+
+            foreach (var r in restaurants)
+            {
+                context.Restaurants.Remove(r);
+            }
+            foreach (var r in reviews)
+            {
+                context.Reviews.Remove(r);
+            }
+            foreach (var o in orders)
+            {
+                context.Orders.Remove(o);
+            }
+            context.SaveChanges();
+
             context.Restaurants.AddOrUpdate(x => x.Id,
                 new Restaurant() { Id = 1, Location = "London", Name = "McD"},
                 new Restaurant() { Id = 2, Location = "NY", Name = "Botanical Garden" }

@@ -22,7 +22,7 @@ namespace OdeToFood.Tests.Controllers_Tests
             var restaurantReviewRepository = new RestaurantReviewRepository(_context);
             var orderRepository = new OrderRepository(_context);
             var tableRepository = new TableRepository(_context);
-            _dataContext = new DataContext(restaurantRepository, restaurantReviewRepository, orderRepository,tableRepository);
+            _dataContext = new DataContext(restaurantRepository, restaurantReviewRepository, orderRepository, tableRepository);
         }
 
         [Test]
@@ -33,8 +33,10 @@ namespace OdeToFood.Tests.Controllers_Tests
             var restaurant = _context.Restaurants.FirstOrDefault();
             if (table != null && restaurant != null)
             {
-                var result = controller.PlaceOrder(table.Id,restaurant.Id) as PartialViewResult;
+                var result = controller.PlaceOrder(table.Id, restaurant.Id) as PartialViewResult;
                 if (result != null) Assert.AreEqual("_PlaceOrder", result.ViewName);
+                var orderToDelete = _dataContext.Order.GetAll().Last();
+                _dataContext.Order.Delete(orderToDelete.Id);
             }
         }
 
@@ -43,22 +45,18 @@ namespace OdeToFood.Tests.Controllers_Tests
         {
             var controller = new BookTableController(_dataContext);
             var order = _context.Orders.FirstOrDefault();
-            var newOrder = new Order();
-
-            if (order != null)
+            var newOrder = new Order()
             {
-                newOrder = new Order()
-                {
-                    PeopleCount = 2,
-                    TableId = order.TableId,
-                    TimeFrom = order.TimeFrom,
-                    TimeTo = order.TimeTo,
-                    Table = _context.Tables.Find(order.TableId)
-                };
-            }
+                PeopleCount = 4,
+                TableId = order.TableId,
+                TimeFrom = order.TimeFrom,
+                TimeTo = order.TimeTo,
+                Table = _context.Tables.Find(order.TableId)
+            };
 
             var result = controller.PlaceOrder(newOrder) as ContentResult;
             Assert.IsNotNull(result);
+            _dataContext.Order.Delete(_dataContext.Order.GetAll().Last().Id);
         }
 
         [Test]
