@@ -45,6 +45,13 @@ namespace OdeToFood.Tests.API_Tests
         public void TestGetOrder()
         {
             OrderController controller = new OrderController(_dataContext);
+            controller.PostOrder(new Order()
+            {
+                PeopleCount = 2,
+                TableId = _dataContext.Table.GetAll().First().Id,
+                TimeFrom = DateTime.Now.AddHours(6),
+                TimeTo = DateTime.Now.AddHours(7)
+            });
             Order order = _dataContext.Order.GetAll().FirstOrDefault();
             IHttpActionResult actionResult = controller.GetOrder(order.Id);
             var contentResult = actionResult as OkNegotiatedContentResult<Order>;
@@ -115,6 +122,13 @@ namespace OdeToFood.Tests.API_Tests
         public void TestDeleteOrder()
         {
             OrderController controller = new OrderController(_dataContext);
+            controller.PostOrder(new Order()
+            {
+                PeopleCount = 2,
+                TableId = _dataContext.Table.GetAll().First().Id,
+                TimeFrom = DateTime.Now.AddHours(6),
+                TimeTo = DateTime.Now.AddHours(7)
+            });
             Order order = _dataContext.Order.GetAll().First();
             IHttpActionResult actionResult = controller.GetOrder(order.Id);
             var contentResult = actionResult as OkNegotiatedContentResult<Order>;

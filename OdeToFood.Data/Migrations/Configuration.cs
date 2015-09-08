@@ -75,6 +75,7 @@ namespace OdeToFood.Data.Migrations
                 TimeFrom = new DateTime(),
                 TimeTo = new DateTime().AddHours(1)
             };
+            context.Orders.Add(order);
         }
     }
 }

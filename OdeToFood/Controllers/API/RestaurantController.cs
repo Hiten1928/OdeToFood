@@ -7,12 +7,14 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using System.Web.Http.Cors;
 using System.Web.Http.Description;
 using OdeToFood.Data;
 using OdeToFood.Data.Models;
 
 namespace OdeToFood.Controllers.API
 {
+    [EnableCors(origins:"http://localhost:27680", headers:"*", methods:"*")]
     public class RestaurantController : ApiController
     {
         private readonly DataContext _dataContext;
@@ -36,7 +38,7 @@ namespace OdeToFood.Controllers.API
         /// </summary>
         /// <param name="id">Id of the restaurant</param>
         /// <returns>Restaurant instance</returns>
-        [ResponseType(typeof(Order))]
+        [ResponseType(typeof(Restaurant))]
         public IHttpActionResult GetRestaurant(int id)
         {
             var restaurant = _dataContext.Restaurant.Get(id);
@@ -45,6 +47,17 @@ namespace OdeToFood.Controllers.API
                 return NotFound();
             }
             return Ok(restaurant);
+        }
+
+        [ResponseType(typeof(Restaurant))]
+        public Restaurant GetRestaurant(string restaurantName)
+        {
+            var restaurant = _dataContext.Restaurant.Find(r => r.Name == restaurantName);
+            if (restaurant == null)
+            {
+                return null;
+            }
+            return restaurant;
         }
 
         /// <summary>
