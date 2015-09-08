@@ -18,64 +18,24 @@ namespace OdeToFood.Data.Migrations
 
         protected override void Seed(OdeToFoodContext context)
         {
-            //  This method will be called after migrating to the latest version.
-
-            //  You can use the DbSet<T>.AddOrUpdate() helper extension method 
-            //  to avoid creating duplicate seed data. E.g.
-            //
-            //    context.People.AddOrUpdate(
-            //      p => p.FullName,
-            //      new Person { FullName = "Andrew Peters" },
-            //      new Person { FullName = "Brice Lambson" },
-            //      new Person { FullName = "Rowan Miller" }
-            //    );
-            //
-            Restaurant restaurant = new Restaurant()
-            {
-                Location = "London",
-                Name = "Zomato",
- 
-            };
-            context.Restaurants.AddOrUpdate(restaurant);
-            Table table1 = new Table()
-            {
-                TableNumber = 1,
-                RestaurantId = restaurant.Id,
-                Restaurant = restaurant
-            };
-            Table table2 = new Table()
-            {
-                TableNumber = 2,
-                RestaurantId = restaurant.Id,
-                Restaurant = restaurant
-            };
-            context.Tables.AddOrUpdate(table1);
-            context.Tables.AddOrUpdate(table2);
-            RestaurantReview review1 = new RestaurantReview()
-            {
-                Rating = 10,
-                Body = "Nice job!",
-                ReviewerName = "John Smith",
-                RestaurantId = restaurant.Id
-            };
-            RestaurantReview review2 = new RestaurantReview()
-            {
-                Rating = 3,
-                Body = "Bad serveice!",
-                ReviewerName = "Diana Marcos",
-                RestaurantId = restaurant.Id
-            };
-            context.Reviews.Add(review1);
-            context.Reviews.Add(review2);
-            Order order = new Order()
-            {
-                PeopleCount = 2,
-                Table = table1,
-                TableId = table1.Id,
-                TimeFrom = new DateTime(),
-                TimeTo = new DateTime().AddHours(1)
-            };
-            context.Orders.Add(order);
+            context.Restaurants.AddOrUpdate(x => x.Id,
+                new Restaurant() { Id = 1, Location = "London", Name = "McD"},
+                new Restaurant() { Id = 2, Location = "NY", Name = "Botanical Garden" }
+            );
+            context.Tables.AddOrUpdate(x => x.Id,
+                new Table() {Id = 1, RestaurantId = 1, TableNumber = 1},
+                new Table() {Id = 2, RestaurantId = 1, TableNumber = 2},
+                new Table() {Id = 3, RestaurantId = 2, TableNumber = 1},
+                new Table() {Id = 4, RestaurantId = 2, TableNumber = 2}
+                );
+            context.Reviews.AddOrUpdate(x => x.Id,
+                new RestaurantReview() {Id = 1, Body = "Good job", Rating = 9, RestaurantId = 1, ReviewerName = "John"},
+                new RestaurantReview(){Id = 2,Body = "Bad service",Rating = 5,RestaurantId = 2,ReviewerName = "Diana"}
+                );
+            context.Orders.AddOrUpdate(
+                new Order() { Id=1,PeopleCount = 2,TableId = 1,TimeFrom = DateTime.Now, TimeTo = DateTime.Now.AddHours(1)},
+                new Order() { Id=2,PeopleCount = 3,TableId = 2, TimeFrom = DateTime.Now, TimeTo = DateTime.Now.AddHours(1)}
+                );
         }
     }
 }
