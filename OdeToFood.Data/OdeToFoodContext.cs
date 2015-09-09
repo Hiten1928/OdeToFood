@@ -8,7 +8,7 @@ namespace OdeToFood.Data
         public OdeToFoodContext()
             : base("name=SqlConnection")
         {
-            
+
         }
         public DbSet<Restaurant> Restaurants { get; set; }
         public DbSet<RestaurantReview> Reviews { get; set; }
@@ -17,7 +17,13 @@ namespace OdeToFood.Data
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<Order>()
+            .Property(o => o.TimeFrom)
+            .HasColumnType("datetime2");
 
+            modelBuilder.Entity<Order>()
+            .Property(o => o.TimeTo)
+            .HasColumnType("datetime2");
         }
     }
 }

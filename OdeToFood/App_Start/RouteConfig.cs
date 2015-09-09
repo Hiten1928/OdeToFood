@@ -18,12 +18,15 @@ namespace OdeToFood
                 Defaults = new RouteValueDictionary(new { controller = "Account", action = "Login" }),
                 DataTokens = new RouteValueDictionary(new { scheme = "https" })
             });
+            
 
             routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
                 defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }
             );
+
+            routes.MapPageRoute("Angular", "angular/{*anything}", "~/angular/index.html");
         }
     }
 }

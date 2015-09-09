@@ -1,0 +1,13 @@
+﻿.tableActive {
+    background: #fff;
+}
+body {
+    font-family: Tahoma;
+}
+.restaurantListRow:hover {
+    cursor: pointer;
+    background-color: rgba(252, 234, 225, 0.4);
+}
+.linkHover:hover {
+    cursor: pointer;
+}

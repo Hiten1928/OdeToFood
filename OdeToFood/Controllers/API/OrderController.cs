@@ -91,8 +91,12 @@ namespace OdeToFood.Controllers.API
             {
                 return BadRequest(ModelState);
             }
-            _dataContext.Order.Add(order);
-            return CreatedAtRoute("DefaultApi", new { id = order.Id }, order);
+            if (IsAvialable(order.TableId, order.TimeFrom))
+            {
+                _dataContext.Order.Add(order);
+                return CreatedAtRoute("API Default", new {id = order.Id}, order);
+            }
+            return Conflict();
         }
 
         /// <summary>
@@ -120,6 +124,14 @@ namespace OdeToFood.Controllers.API
         private bool OrderExists(int id)
         {
             return _dataContext.Order.FindAll(e => e.Id == id).Count > 0;
+        }
+
+        private bool IsAvialable(int tableId, DateTime time)
+        {
+            bool isTableAvialable = true;
+                 isTableAvialable = _dataContext.Order.FindAll(o => o.TableId == tableId)
+                    .Any(o => o.TimeFrom == time);
+            return !isTableAvialable;
         }
     }
 }

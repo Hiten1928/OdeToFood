@@ -54,7 +54,7 @@ namespace OdeToFood.Controllers.API
         /// <param name="dateTime">Time that is being inspected</param>
         /// <param name="restaurantId">Restaurant that is being inspected for avialable tables</param>
         /// <returns>Collection of avialable tables</returns>
-        public IEnumerable<Table> GetTablesForTime(DateTime dateTime, int restaurantId)
+        public IEnumerable<Table> Get(DateTime dateTime, int restaurantId)
         {
             var dateTimeCeil = RoundUp(dateTime, TimeSpan.FromMinutes(60));
 
