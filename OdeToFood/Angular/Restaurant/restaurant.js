@@ -7,6 +7,8 @@
         this.currentRestaurant = null;
         this.order = {};
         this.submitStatus = null;
+        this.restaurantById = null;//restaurant we received by id
+        this.restaurantVm = {};
 
         var roundHour = function (date) {
             date.setHours(date.getHours() + 1);
@@ -27,6 +29,16 @@
                 self.currentRestaurant = response.data;
             });
         };
+        this.getRestaurantById = function (restaurantId) {
+            alert(restaurantId);
+            $http.get("/OdeToFood.Web/api/restaurant?id=" + restaurantId).then(function (response) {
+                self.restaurantById = response.data;
+            });
+        };
+
+        
+
+
         this.select = function (index) {
             self.selected = index;
         };
@@ -63,7 +75,22 @@
         self.restaurants = this.getAllRestaurants();
         self.tabActive = 0;
 
+        this.putRestaurant = function () {
+            self.restaurantVm.name = jQuery("#restaurantmodelName").val();
+            self.restaurantVm.location = jQuery("#restaurantModelLocation").val();
+            self.restaurantVm.id = jQuery("#restaurantModelId").val();
+            self.restaurantVm.tableCount = jQuery("#restaurantModelTableCount").val();
+            console.log(self.restaurantVm);
+            console.log(self.restaurantVm.id);
+            $http.put("/OdeToFood.Web/api/restaurant?id=" + self.restaurantVm.id, self.restaurantVm).success(function (response) {
+                jQuery("#editResponceMessage").text("You have updated restaurant successfully.");
+            }).error(function() {
+                jQuery("#editResponceMessage").text("Something went wrong.");
+            });
+        };
 
     }]);
 
 }());
+
+

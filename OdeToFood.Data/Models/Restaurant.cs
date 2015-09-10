@@ -13,7 +13,6 @@ namespace OdeToFood.Data.Models
 
         public virtual ICollection<Table> Tables { get; set; }
         public virtual ICollection<RestaurantReview> Reviews { get; set; }
-        public virtual ICollection<Order> Orders { get; set; }
         
     }
 }

@@ -11,3 +11,6 @@ body {
 .linkHover:hover {
     cursor: pointer;
 }
+.avialableTable:hover {
+    background:#E0FFEA;
+}

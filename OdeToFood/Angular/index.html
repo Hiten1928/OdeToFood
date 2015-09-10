@@ -7,157 +7,229 @@
     <link rel="stylesheet" href="../Content/jquery.filthypillow.css" />
 </head>
 <body ng-app="restaurantBooking">
-    <nav class="navbar navbar-inverse">
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <img alt="Brand" src="../Content/images/Logo-Useful_Food.png" style="height:50px" />
-            </div>
 
-
-            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1" ng-controller="TableController as table">
-                <ul class="nav navbar-nav" style="margin-left:90px;font-family:Tahoma">
-                    <li class="active"><a href="#">Restaurants <span class="sr-only">(current)</span></a></li>
-                    <li><a href="#">Orders</a></li>
-                    <li><a href="#">Reviews</a></li>
-                </ul>
-                <form class="navbar-form navbar-right" role="search">
-                    <div class="form-group">
-                        <input type="text" class="form-control" placeholder="Search">
-                    </div>
-                    <button type="submit" class="btn btn-success">Submit</button>
-                    <div id="avialableTablesContainer" ng-click="table.getAvialableTables()"></div>
-                </form>
-            </div>
-        </div>
-    </nav>
 
     <div id="wrapper" ng-controller="MainController as main">
-        <div class="container-fluid" style="height: 30px; background: aliceblue"></div>
-
         <div ng-controller="RestaurantController as restaurant">
-            <div id="headerWrapper" class="container-fluid" style="background: url(../Content/images/Header.jpg); min-height: 400px; background-size: 150%; background-position-y: -400px; background-position-x: center">
-                <div class="darkBdOverlay" style="background-color: rgba(0, 0, 0, 0.3); padding: 10px;">
-                    <div class="container" style="width: 80%">
-                        <div id="restaurant" class="col-lg-6 col-md-6 col-sm-6" style="border-radius: 5px; min-height: 380px; padding-top: 10px; color: #fff; overflow: auto;">
-                            <div ng-hide="restaurant.currentRestaurant">
-                                <h2 style="font-family: Arial; text-align: center">Pick a restaurant from the list to book</h2>
-                                <table class="table" style="margin-top: 30px; font-size: 20px">
-                                    <tr>
-                                        <th>Name</th>
-                                        <th>Location</th>
-                                    </tr>
-                                    <tr ng-repeat="r in restaurant.restaurants" class="restaurantListRow">
-                                        <td ng-click="restaurant.getRestaurant(r.name)">{{r.name}}</td>
-                                        <td ng-click="restaurant.getRestaurant(r.name)">{{r.location}}</td>
-                                    </tr>
-                                </table>
+            <div ng-controller="OrderController as order">
+                <div ng-controller="ReviewController as review">
+
+                    <nav class="navbar navbar-inverse">
+                        <div class="container">
+                            <div class="navbar-header">
+                                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                                    <span class="sr-only">Toggle navigation</span>
+                                    <span class="icon-bar"></span>
+                                    <span class="icon-bar"></span>
+                                    <span class="icon-bar"></span>
+                                </button>
+                                <img alt="Brand" src="../Content/images/Logo-Useful_Food.png" style="height: 50px" />
                             </div>
-                            <div ng-show="restaurant.currentRestaurant">
-                                <h3 style="color: #fff; display: block; margin-bottom: 30px">{{restaurant.currentRestaurant.name}}, {{restaurant.currentRestaurant.location}}</h3>
-                                <div class="row">
-                                    <div class="col-lg-3 col-md-3 col-sm-3 restaurantListRow" data-id="{{table.id}}" ng-repeat="table in restaurant.currentRestaurant.tables" ng-class="{tableActive: $index == restaurant.selected}" ng-click="restaurant.select($index);restaurant.setTableId(table.id);restaurant.setTableNumberForm(table.tableNumber)" style="border: 5px solid #fff; height: 100px; border-radius: 10px; font-size: 22px;">{{table.tableNumber}}</div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-lg-12 col-md-12 col-sm-12">
-                                        <h3>
-                                            <a ng-click="restaurant.getAllRestaurants()" class="linkHover" style="color: #fff; display: block; margin-top: 30px"><span class="glyphicon glyphicon-chevron-left" style="font-size: 18px"></span><span class="glyphicon glyphicon-chevron-left" style="font-size: 18px"></span> Back to restaurants list</a>
-                                        </h3>
+
+
+                            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1" ng-controller="TableController as table">
+                                <ul class="nav navbar-nav" style="margin-left: 90px; font-family: Tahoma">
+                                    <li><a href="#" ng-click="main.toggleHome();restaurant.getAllRestaurants()">Home</a></li>
+                                    <li><a href="#" ng-click="main.toggleRestaurant();restaurant.getAllRestaurants();restaurant.restaurantById=null">Restaurants <span class="sr-only">(current)</span></a></li>
+                                    <li><a href="#" ng-click="main.toggleOrder();order.getOrders()">Orders</a></li>
+                                    <li><a href="#" ng-click="main.toggleReview();review.getReviews()">Reviews</a></li>
+                                </ul>
+                                <form class="navbar-form navbar-right" role="search">
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" placeholder="Search">
                                     </div>
-                                </div>
+                                    <button type="submit" class="btn btn-success">Submit</button>
+                                    <div id="avialableTablesContainer" ng-click="table.getAvialableTables()"></div>
+                                </form>
                             </div>
                         </div>
+                    </nav>
 
 
-                        <div id="submitForm" class="col-lg-6 col-md-6 col-sm-6">
-                            <h2 style="margin-top: 30px; margin-bottom: 30px; color: #fff; text-align: center">Place order</h2>
-                            <div id="submitStatus" ng-show="restaurant.submitStatus" style="color: #ffffff"></div>
-                            <form class="form-group" ng-submit="restaurant.placeOrder()">
-                                <input type="number" class="form-control" id="tableNumber" placeholder="Select the table on the left" style="margin-bottom: 10px; border: 2px solid #fff" readonly>
-                                <input type="number" ng-model="restaurant.order.peopleCount" class="form-control" id="peopleCount" placeholder="Number of people" style="margin-bottom: 10px; border: 2px solid #fff">
-                                <input type="text" class="form-control" id="timeFrom" placeholder="From time:" style="margin-bottom: 10px; border: 2px solid #fff">
-                                <input type="submit" class="btn btn-success pull-right" value="Place order" />
+                    <div class="container-fluid" style="height: 30px; background: #E0FFEA"></div>
+
+                    <div ng-show="main.secondRowToggle == 'avialable tables'">
+                        <div id="headerWrapper" class="container-fluid" style="background: url(../Content/images/Header.jpg); min-height: 400px; background-size: 150%; background-position-y: -400px; background-position-x: center">
+                            <div class="darkBdOverlay" style="background-color: rgba(0, 0, 0, 0.3); padding: 10px;">
+                                <div class="container" style="width: 80%">
+                                    <div id="restaurant" class="col-lg-6 col-md-6 col-sm-6" style="border-radius: 5px; min-height: 380px; padding-top: 10px; color: #fff; overflow: auto;">
+                                        <div ng-hide="restaurant.currentRestaurant">
+                                            <h2 style="font-family: Arial; text-align: center">Pick a restaurant from the list to book</h2>
+                                            <table class="table" style="margin-top: 30px; font-size: 20px">
+                                                <tr>
+                                                    <th>Name</th>
+                                                    <th>Location</th>
+                                                </tr>
+                                                <tr ng-repeat="r in restaurant.restaurants" class="restaurantListRow">
+                                                    <td ng-click="restaurant.getRestaurant(r.name)">{{r.name}}</td>
+                                                    <td ng-click="restaurant.getRestaurant(r.name)">{{r.location}}</td>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                        <div ng-show="restaurant.currentRestaurant">
+                                            <h3 style="color: #fff; display: block; margin-bottom: 30px">{{restaurant.currentRestaurant.name}}, {{restaurant.currentRestaurant.location}}</h3>
+                                            <div class="row">
+                                                <div class="col-lg-3 col-md-3 col-sm-3 restaurantListRow" data-id="{{table.id}}" ng-repeat="table in restaurant.currentRestaurant.tables" ng-class="{tableActive: $index == restaurant.selected}" ng-click="restaurant.select($index);restaurant.setTableId(table.id);restaurant.setTableNumberForm(table.tableNumber)" style="border: 5px solid #fff; height: 100px; border-radius: 10px; font-size: 22px;">{{table.tableNumber}}</div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-lg-12 col-md-12 col-sm-12">
+                                                    <h3>
+                                                        <a ng-click="restaurant.getAllRestaurants()" class="linkHover" style="color: #fff; display: block; margin-top: 30px"><span class="glyphicon glyphicon-chevron-left" style="font-size: 18px"></span><span class="glyphicon glyphicon-chevron-left" style="font-size: 18px"></span> Back to restaurants list</a>
+                                                    </h3>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                    <div id="submitForm" class="col-lg-6 col-md-6 col-sm-6">
+                                        <h2 style="margin-top: 30px; margin-bottom: 30px; color: #fff; text-align: center">Place order</h2>
+                                        <div id="submitStatus" ng-show="restaurant.submitStatus" style="color: #ffffff"></div>
+                                        <form class="form-group" ng-submit="restaurant.placeOrder()">
+                                            <input type="number" class="form-control" id="tableNumber" placeholder="Select the table on the left" style="margin-bottom: 10px; border: 2px solid #fff" readonly>
+                                            <input type="number" ng-model="restaurant.order.peopleCount" class="form-control" id="peopleCount" placeholder="Number of people" style="margin-bottom: 10px; border: 2px solid #fff">
+                                            <input type="text" class="form-control" id="timeFrom" placeholder="From time:" style="margin-bottom: 10px; border: 2px solid #fff">
+                                            <input type="submit" class="btn btn-success pull-right" value="Place order"/>
+                                        </form>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div><!--First Row-->
+                        <div class="container-fluid">
+                            <div class="container" ng-controller="TableController as table" ng-show="main.secondRowToggle == 'avialable tables'">
+                                <div class="col-lg-6 col-md-6 col-sm-6">
+                                    <h2>Avialable tables for specified time</h2>
+                                    <h4 ng-show="restaurant.currentRestaurant" style="margin-top: 30px">{{restaurant.currentRestaurant.name}}, {{restaurant.currentRestaurant.location}}</h4>
+                                    <div class="input-group">
+                                        <input id="dateAvialableTables" type="text" class="form-control" placeholder="Enter the date and time">
+                                        <span class="input-group-btn">
+                                            <button ng-click="table.getAvialableTables(restaurant.currentRestaurant.id)" id="submitAvialableTables" class="btn btn-success" type="button">Go!</button>
+                                        </span>
+                                    </div>
+                                    <div id="avialableTablesList" ng-show="table.avialableTables">
+                                        <ul class="list-group">
+                                            <li ng-repeat="t in table.avialableTables" class="list-group-item avialableTable">Table # {{t.tableNumber}}</li>
+                                        </ul>
+                                    </div>
+                                    <p id="tableListErrorMessage" style="color: red; font-size: 12px; margin-left: 15px"></p>
+                                </div>
+                                <div class="col-lg-6 col-md-6 col-sm-6">
+
+                                </div>
+                            </div><!--TableController-->
+                        </div><!--SecondRow-->
+                    </div>
+
+                    <div class="container" ng-show="main.secondRowToggle == 'restaurants'">
+                        <table class="table">
+                            <tr>
+                                <th>Name</th>
+                                <th>Location</th>
+                                <th>Actions</th>
+                            </tr>
+                            <tr ng-repeat="r in restaurant.restaurants">
+                                <td>{{r.name}}</td>
+                                <td>{{r.location}}</td>
+                                <td><a href="#" ng-click="restaurant.getRestaurantById(r.id)">Edit</a> | <a href="#">Delete</a></td>
+                            </tr>
+                        </table>
+                        <div ng-show="restaurant.restaurantById">
+                            <h3 style="margin-top: 40px">Edit restaurant</h3>
+                            <p id="editResponceMessage"></p>
+                            <form class="form-group" ng-submit="restaurant.putRestaurant()" style="width: 50%">
+                                <input id="restaurantModelId" type="hidden" value="{{restaurant.restaurantById.id}}" />
+                                <input id="restaurantmodelName" class="form-control" type="text" value="{{restaurant.restaurantById.name}}">
+                                <input id="restaurantModelLocation" class="form-control" type="text"  value="{{restaurant.restaurantById.location}}">
+                                <input id="restaurantModelTableCount" class="form-control" type="number"  value="{{restaurant.restaurantById.tables.length}}">
+                                <input type="submit" class="btn btn-success"/>
                             </form>
                         </div>
                     </div>
-
-                </div>
-            </div><!--First Row-->
-
-            <div class="container" ng-controller="TableController as table">
-                <div class="col-lg-6 col-md-6 col-sm-6">
-                    <h2>Avialable tables for specified time</h2>
-                    {{restaurant.currentRestaurant.id}}
-                    <div class="input-group">
-                        <input id="dateAvialableTables" type="text" class="form-control" placeholder="Enter the date and time">
-                        <span class="input-group-btn">
-                            <button ng-click="table.getAvialableTables(restaurant.currentRestaurant.id)" id="submitAvialableTables" class="btn btn-success" type="button">Go!</button>
-                        </span>
+                    <div class="container" ng-show="main.secondRowToggle == 'orders'">
+                        <table class="table">
+                            <tr>
+                                <th>Number of people</th>
+                                <th>From time</th>
+                                <th>To time</th>
+                                <th>Table id</th>
+                            </tr>
+                            <tr ng-repeat="o in order.orders">
+                                <td>{{o.peopleCount}}</td>
+                                <td>{{o.timeFrom}}</td>
+                                <td>{{o.timeTo}}</td>
+                                <td>{{o.tableId}}</td>
+                            </tr>
+                        </table>
                     </div>
-                    <div id="avialableTablesList" ng-show="table.avialableTables">
-                        <ul class="list-group">
-                            <li ng-repeat="t in table.avialableTables" class="list-group-item">Table # {{t.tableNumber}}</li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="col-lg-6 col-md-6 col-sm-6">
+                    <div class="container" ng-show="main.secondRowToggle == 'reviews'">
+                        <table class="table">
+                            <tr>
+                                <th>Rating</th>
+                                <th>Reviewer Name</th>
+                                <th>Body</th>
+                                <th>Restaurant Name</th>
+                            </tr>
+                            <tr ng-repeat="r in review.reviews">
+                                <td>{{r.rating}}</td>
+                                <td>{{r.reviewerName}}</td>
+                                <td>{{r.body}}</td>
+                                <td>{{r.restaurant.name}}</td>
+                            </tr>
+                        </table>
+                    </div><!--ReviewController-->
+                </div><!--OrderController-->
+            </div><!--RestaurantControllre-->
+        </div><!--MainController-->
+        <!--Libraries-->
+        <script src="../Scripts/jquery-1.10.2.js"></script>
+        <script src="../Scripts/bootstrap.js"></script>
+        <script src="../Scripts/angular.js"></script>
+        <script src="../Scripts/moment.js"></script>
+        <script src="../Scripts/jquery.filthypillow.js"></script>
 
-                </div>
-            </div><!--TableController-->
+        <!--Modules-->
+        <script src="App/app.js"></script>
+        <script src="Restaurant/restaurant.js"></script>
+        <script src="Table/table.js"></script>
+        <script src="Order/order.js"></script>
+        <script src="Review/review.js"></script>
 
-        </div><!--RestaurantControllre-->
-    </div><!--MainController-->
-    <!--Libraries-->
-    <script src="../Scripts/jquery-1.10.2.js"></script>
-    <script src="../Scripts/bootstrap.js"></script>
-    <script src="../Scripts/angular.js"></script>
-    <script src="../Scripts/moment.js"></script>
-    <script src="../Scripts/jquery.filthypillow.js"></script>
+        <script>
+            jQuery(document).ready(function () {
+                var now = moment().subtract("seconds", 1),
+                    later = moment().add("days", 7);
+                $("#timeFrom").filthypillow({
+                    minDateTime: function () {
+                        return now;
+                    }
+                });
+                $("#timeFrom").on("focus", function () {
+                    $("#timeFrom").filthypillow("show");
+                });
+                $("#timeFrom").on("fp:save", function (e, dateObj) {
+                    $("#timeFrom").val(dateObj.format("DD.MM.YYYY HH:mm:ss"));
+                    $("#timeFrom").filthypillow("hide");
+                });
 
-    <!--Modules-->
-    <script src="App/app.js"></script>
-    <script src="Restaurant/restaurant.js"></script>
-    <script src="Table/table.js"></script>
 
-    <script>
-        jQuery(document).ready(function () {
-            var now = moment().subtract("seconds", 1),
-                later = moment().add("days", 7);
-            $("#timeFrom").filthypillow({
-                minDateTime: function () {
-                    return now;
-                }
+
+                now = moment().subtract("seconds", 1),
+                    later = moment().add("days", 7);
+                $("#dateAvialableTables").filthypillow({
+                    minDateTime: function () {
+                        return now;
+                    }
+                });
+                $("#dateAvialableTables").on("focus", function () {
+                    $("#dateAvialableTables").filthypillow("show");
+                });
+                $("#dateAvialableTables").on("fp:save", function (e, dateObj) {
+                    $("#dateAvialableTables").val(dateObj.format("DD.MM.YYYY HH:mm:ss"));
+                    $("#dateAvialableTables").filthypillow("hide");
+                });
             });
-            $("#timeFrom").on("focus", function () {
-                $("#timeFrom").filthypillow("show");
-            });
-            $("#timeFrom").on("fp:save", function (e, dateObj) {
-                $("#timeFrom").val(dateObj.format("DD.MM.YYYY HH:mm:ss"));
-                $("#timeFrom").filthypillow("hide");
-            });
-
-
-
-            now = moment().subtract("seconds", 1),
-                later = moment().add("days", 7);
-            $("#dateAvialableTables").filthypillow({
-                minDateTime: function () {
-                    return now;
-                }
-            });
-            $("#dateAvialableTables").on("focus", function () {
-                $("#dateAvialableTables").filthypillow("show");
-            });
-            $("#dateAvialableTables").on("fp:save", function (e, dateObj) {
-                $("#dateAvialableTables").val(dateObj.format("DD.MM.YYYY HH:mm:ss"));
-                $("#dateAvialableTables").filthypillow("hide");
-            });
-        });
-    </script>
+        </script>
+    </div>
 </body>
 </html>

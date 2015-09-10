@@ -9,8 +9,10 @@ using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.Cors;
 using System.Web.Http.Description;
+using Castle.Components.DictionaryAdapter;
 using OdeToFood.Data;
 using OdeToFood.Data.Models;
+using OdeToFood.Views.ViewModels;
 
 namespace OdeToFood.Controllers.API
 {
@@ -67,18 +69,31 @@ namespace OdeToFood.Controllers.API
         /// <param name="restaurant">Updated restaurant instance</param>
         /// <returns>Http result on an operation status</returns>
         [ResponseType(typeof(void))]
-        public IHttpActionResult PutRestaurant(int id, Restaurant restaurant)
+        public IHttpActionResult PutRestaurant([FromUri]int id, [FromBody]RestaurantViewModel restaurantViewModel)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
-            if (id != restaurant.Id)
+            if (id != restaurantViewModel.Id)
             {
                 return BadRequest();
             }
             try
             {
+                List<Table> tables = new List<Table>();
+                for (int i = 0; i < restaurantViewModel.TableCount; i++)
+                {
+                    Table table = new Table() {RestaurantId = restaurantViewModel.Id, TableNumber = i + 1};
+                    tables.Add(table);
+                }
+                Restaurant restaurant = new Restaurant()
+                {
+                    Id = restaurantViewModel.Id,
+                    Name = restaurantViewModel.Name,
+                    Location = restaurantViewModel.Location,
+                    Tables = tables
+                };
                 _dataContext.Restaurant.Update(restaurant, id);
             }
             catch (DbUpdateConcurrencyException)

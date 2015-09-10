@@ -32,7 +32,7 @@ namespace OdeToFood.Ioc.Installers
                 Component.For<IRepository<BaseEntity>>().ImplementedBy<Repository<BaseEntity>>());
 
 
-            container.Register(Component.For<DbContext>().ImplementedBy<OdeToFoodContext>().LifestyleSingleton());
+            container.Register(Component.For<DbContext>().ImplementedBy<OdeToFoodContext>().LifestylePerThread());
             container.Register(Component.For(typeof(IRepository<>)).ImplementedBy(typeof(Repository<>)).LifestyleTransient());
 
 

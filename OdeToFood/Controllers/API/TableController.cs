@@ -23,6 +23,23 @@ namespace OdeToFood.Controllers.API
             _dataContext = dataContext;
         }
 
+
+        /// <summary>
+        /// Gets the tables that are avialable for the specific time
+        /// </summary>
+        /// <param name="dateTime">Time that is being inspected</param>
+        /// <param name="restaurantId">Restaurant that is being inspected for avialable tables</param>
+        /// <returns>Collection of avialable tables</returns>
+        public List<Table> Get(string dateTime, int restaurantId)
+        {
+            var tables = _dataContext.Restaurant.Get(restaurantId).Tables;
+            DateTime parsedDate = DateTime.Parse(dateTime);
+            var timeCeil = RoundUp(parsedDate, TimeSpan.FromMinutes(60));
+            var result = tables.Where(t => _dataContext.Order.FindAll(o => o.TableId == t.Id).All(od => od.TimeFrom != timeCeil)).ToList();
+            return result;
+        }
+
+
         /// <summary>
         /// Gets all tables
         /// </summary>
@@ -48,19 +65,7 @@ namespace OdeToFood.Controllers.API
             return Ok(table);
         }
 
-        /// <summary>
-        /// Gets the tables that are avialable for the specific time
-        /// </summary>
-        /// <param name="dateTime">Time that is being inspected</param>
-        /// <param name="restaurantId">Restaurant that is being inspected for avialable tables</param>
-        /// <returns>Collection of avialable tables</returns>
-        public IEnumerable<Table> Get(DateTime dateTime, int restaurantId)
-        {
-            var dateTimeCeil = RoundUp(dateTime, TimeSpan.FromMinutes(60));
 
-            IEnumerable<Table> tables = _dataContext.Order.FindAll(o => o.TimeFrom != dateTimeCeil && o.Table.RestaurantId == restaurantId).Select(e => e.Table);
-            return tables;
-        }
 
         /// <summary>
         /// Updates an existing instance of table in the database
