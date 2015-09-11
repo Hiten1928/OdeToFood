@@ -1,0 +1,14 @@
+﻿<table class="table">
+    <tr>
+        <th>Rating</th>
+        <th>Reviewer Name</th>
+        <th>Body</th>
+        <th>Restaurant Name</th>
+    </tr>
+    <tr ng-repeat="r in review.reviews">
+        <td>{{r.rating}}</td>
+        <td>{{r.reviewerName}}</td>
+        <td>{{r.body}}</td>
+        <td>{{r.restaurant.name}}</td>
+    </tr>
+</table>

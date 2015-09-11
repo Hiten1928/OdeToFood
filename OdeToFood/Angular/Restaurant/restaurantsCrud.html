@@ -1,0 +1,23 @@
+﻿<table class="table">
+    <tr>
+        <th>Name</th>
+        <th>Location</th>
+        <th>Actions</th>
+    </tr>
+    <tr ng-repeat="r in restaurant.restaurants">
+        <td>{{r.name}}</td>
+        <td>{{r.location}}</td>
+        <td><a href="#" ng-click="restaurant.getRestaurantById(r.id)">Edit</a> | <a href="#">Delete</a></td>
+    </tr>
+</table>
+<div ng-show="restaurant.restaurantById">
+    <h3 style="margin-top: 40px">Edit restaurant</h3>
+    <p id="editResponceMessage"></p>
+    <form class="form-group" ng-submit="restaurant.putRestaurant()" style="width: 50%">
+        <input id="restaurantModelId" type="hidden" value="{{restaurant.restaurantById.id}}" />
+        <input id="restaurantmodelName" class="form-control" type="text" value="{{restaurant.restaurantById.name}}">
+        <input id="restaurantModelLocation" class="form-control" type="text" value="{{restaurant.restaurantById.location}}">
+        <input id="restaurantModelTableCount" class="form-control" type="number" value="{{restaurant.restaurantById.tables.length}}">
+        <input type="submit" class="btn btn-success" />
+    </form>
+</div>

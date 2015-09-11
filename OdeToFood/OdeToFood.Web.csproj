@@ -251,8 +251,14 @@
     <Content Include="Angular\App\app.js" />
     <Content Include="Angular\index.html" />
     <Content Include="Angular\Order\order.js" />
+    <Content Include="Angular\Order\ordersCrud.html" />
+    <Content Include="Angular\Order\submitOrder.html" />
     <Content Include="Angular\Restaurant\restaurant.js" />
+    <Content Include="Angular\Restaurant\restaurantList.html" />
+    <Content Include="Angular\Restaurant\restaurantsCrud.html" />
     <Content Include="Angular\Review\review.js" />
+    <Content Include="Angular\Review\reviewsCrud.html" />
+    <Content Include="Angular\Table\avialableTables.html" />
     <Content Include="Angular\Table\table.js" />
     <Content Include="Content\angularSite.css" />
     <Content Include="Content\bootstrap.css" />

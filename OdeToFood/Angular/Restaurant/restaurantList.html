@@ -1,0 +1,26 @@
+﻿<div ng-hide="restaurant.currentRestaurant">
+    <h2 style="font-family: Arial; text-align: center">Pick a restaurant from the list to book</h2>
+    <table class="table" style="margin-top: 30px; font-size: 20px">
+        <tr>
+            <th>Name</th>
+            <th>Location</th>
+        </tr>
+        <tr ng-repeat="r in restaurant.restaurants" class="restaurantListRow">
+            <td ng-click="restaurant.getRestaurant(r.name)">{{r.name}}</td>
+            <td ng-click="restaurant.getRestaurant(r.name)">{{r.location}}</td>
+        </tr>
+    </table>
+</div>
+<div ng-show="restaurant.currentRestaurant">
+    <h3 style="color: #fff; display: block; margin-bottom: 30px">{{restaurant.currentRestaurant.name}}, {{restaurant.currentRestaurant.location}}</h3>
+    <div class="row">
+        <div class="col-lg-3 col-md-3 col-sm-3 restaurantListRow" data-id="{{table.id}}" ng-repeat="table in restaurant.currentRestaurant.tables" ng-class="{tableActive: $index == restaurant.selected}" ng-click="restaurant.select($index);restaurant.setTableId(table.id);restaurant.setTableNumberForm(table.tableNumber)" style="border: 5px solid #fff; height: 100px; border-radius: 10px; font-size: 22px;">{{table.tableNumber}}</div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12">
+            <h3>
+                <a ng-click="restaurant.getAllRestaurants()" class="linkHover" style="color: #fff; display: block; margin-top: 30px"><span class="glyphicon glyphicon-chevron-left" style="font-size: 18px"></span><span class="glyphicon glyphicon-chevron-left" style="font-size: 18px"></span> Back to restaurants list</a>
+            </h3>
+        </div>
+    </div>
+</div>

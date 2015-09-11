@@ -1,0 +1,8 @@
+﻿<h2 style="margin-top: 30px; margin-bottom: 30px; color: #fff; text-align: center">Place order</h2>
+<div id="submitStatus" ng-show="restaurant.submitStatus" style="color: #ffffff"></div>
+<form class="form-group" ng-submit="restaurant.placeOrder()">
+    <input type="number" class="form-control" id="tableNumber" placeholder="Select the table on the left" style="margin-bottom: 10px; border: 2px solid #fff" readonly>
+    <input type="number" ng-model="restaurant.order.peopleCount" class="form-control" id="peopleCount" placeholder="Number of people" style="margin-bottom: 10px; border: 2px solid #fff">
+    <input type="text" class="form-control" id="timeFrom" placeholder="From time:" style="margin-bottom: 10px; border: 2px solid #fff">
+    <input type="submit" class="btn btn-success pull-right" value="Place order" />
+</form>

@@ -1,0 +1,14 @@
+﻿<h2>Avialable tables for specified time</h2>
+<h4 ng-show="restaurant.currentRestaurant" style="margin-top: 30px">{{restaurant.currentRestaurant.name}}, {{restaurant.currentRestaurant.location}}</h4>
+<div class="input-group">
+    <input id="dateAvialableTables" type="text" class="form-control" placeholder="Enter the date and time">
+    <span class="input-group-btn">
+        <button ng-click="table.getAvialableTables(restaurant.currentRestaurant.id)" id="submitAvialableTables" class="btn btn-success" type="button">Go!</button>
+    </span>
+</div>
+<div id="avialableTablesList" ng-show="table.avialableTables">
+    <ul class="list-group">
+        <li ng-repeat="t in table.avialableTables" class="list-group-item avialableTable">Table # {{t.tableNumber}}</li>
+    </ul>
+</div>
+<p id="tableListErrorMessage" style="color: red; font-size: 12px; margin-left: 15px"></p>
