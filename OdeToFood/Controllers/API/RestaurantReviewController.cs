@@ -93,7 +93,7 @@ namespace OdeToFood.Controllers.API
                 return BadRequest(ModelState);
             }
             _dataContext.RestaurantReview.Add(restaurantReview);
-            return CreatedAtRoute("DefaultApi", new { id = restaurantReview.Id }, restaurantReview);
+            return CreatedAtRoute("API Default", new { id = restaurantReview.Id }, restaurantReview);
         }
 
         /// <summary>

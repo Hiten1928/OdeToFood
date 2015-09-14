@@ -54,23 +54,20 @@ namespace OdeToFood.Controllers.API
         /// <param name="order">An updated instance of order</param>
         /// <returns>Http result on an operation status</returns>
         [ResponseType(typeof(void))]
-        public IHttpActionResult PutOrder(int id, Order order)
+        public IHttpActionResult PutOrder(Order order)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
-            if (id != order.Id)
-            {
-                return BadRequest();
-            }
+
             try
             {
-                _dataContext.Order.Update(order, id);
+                _dataContext.Order.Update(order, order.Id);
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!OrderExists(id))
+                if (!OrderExists(order.Id))
                 {
                     return NotFound();
                 }

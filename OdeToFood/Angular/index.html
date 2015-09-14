@@ -5,7 +5,10 @@
     <link rel="stylesheet" href="../Content/bootstrap.css" />
     <link rel="stylesheet" href="../Content/angularSite.css" />
     <link rel="stylesheet" href="../Content/jquery.filthypillow.css" />
-    <link rel="stylesheet" href="../Scripts/angular-csp.css" />
+    <link rel="stylesheet" href="../Scripts/angular-csp.css"/>
+    <script src="../Scripts/jquery-1.10.2.js"></script>
+    <script src="../Scripts/moment.js"></script>
+    <script src="../Scripts/jquery.filthypillow.js"></script>
 </head>
 <body ng-app="restaurantBooking" ng-cloak>
 
@@ -76,17 +79,14 @@
                     <div class="container" ng-include="'Restaurant/restaurantsCrud.html'" ng-show="main.secondRowToggle == 'restaurants'"></div>
                     <div class="container" ng-include="'Order/ordersCrud.html'" ng-show="main.secondRowToggle == 'orders'"></div>
                     <div class="container" ng-include="'Review/reviewsCrud.html'" ng-show="main.secondRowToggle == 'reviews'">
-                        
+
                     </div><!--ReviewController-->
                 </div><!--OrderController-->
             </div><!--RestaurantControllre-->
         </div><!--MainController-->
         <!--Libraries-->
-        <script src="../Scripts/jquery-1.10.2.js"></script>
         <script src="../Scripts/bootstrap.js"></script>
         <script src="../Scripts/angular.js"></script>
-        <script src="../Scripts/moment.js"></script>
-        <script src="../Scripts/jquery.filthypillow.js"></script>
 
         <!--Modules-->
         <script src="App/app.js"></script>
@@ -95,39 +95,15 @@
         <script src="Order/order.js"></script>
         <script src="Review/review.js"></script>
 
+        
         <script>
             jQuery(document).ready(function () {
-                var now = moment().subtract("seconds", 1),
-                    later = moment().add("days", 7);
-                $("#timeFrom").filthypillow({
-                    minDateTime: function () {
-                        return now;
-                    }
-                });
-                $("#timeFrom").on("focus", function () {
-                    $("#timeFrom").filthypillow("show");
-                });
-                $("#timeFrom").on("fp:save", function (e, dateObj) {
-                    $("#timeFrom").val(dateObj.format("DD.MM.YYYY HH:mm:ss"));
-                    $("#timeFrom").filthypillow("hide");
+                $('body').on('click', '.restaurantListRow', function () {
+                    console.log("click");
+                    jQuery(".restaurantListRow").css('background', 'transparent');
+                    jQuery(this).css('background', '#fff');
                 });
 
-
-
-                now = moment().subtract("seconds", 1),
-                    later = moment().add("days", 7);
-                $("#dateAvialableTables").filthypillow({
-                    minDateTime: function () {
-                        return now;
-                    }
-                });
-                $("#dateAvialableTables").on("focus", function () {
-                    $("#dateAvialableTables").filthypillow("show");
-                });
-                $("#dateAvialableTables").on("fp:save", function (e, dateObj) {
-                    $("#dateAvialableTables").val(dateObj.format("DD.MM.YYYY HH:mm:ss"));
-                    $("#dateAvialableTables").filthypillow("hide");
-                });
             });
         </script>
     </div>

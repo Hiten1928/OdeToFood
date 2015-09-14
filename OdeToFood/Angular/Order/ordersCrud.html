@@ -4,6 +4,7 @@
         <th>From time</th>
         <th>To time</th>
         <th>Table id</th>
+        <th>Restaurant Name</th>
         <th>Operations</th>
     </tr>
     <tr ng-repeat="o in order.orders">
@@ -11,6 +12,7 @@
         <td>{{o.timeFrom}}</td>
         <td>{{o.timeTo}}</td>
         <td>{{o.tableId}}</td>
+        <td>{{o.restaurantName}}</td>
         <td><a href="#" ng-click="order.edit(o,order.orders.indexOf(o))">Edit</a> | <a href="#" ng-click="order.del(order.orders.indexOf(o))">Delete</a></td>
     </tr>
 </table>
@@ -29,20 +31,19 @@
     </tr>
     <tr>
         <td>From time: </td>
-        <td><input type="text" ng-model="order.orderModel.timeFrom" class="form-control" style="width:50%" /></td>
+        <td><input id="timeFrom" type="text" ng-model="order.orderModel.timeFrom" class="form-control" style="width:50%" /></td>
     </tr>
     <tr>
         <td>To time: </td>
         <td><input type="text" ng-model="order.orderModel.timeTo" class="form-control" style="width:50%" /></td>
     </tr>
-    <tr>
-        <!--<td>Table id: </td>
-        <td><input type="number" ng-model="order.orderModel.tableId" class="form-control" style="width:50%"/></td>-->
+    <tr ng-show="order.inputMode=='create'">
         <td>Restaurant:</td>
         <td>
-            <select ng-model="order.orderModel.restaurantName" class="form-control" style="width:50%">
+            <select ng-model="order.orderModel.restaurantName" class="form-control" style="width: 50%">
                 <option ng-repeat="r in restaurant.restaurants" value="{{r.name}}_{{r.location}}">{{r.name}}, {{r.location}}</option>
             </select>
+            <input type="hidden" ng-model="order.orderModel.tableId" />
         </td>
     </tr>
     <tr>

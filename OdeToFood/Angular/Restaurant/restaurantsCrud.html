@@ -7,17 +7,37 @@
     <tr ng-repeat="r in restaurant.restaurants">
         <td>{{r.name}}</td>
         <td>{{r.location}}</td>
-        <td><a href="#" ng-click="restaurant.getRestaurantById(r.id)">Edit</a> | <a href="#">Delete</a></td>
+        <td><a href="#" ng-click="restaurant.edit(r,restaurant.restaurants.indexOf(r))">Edit</a> | <a href="#" ng-click="restaurant.del(restaurant.restaurants.indexOf(r))">Delete</a></td>
     </tr>
 </table>
-<div ng-show="restaurant.restaurantById">
-    <h3 style="margin-top: 40px">Edit restaurant</h3>
-    <p id="editResponceMessage"></p>
-    <form class="form-group" ng-submit="restaurant.putRestaurant()" style="width: 50%">
-        <input id="restaurantModelId" type="hidden" value="{{restaurant.restaurantById.id}}" />
-        <input id="restaurantmodelName" class="form-control" type="text" value="{{restaurant.restaurantById.name}}">
-        <input id="restaurantModelLocation" class="form-control" type="text" value="{{restaurant.restaurantById.location}}">
-        <input id="restaurantModelTableCount" class="form-control" type="number" value="{{restaurant.restaurantById.tables.length}}">
-        <input type="submit" class="btn btn-success" />
-    </form>
-</div>
+
+
+
+<!-- This table is to enter data-->
+<h3 style="margin-top:50px">Modify restaurants</h3>
+<table class="table">
+    <tr hidden="hidden">
+        <td>Id: </td>
+        <td><input type="hidden" ng-model="restaurant.restaurantModel.id" /></td>
+    </tr>
+    <tr>
+        <td>Name: </td>
+        <td><input type="text" ng-model="restaurant.restaurantModel.name" class="form-control" style="width:50%" /></td>
+    </tr>
+    <tr>
+        <td>Location: </td>
+        <td><input id="location" type="text" ng-model="restaurant.restaurantModel.location" class="form-control" style="width: 50%"/></td>
+    </tr>
+    <tr>
+        <td>Number of tables: </td>
+        <td><input type="number" ng-model="restaurant.restaurantModel.tableCount" class="form-control" style="width: 50%" /></td>
+    </tr>
+
+    <tr>
+        <td><input type="button" ng-show="restaurant.inputMode == 'create'" class="btn btn-success" ng-click="restaurant.createRestaurant()" value="Save" /></td>
+        <td>
+            <input type="button" ng-show="restaurant.inputMode == 'update'" class="btn btn-success" ng-click="restaurant.updateRestaurant(restaurant.restaurantModel.id,restaurant.restaurantModel.name,restaurant.restaurantModel.location)" value="Update" />
+            <input type="button" ng-show="restaurant.inputMode == 'update'" class="btn btn-default" ng-click="restaurant.cancelUpdate();" value="Cancel" />
+        </td>
+    </tr>
+</table>

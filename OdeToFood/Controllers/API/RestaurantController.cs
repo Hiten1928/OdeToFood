@@ -69,15 +69,11 @@ namespace OdeToFood.Controllers.API
         /// <param name="restaurant">Updated restaurant instance</param>
         /// <returns>Http result on an operation status</returns>
         [ResponseType(typeof(void))]
-        public IHttpActionResult PutRestaurant([FromUri]int id, [FromBody]RestaurantViewModel restaurantViewModel)
+        public IHttpActionResult PutRestaurant(RestaurantViewModel restaurantViewModel)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
-            }
-            if (id != restaurantViewModel.Id)
-            {
-                return BadRequest();
             }
             try
             {
@@ -94,11 +90,11 @@ namespace OdeToFood.Controllers.API
                     Location = restaurantViewModel.Location,
                     Tables = tables
                 };
-                _dataContext.Restaurant.Update(restaurant, id);
+                _dataContext.Restaurant.Update(restaurant, restaurant.Id);
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!RestaurantExists(id))
+                if (!RestaurantExists(restaurantViewModel.Id))
                 {
                     return NotFound();
                 }
@@ -120,7 +116,7 @@ namespace OdeToFood.Controllers.API
                 return BadRequest(ModelState);
             }
             _dataContext.Restaurant.Add(restaurant);
-            return CreatedAtRoute("DefaultApi", new { id = restaurant.Id }, restaurant);
+            return CreatedAtRoute("API Default", new { id = restaurant.Id }, restaurant);
         }
 
         /// <summary>
