@@ -14,3 +14,6 @@ body {
 .avialableTable:hover {
     background:#E0FFEA;
 }
+.demo-section .k-header {
+    width: 100%;
+}

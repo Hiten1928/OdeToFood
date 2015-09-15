@@ -6,10 +6,12 @@ using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Results;
 using NUnit.Framework;
+using NUnit.Framework.Constraints;
 using OdeToFood.Controllers.API;
 using OdeToFood.Data;
 using OdeToFood.Data.Models;
 using OdeToFood.Data.Repositories;
+using OdeToFood.Views.ViewModels;
 
 namespace OdeToFood.Tests.API_Tests
 {
@@ -76,12 +78,19 @@ namespace OdeToFood.Tests.API_Tests
             var restaurant = _dataContext.Restaurant.GetAll().FirstOrDefault();
             var tempName = restaurant.Name;
             restaurant.Name = "Chitos";
-            IHttpActionResult actionResult = controller.PutRestaurant(restaurant.Id, restaurant);
+
+            RestaurantViewModel rViewModel = new RestaurantViewModel();
+            rViewModel.Id = restaurant.Id;
+            rViewModel.Name = restaurant.Name;
+            rViewModel.Location = restaurant.Location;
+            rViewModel.TableCount = restaurant.Tables.Count;
+
+            IHttpActionResult actionResult = controller.PutRestaurant(rViewModel);
 
             Assert.IsInstanceOf(typeof(StatusCodeResult), actionResult);
 
             restaurant.Name = tempName;
-            controller.PutRestaurant(restaurant.Id, restaurant);
+            controller.PutRestaurant(rViewModel);
         }
 
         [Test]
@@ -95,7 +104,7 @@ namespace OdeToFood.Tests.API_Tests
             });
             var createdResult = actionResult as CreatedAtRouteNegotiatedContentResult<Restaurant>;
             Assert.IsNotNull(createdResult);
-            Assert.AreEqual("DefaultApi", createdResult.RouteName);
+            Assert.AreEqual("API Default", createdResult.RouteName);
             var mafiaRestaurant = _dataContext.Restaurant.Find(r => r.Name == "Mafia" && r.Location == "Kharkiv");
             _dataContext.Restaurant.Delete(mafiaRestaurant.Id);
         }

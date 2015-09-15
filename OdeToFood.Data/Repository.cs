@@ -56,6 +56,7 @@ namespace OdeToFood.Data
             if (existing != null)
             {
                 Context.Entry(existing).CurrentValues.SetValues(updated);
+                Context.Entry(existing).State = EntityState.Modified;
                 Context.SaveChanges();
             }
             return existing;
@@ -67,6 +68,7 @@ namespace OdeToFood.Data
             if (objDelete != null)
             {
                 Context.Set<T>().Remove(objDelete);
+
                 Context.SaveChanges();
             }
         }

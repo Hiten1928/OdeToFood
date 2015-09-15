@@ -2,13 +2,17 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <title>Angular</title>
-    <link rel="stylesheet" href="../Content/bootstrap.css" />
+
+    <link rel="stylesheet" href="../Content/bootstrap.css"/>
     <link rel="stylesheet" href="../Content/angularSite.css" />
-    <link rel="stylesheet" href="../Content/jquery.filthypillow.css" />
-    <link rel="stylesheet" href="../Scripts/angular-csp.css"/>
-    <script src="../Scripts/jquery-1.10.2.js"></script>
-    <script src="../Scripts/moment.js"></script>
-    <script src="../Scripts/jquery.filthypillow.js"></script>
+    <link rel="stylesheet" href="../Content/kendo.common.min.css"/>
+    <link rel="stylesheet" href="../Content/kendo.default.min.css"/>
+ 
+
+    <script src="../Scripts/jquery.min.js"></script>
+    <script src="../Scripts/angular.js"></script>
+    <script src="../Scripts/kendo.all.min.js"></script>
+    <script src="../Scripts/bootstrap.js"></script>
 </head>
 <body ng-app="restaurantBooking" ng-cloak>
 
@@ -62,6 +66,7 @@
 
                                     <!--Submit order form in the external file-->
                                     <div id="submitForm" ng-include="'Order/submitOrder.html'" class="col-lg-6 col-md-6 col-sm-6"></div>
+                                    
                                 </div>
                             </div>
                         </div><!--First Row-->
@@ -70,7 +75,7 @@
                         <div class="container-fluid">
                             <div class="container" ng-controller="TableController as table" ng-show="main.secondRowToggle == 'avialable tables'">
                                 <!--Avialable tables in the external file-->
-                                <div ng-include="'Table/avialableTables.html'" class="col-lg-6 col-md-6 col-sm-6"></div>
+                                <div ng-include="'Table/avialableTables.html'" class="col-lg-12 col-md-12 col-sm-12"></div>
                                 <div class="col-lg-6 col-md-6 col-sm-6"></div>
                             </div><!--TableController-->
                         </div><!--SecondRow-->
@@ -85,8 +90,8 @@
             </div><!--RestaurantControllre-->
         </div><!--MainController-->
         <!--Libraries-->
-        <script src="../Scripts/bootstrap.js"></script>
-        <script src="../Scripts/angular.js"></script>
+        
+
 
         <!--Modules-->
         <script src="App/app.js"></script>
@@ -94,6 +99,7 @@
         <script src="Table/table.js"></script>
         <script src="Order/order.js"></script>
         <script src="Review/review.js"></script>
+        <script src="Kendo/kendo.js"></script>
 
         
         <script>

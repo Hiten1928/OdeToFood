@@ -15,7 +15,13 @@
                 return;
             }
 
-            $http.get("/OdeToFood.Web/api/table?restaurantId=" + restId + "&dateTime=" + date).then(function (response) {
+            var parsedDate = new Date(date);
+            alert(parsedDate);
+            $http({
+                url: "/OdeToFood.Web/api/table",
+                method: "GET",
+                params: { dateTime: parsedDate, restaurantId: restId }
+            }).then(function(response) {
                 jQuery("#tableListErrorMessage").text("");
                 self.avialableTables = response.data;
             });

@@ -125,23 +125,33 @@
 
 
         this.placeOrder = function () {
-            self.order.timeFrom = new Date(jQuery("#timeFrom").val());
-            self.order.timeFrom = roundHour(self.order.timeFrom);
-            self.order.timeTo = new Date(self.order.timeFrom);
-            self.order.timeTo.setHours(self.order.timeFrom.getHours() + 1);
-            console.log(self.order);
-            $http.post("/OdeToFood.Web/api/order", self.order).success(function (response) {
-                if (response.statusCode == 409) {
-                    self.submitStatus = "Table is already taken for the specified time. Try to pick a different one.";
+            if (!self.order.tableId) {
+                alert("Please, choose a table");
+            }
+            else if (!self.order.peopleCount) {
+                alert("Please, enter number of people");
+            }
+            else if (!self.order.timeFrom) {
+                alert("Please, enter a date");
+            } else {
+                self.order.timeFrom = new Date(jQuery("#timeFrom").val());
+                self.order.timeFrom = roundHour(self.order.timeFrom);
+
+                self.order.timeTo = new Date(self.order.timeFrom);
+                self.order.timeTo.setHours(self.order.timeFrom.getHours() + 1);
+                $http.post("/OdeToFood.Web/api/order", self.order).success(function(response) {
+                    if (response.statusCode == 409) {
+                        self.submitStatus = "Table is already taken for the specified time. Try to pick a different one.";
+                        $("#submitStatus").html(self.submitStatus);
+                    } else {
+                        self.submitStatus = "You have placed your order successfully";
+                        $("#submitStatus").html(self.submitStatus);
+                    }
+                }).error(function(response) {
+                    self.submitStatus = "Sorry. The table is already taken.";
                     $("#submitStatus").html(self.submitStatus);
-                } else {
-                    self.submitStatus = "You have placed your order successfully";
-                    $("#submitStatus").html(self.submitStatus);
-                }
-            }).error(function (response) {
-                self.submitStatus = "Sorry. The table is already taken.";
-                $("#submitStatus").html(self.submitStatus);
-            });
+                });
+            }
         };
         this.setTableId = function (tableId) {
             self.order.tableId = tableId;
@@ -156,8 +166,6 @@
             self.restaurantVm.location = jQuery("#restaurantModelLocation").val();
             self.restaurantVm.id = jQuery("#restaurantModelId").val();
             self.restaurantVm.tableCount = jQuery("#restaurantModelTableCount").val();
-            console.log(self.restaurantVm);
-            console.log(self.restaurantVm.id);
             $http.put("/OdeToFood.Web/api/restaurant?id=" + self.restaurantVm.id, self.restaurantVm).success(function (response) {
                 jQuery("#editResponceMessage").text("You have updated restaurant successfully.");
             }).error(function () {

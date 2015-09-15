@@ -67,22 +67,14 @@ namespace OdeToFood.Tests.API_Tests
         public void TestPutRestaurantReview()
         {
             RestaurantReviewController controller = new RestaurantReviewController(_dataContext);
-//            RestaurantReview restaurantReview = new RestaurantReview()
-//            {
-//                ReviewerName = "John",
-//                Body = "Good",
-//                Rating = 5,
-//                RestaurantId = _dataContext.Restaurant.GetAll().First().Id
-//            };
-//            _dataContext.RestaurantReview.Add(restaurantReview);
             RestaurantReview restaurantReview = _dataContext.RestaurantReview.GetAll().First();
             var tempRating = restaurantReview.Rating;
             restaurantReview.Rating = 10;
-            IHttpActionResult actionResult = controller.PutRestaurantReview(restaurantReview.Id, restaurantReview);
+            IHttpActionResult actionResult = controller.PutRestaurantReview(restaurantReview);
 
             Assert.IsInstanceOf(typeof(StatusCodeResult), actionResult);
             restaurantReview.Rating = tempRating;
-            controller.PutRestaurantReview(restaurantReview.Id, restaurantReview);
+            controller.PutRestaurantReview(restaurantReview);
         }
 
         [Test]
@@ -99,7 +91,7 @@ namespace OdeToFood.Tests.API_Tests
             IHttpActionResult actionResult = controller.PostRestaurantReview(review);
             var createdResult = actionResult as CreatedAtRouteNegotiatedContentResult<RestaurantReview>;
             Assert.IsNotNull(createdResult);
-            Assert.AreEqual("DefaultApi", createdResult.RouteName);
+            Assert.AreEqual("API Default", createdResult.RouteName);
 
             var reviewToDelete = _dataContext.RestaurantReview.GetAll().Last();
             _dataContext.RestaurantReview.Delete(reviewToDelete.Id);

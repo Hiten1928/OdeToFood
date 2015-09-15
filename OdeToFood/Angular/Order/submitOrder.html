@@ -3,6 +3,13 @@
 <form class="form-group" ng-submit="restaurant.placeOrder()">
     <input type="number" class="form-control" id="tableNumber" placeholder="Select the table on the left" style="margin-bottom: 10px; border: 2px solid #fff" readonly>
     <input type="number" ng-model="restaurant.order.peopleCount" class="form-control" id="peopleCount" placeholder="Number of people" style="margin-bottom: 10px; border: 2px solid #fff">
-    <input type="text" class="form-control" id="timeFrom" placeholder="From time:" style="margin-bottom: 10px; border: 2px solid #fff">
-    <input type="submit" class="btn btn-success pull-right" value="Place order" />
+
+        <div class="demo-section k-header" style="margin-bottom: 10px; border: 2px solid #fff;" ng-controller="KendoController as kendo">
+            <input id="timeFrom" kendo-date-time-picker
+                   ng-model="restaurant.order.timeFrom"
+                   style="width: 100%;"
+                   k-options="datePickerOptions"
+                   placeholder="From time" />
+        </div>
+        <input type="submit" class="btn btn-success pull-right" value="Place order" />
 </form>

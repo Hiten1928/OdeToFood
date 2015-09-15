@@ -24,38 +24,3 @@
         </div>
     </div>
 </div>
-
-<script>
-    jQuery(document).ready(function () {
-        var now = moment().subtract("seconds", 1),
-            later = moment().add("days", 7);
-        jQuery("#timeFrom").filthypillow({
-            minDateTime: function () {
-                return now;
-            }
-        });
-        jQuery("#timeFrom").on("focus", function () {
-            $("#timeFrom").filthypillow("show");
-        });
-        jQuery("#timeFrom").on("fp:save", function (e, dateObj) {
-            jQuery("#timeFrom").val(dateObj.format("MM.DD.YYYY HH:mm:ss"));
-            jQuery("#timeFrom").filthypillow("hide");
-        });
-
-
-        now = moment().subtract("seconds", 1),
-            later = moment().add("days", 7);
-        jQuery("#dateAvialableTables").filthypillow({
-            minDateTime: function () {
-                return now;
-            }
-        });
-        jQuery("#dateAvialableTables").on("focus", function () {
-            $("#dateAvialableTables").filthypillow("show");
-        });
-        jQuery("#dateAvialableTables").on("fp:save", function (e, dateObj) {
-            jQuery("#dateAvialableTables").val(dateObj.format("DD.MM.YYYY HH:mm:ss"));
-            jQuery("#dateAvialableTables").filthypillow("hide");
-        });
-    });
-</script>

@@ -124,6 +124,8 @@
             self.orderModel.timeFrom = '';
             self.orderModel.timeTo = '';
             self.orderModel.tableId = '';
+
+            self.inputMode = "create";
         };
 
         this.cancelUpdate = function () {

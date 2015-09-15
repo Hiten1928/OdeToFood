@@ -66,7 +66,7 @@ namespace OdeToFood.Tests.API_Tests
         public void TestGetTablesForTime()
         {
             TableController controller = new TableController(_dataContext);
-            IEnumerable<Table> result = controller.GetTablesForTime(DateTime.Now,
+            IEnumerable<Table> result = controller.Get(DateTime.Now,
                 _dataContext.Restaurant.GetAll().First().Id);
             Assert.IsNotNull(result);
         }

@@ -250,6 +250,7 @@
   <ItemGroup>
     <Content Include="Angular\App\app.js" />
     <Content Include="Angular\index.html" />
+    <Content Include="Angular\Kendo\kendo.js" />
     <Content Include="Angular\Order\order.js" />
     <Content Include="Angular\Order\ordersCrud.html" />
     <Content Include="Angular\Order\submitOrder.html" />
@@ -263,6 +264,7 @@
     <Content Include="Content\angularSite.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\Default\sprite.png" />
     <Content Include="Content\images\0286W-2y27.png" />
     <Content Include="Content\images\cake.jpg" />
     <Content Include="Content\images\food-icon.png" />
@@ -273,9 +275,10 @@
     <Content Include="Content\images\restaurant1.jpg" />
     <Content Include="Content\images\restaurant2.jpg" />
     <Content Include="Content\images\restaurant3.jpg" />
+    <Content Include="Content\images\sprite.png" />
     <Content Include="Content\jquery-ui.css" />
-    <Content Include="Content\jquery.datetimepicker.css" />
-    <Content Include="Content\jquery.filthypillow.css" />
+    <Content Include="Content\kendo.common.min.css" />
+    <Content Include="Content\kendo.default.min.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -1070,11 +1073,12 @@
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery-ui.js" />
     <Content Include="Scripts\jquery.datetimepicker.js" />
-    <Content Include="Scripts\jquery.filthypillow.js" />
+    <Content Include="Scripts\jquery.min.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\kendo.all.min.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\moment.js" />
     <Content Include="Scripts\respond.js" />

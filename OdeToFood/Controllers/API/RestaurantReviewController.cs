@@ -55,23 +55,19 @@ namespace OdeToFood.Controllers.API
         /// <param name="restaurantReview">An updated instance of RestaurantReview</param>
         /// <returns>Http result on an operation status</returns>
         [ResponseType(typeof(void))]
-        public IHttpActionResult PutRestaurantReview(int id, RestaurantReview restaurantReview)
+        public IHttpActionResult PutRestaurantReview(RestaurantReview restaurantReview)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
-            if (id != restaurantReview.Id)
-            {
-                return BadRequest();
-            }
             try
             {
-                _dataContext.RestaurantReview.Update(restaurantReview, id);
+                _dataContext.RestaurantReview.Update(restaurantReview, restaurantReview.Id);
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!RestaurantReviewExists(id))
+                if (!RestaurantReviewExists(restaurantReview.Id))
                 {
                     return NotFound();
                 }

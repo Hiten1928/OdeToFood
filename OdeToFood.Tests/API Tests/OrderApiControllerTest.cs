@@ -86,24 +86,12 @@ namespace OdeToFood.Tests.API_Tests
             Order order = _dataContext.Order.GetAll().First();
             var tempPeopleCount = order.PeopleCount;
             order.PeopleCount = 4;
-            IHttpActionResult actionResult = controller.PutOrder(order.Id, order);
+            IHttpActionResult actionResult = controller.PutOrder(order);
 
             Assert.IsInstanceOf(typeof (StatusCodeResult), actionResult);
 
             order.PeopleCount = tempPeopleCount;
-            controller.PutOrder(order.Id, order);
-        }
-
-        [Test]
-        public void TestPutOrderModelNotValid()
-        {
-            OrderController controller = new OrderController(_dataContext);
-            Order order = _dataContext.Order.GetAll().First();
-            _dataContext.Order.Add(order);
-            order.PeopleCount = 10;
-            IHttpActionResult actionResult = controller.PutOrder(order.Id + 1, order);
-
-            Assert.IsInstanceOf(typeof (BadRequestResult), actionResult);
+            controller.PutOrder(order);
         }
 
         [Test]
@@ -120,7 +108,7 @@ namespace OdeToFood.Tests.API_Tests
             IHttpActionResult actionResult = controller.PostOrder(order);
             var createdResult = actionResult as CreatedAtRouteNegotiatedContentResult<Order>;
             Assert.IsNotNull(createdResult);
-            Assert.AreEqual("DefaultApi", createdResult.RouteName);
+            Assert.AreEqual("API Default", createdResult.RouteName);
             var orderToDelete = _dataContext.Order.GetAll().Last();
             _dataContext.Order.Delete(orderToDelete.Id);
         }
