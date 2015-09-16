@@ -1,0 +1,73 @@
+﻿@using System.Configuration
+<!DOCTYPE html>
+<html ng-app="restaurantBooking" ng-cloak xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Angular</title>
+    <base href="@ConfigurationManager.AppSettings["BaseUrlPath"].ToString()" />
+
+    <link rel="stylesheet" href="~/Content/bootstrap.css" />
+    <link rel="stylesheet" href="~/Content/angularSite.css" />
+    <link rel="stylesheet" href="~/Content/kendo.common.min.css" />
+    <link rel="stylesheet" href="~/Content/kendo.default.min.css" />
+
+
+    <script src="~/Scripts/jquery.min.js"></script>
+    <script src="~/Scripts/angular.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.2.20/angular-route.min.js"></script>
+    <script src="~/Scripts/kendo.all.min.js"></script>
+    <script src="~/Scripts/bootstrap.js"></script>
+</head>
+<body ng-controller="MainController as main">
+
+    <!--Navigation-->
+    <nav class="navbar navbar-inverse">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <img alt="Brand" src="~/Content/images/twitter_newbird_white.png" style="height: 50px" />
+            </div>
+
+
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1" ng-controller="TableController as table">
+                <ul class="nav navbar-nav" style="margin-left: 90px; font-family: Tahoma">
+                    <li><a href="angular/index" ng-click="restaurant.getAllRestaurants()">Home</a></li>
+                    <li><a href="angular/restaurants" ng-click="restaurant.getAllRestaurants();restaurant.restaurantById=null">Restaurants <span class="sr-only">(current)</span></a></li>
+                    <li><a href="angular/orders" ng-click="order.getOrders()">Orders</a></li>
+                    <li><a href="angular/reviews" ng-click="review.getReviews()">Reviews</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="container-fluid" style="height: 30px; background: #5cb85c;margin-top:-20px"></div>
+
+    <div class="container-fluid">
+        @RenderBody()
+    </div>
+
+    <script src="~/Ng/app.js"></script>
+    <script src="~/Ng/Controllers/restaurant.js"></script>
+    <script src="~/Ng/Controllers/table.js"></script>
+    <script src="~/Ng/Controllers/order.js"></script>
+    <script src="~/Ng/Controllers/review.js"></script>
+    <script src="~/Ng/Controllers/kendo.js"></script>
+
+
+    <!--Script that highlights selected table white-->
+    <script>
+        jQuery(document).ready(function () {
+            $('body').on('click', '.restaurantListRow', function () {
+                console.log("click");
+                jQuery(".restaurantListRow").css('background', 'transparent');
+                jQuery(this).css('background', '#fff');
+            });
+
+        });
+    </script>
+
+</body>
+</html>

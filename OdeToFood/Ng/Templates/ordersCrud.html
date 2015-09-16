@@ -1,0 +1,59 @@
+﻿<div class="container" ng-controller="OrderController as order">
+
+    <table class="table">
+        <tr>
+            <th>Number of people</th>
+            <th>From time</th>
+            <th>To time</th>
+            <th>Table id</th>
+            <th>Restaurant Name</th>
+            <th>Operations</th>
+        </tr>
+        <tr ng-repeat="o in order.orders">
+            <td>{{o.peopleCount}}</td>
+            <td>{{o.timeFrom}}</td>
+            <td>{{o.timeTo}}</td>
+            <td>{{o.tableId}}</td>
+            <td>{{o.restaurantName}}</td>
+            <td><a href="#" ng-click="order.edit(o,order.orders.indexOf(o))">Edit</a> | <a href="#" ng-click="order.del(order.orders.indexOf(o))">Delete</a></td>
+        </tr>
+    </table>
+
+
+    <!-- This table is to enter data-->
+    <h3 style="margin-top:50px">Modify orders</h3>
+    <table class="table">
+        <tr hidden="hidden">
+            <td>Id: </td>
+            <td><input type="hidden" ng-model="order.orderModel.id" /></td>
+        </tr>
+        <tr>
+            <td>Number of people: </td>
+            <td><input type="text" ng-model="order.orderModel.peopleCount" class="form-control" style="width: 50%" /></td>
+        </tr>
+        <tr>
+            <td>From time: </td>
+            <td><input id="timeFrom" type="text" ng-model="order.orderModel.timeFrom" class="form-control" style="width: 50%" /></td>
+        </tr>
+        <tr>
+            <td>To time: </td>
+            <td><input type="text" ng-model="order.orderModel.timeTo" class="form-control" style="width: 50%" /></td>
+        </tr>
+        <tr ng-show="order.inputMode=='create'">
+            <td>Restaurant:</td>
+            <td>
+                <select ng-model="order.orderModel.restaurantName" class="form-control" style="width: 50%">
+                    <option ng-repeat="r in restaurant.restaurants" value="{{r.name}}_{{r.location}}">{{r.name}}, {{r.location}}</option>
+                </select>
+                <input type="hidden" ng-model="order.orderModel.tableId" />
+            </td>
+        </tr>
+        <tr>
+            <td><input type="button" ng-show="order.inputMode == 'create'" class="btn btn-success" ng-click="order.createOrder()" value="Save" /></td>
+            <td>
+                <input type="button" ng-show="order.inputMode == 'update'" class="btn btn-success" ng-click="order.updateOrder(order.orderModel.id,order.orderModel.peopleCount,order.orderModel.timeFrom,order.orderModel.timeTo,order.orderModel.tableId)" value="Update" />
+                <input type="button" ng-show="order.inputMode == 'update'" class="btn btn-default" ng-click="order.cancelUpdate();" value="Cancel" />
+            </td>
+        </tr>
+    </table>
+</div>

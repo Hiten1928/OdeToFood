@@ -1,0 +1,56 @@
+﻿<div class="container" ng-controller="ReviewController as review">
+
+    <table class="table">
+        <tr>
+            <th>Rating</th>
+            <th>Reviewer Name</th>
+            <th>Body</th>
+            <th>Restaurant Name</th>
+            <th>Opearations</th>
+        </tr>
+        <tr ng-repeat="r in review.reviews">
+            <td>{{r.rating}}</td>
+            <td>{{r.reviewerName}}</td>
+            <td>{{r.body}}</td>
+            <td>{{r.restaurant.name}}</td>
+            <td><a href="#" ng-click="review.edit(r,review.reviews.indexOf(r))">Edit</a> | <a href="#" ng-click="review.del(review.reviews.indexOf(r))">Delete</a></td>
+        </tr>
+    </table>
+
+    <!-- This table is to enter data-->
+    <h3 style="margin-top:50px">Modify restaurants</h3>
+    <table class="table">
+        <tr hidden="hidden">
+            <td>Id: </td>
+            <td><input type="hidden" ng-model="review.reviewModel.id" /></td>
+        </tr>
+        <tr>
+            <td>Rating: </td>
+            <td><input type="number" ng-model="review.reviewModel.rating" class="form-control" style="width: 50%" /></td>
+        </tr>
+        <tr>
+            <td>Body: </td>
+            <td><input id="reviewBody" type="text" ng-model="review.reviewModel.body" class="form-control" style="width: 50%" /></td>
+        </tr>
+        <tr>
+            <td>Reviewer name: </td>
+            <td><input type="text" ng-model="review.reviewModel.reviewerName" class="form-control" style="width: 50%" /></td>
+        </tr>
+        <tr>
+            <td>Restaurant name: </td>
+            <td>
+                <select ng-model="review.reviewModel.restaurantName" class="form-control" style="width: 50%">
+                    <option ng-repeat="r in restaurant.restaurants" value="{{r.name}}_{{r.location}}">{{r.name}}, {{r.location}}</option>
+                </select>
+            </td>
+        </tr>
+
+        <tr>
+            <td><input type="button" ng-show="review.inputMode == 'create'" class="btn btn-success" ng-click="review.createReview()" value="Save" /></td>
+            <td>
+                <input type="button" ng-show="review.inputMode == 'update'" class="btn btn-success" ng-click="review.updateReview(review.reviewModel.id,review.reviewModel.rating,review.reviewModel.body,review.reviewModel.reviewerName,review.reviewModel.restaurantName)" value="Update" />
+                <input type="button" ng-show="review.inputMode == 'update'" class="btn btn-default" ng-click="review.cancelReview();" value="Cancel" />
+            </td>
+        </tr>
+    </table>
+</div>

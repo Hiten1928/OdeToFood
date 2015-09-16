@@ -18,7 +18,12 @@ namespace OdeToFood
                 Defaults = new RouteValueDictionary(new { controller = "Account", action = "Login" }),
                 DataTokens = new RouteValueDictionary(new { scheme = "https" })
             });
-            
+
+            routes.MapRoute(
+                name: "AngularCatchAllRoute",
+                url: "angular/{*.}",
+                defaults: new { controller = "Angular", action = "Index", id = UrlParameter.Optional }
+            );
 
             routes.MapRoute(
                 name: "Default",
@@ -26,7 +31,8 @@ namespace OdeToFood
                 defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }
             );
 
-            routes.MapPageRoute("Angular", "angular/{*anything}", "~/angular/index.html");
+            //routes.MapPageRoute("Angular", "angular/{*anything}", "~/angular/index.html");
+            routes.AppendTrailingSlash = true;
         }
     }
 }

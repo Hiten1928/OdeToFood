@@ -208,6 +208,7 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\AngularController.cs" />
     <Compile Include="Controllers\API\OrderController.cs" />
     <Compile Include="Controllers\API\RestaurantController.cs" />
     <Compile Include="Controllers\API\RestaurantReviewController.cs" />
@@ -248,19 +249,18 @@
     <Compile Include="Views\ViewModels\TableViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Angular\App\app.js" />
-    <Content Include="Angular\index.html" />
-    <Content Include="Angular\Kendo\kendo.js" />
-    <Content Include="Angular\Order\order.js" />
-    <Content Include="Angular\Order\ordersCrud.html" />
-    <Content Include="Angular\Order\submitOrder.html" />
-    <Content Include="Angular\Restaurant\restaurant.js" />
-    <Content Include="Angular\Restaurant\restaurantList.html" />
-    <Content Include="Angular\Restaurant\restaurantsCrud.html" />
-    <Content Include="Angular\Review\review.js" />
-    <Content Include="Angular\Review\reviewsCrud.html" />
-    <Content Include="Angular\Table\avialableTables.html" />
-    <Content Include="Angular\Table\table.js" />
+    <Content Include="Content\images\aol-logo.png" />
+    <Content Include="Content\images\twitter_newbird_white.png" />
+    <Content Include="Ng\app.js" />
+    <Content Include="Ng\Templates\index.html" />
+    <Content Include="Ng\Controllers\kendo.js" />
+    <Content Include="Ng\Controllers\order.js" />
+    <Content Include="Ng\Templates\ordersCrud.html" />
+    <Content Include="Ng\Controllers\restaurant.js" />
+    <Content Include="Ng\Templates\restaurantsCrud.html" />
+    <Content Include="Ng\Controllers\review.js" />
+    <Content Include="Ng\Templates\reviewsCrud.html" />
+    <Content Include="Ng\Controllers\table.js" />
     <Content Include="Content\angularSite.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
@@ -1141,6 +1141,8 @@
     <Content Include="Views\Home\_GetRestaurants.cshtml" />
     <Content Include="Views\Error\HttpError.cshtml" />
     <Content Include="Scripts\version.json" />
+    <Content Include="Views\Shared\_AngularLayout.cshtml" />
+    <Content Include="Views\Angular\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

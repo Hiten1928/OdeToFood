@@ -1,0 +1,87 @@
+﻿
+    <div id="headerWrapper" class="container-fluid" style="background: url(http://i57.tinypic.com/i3gx8g.jpg); min-height: 400px; background-size: 150%; background-position-y: -400px; background-position-x: center">
+        <div class="darkBdOverlay" style="background-color: rgba(0, 0, 0, 0.3); padding: 10px;">
+            <div class="container" style="width: 80%">
+                <!--Restaurant list in the external file-->
+                <div id="restaurant" ng-controller="RestaurantController as restaurant"  class="col-lg-6 col-md-6 col-sm-6" style="border-radius: 5px; min-height: 380px; padding-top: 10px; color: #fff; overflow: auto;">
+                    <div ng-hide="restaurant.currentRestaurant">
+                        <h2 style="font-family: Arial; text-align: center">Pick a restaurant from the list to book</h2>
+                        <table class="table" style="margin-top: 30px; font-size: 20px">
+                            <tr>
+                                <th>Name</th>
+                                <th>Location</th>
+                            </tr>
+                            <tr ng-repeat="r in restaurant.restaurants" class="restaurantListRow">
+                                <td ng-click="restaurant.getRestaurant(r.name)">{{r.name}}</td>
+                                <td ng-click="restaurant.getRestaurant(r.name)">{{r.location}}</td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div ng-show="restaurant.currentRestaurant">
+                        <h3 style="color: #fff; display: block; margin-bottom: 30px">{{restaurant.currentRestaurant.name}}, {{restaurant.currentRestaurant.location}}</h3>
+                        <div class="row">
+                            <div class="col-lg-3 col-md-3 col-sm-3 restaurantListRow" data-id="{{table.id}}" ng-repeat="table in restaurant.currentRestaurant.tables" ng-click="restaurant.select($index);restaurant.setTableId(table.id);restaurant.setTableNumberForm(table.tableNumber)" style="border: 5px solid #fff; height: 100px; border-radius: 10px; font-size: 22px;">{{table.tableNumber}}</div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-12 col-md-12 col-sm-12">
+                                <h3>
+                                    <a ng-click="restaurant.getAllRestaurants()" class="linkHover" style="color: #fff; display: block; margin-top: 30px"><span class="glyphicon glyphicon-chevron-left" style="font-size: 18px"></span><span class="glyphicon glyphicon-chevron-left" style="font-size: 18px"></span> Back to restaurants list</a>
+                                </h3>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!--Submit order form in the external file-->
+                <div id="submitForm" ng-controller="OrderController as order"  class="col-lg-6 col-md-6 col-sm-6">
+                    <h2 style="margin-top: 30px; margin-bottom: 30px; color: #fff; text-align: center">Place order</h2>
+                    <div id="submitStatus" ng-show="restaurant.submitStatus" style="color: #ffffff"></div>
+                    <form class="form-group" ng-submit="restaurant.placeOrder()">
+                        <input type="number" class="form-control" id="tableNumber" placeholder="Select the table on the left" style="margin-bottom: 10px; border: 2px solid #fff" readonly>
+                        <input type="number" ng-model="restaurant.order.peopleCount" class="form-control" id="peopleCount" placeholder="Number of people" style="margin-bottom: 10px; border: 2px solid #fff">
+
+                        <div class="demo-section k-header" style="margin-bottom: 10px; border: 2px solid #fff;" ng-controller="KendoController as kendo">
+                            <input id="timeFrom" kendo-date-time-picker
+                                   ng-model="restaurant.order.timeFrom"
+                                   style="width: 100%;"
+                                   k-options="datePickerOptions"
+                                   placeholder="From time" />
+                        </div>
+                        <input type="submit" class="btn btn-success pull-right" value="Place order" />
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div><!--First Row-->
+
+
+    <div class="container-fluid">
+        <div class="container" ng-controller="TableController as table" ng-show="main.secondRowToggle == 'avialable tables'">
+            <!--Avialable tables in the external file-->
+            <div class="col-lg-12 col-md-12 col-sm-12">
+                <h2>Avialable tables for specified time</h2>
+                <h4 ng-show="restaurant.currentRestaurant" style="margin-top: 30px">{{restaurant.currentRestaurant.name}}, {{restaurant.currentRestaurant.location}}</h4>
+                <div class="input-group col-lg-12 col-md-12" style="padding-left:0">
+                    <div class="demo-section k-header" style="margin-bottom: 10px; border: 2px solid #fff;width:50%" ng-controller="KendoController as kendo">
+                        <input id="dateAvialableTables" type="text" placeholder="Date M/d/yyyy hh:mm:ss" kendo-date-time-picker
+                               ng-model="restaurant.order.timeFrom"
+                               style="width: 100%;"
+                               k-options="datePickerOptions" />
+                    </div>
+                    <p id="tableListErrorMessage" style="color: red; font-size: 12px; margin-left: 0;"></p>
+                    <button ng-click="table.getAvialableTables(restaurant.currentRestaurant.id)" id="submitAvialableTables" style="margin-bottom:10px" class="btn btn-success" type="button">Go!</button>
+                </div>
+                <div id="avialableTablesList" ng-show="table.avialableTables">
+                    <ul class="list-group">
+                        <li ng-repeat="t in table.avialableTables" class="list-group-item avialableTable">Table # {{t.tableNumber}}</li>
+                    </ul>
+                </div>
+
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-6"></div>
+        </div>
+    </div>
+
+
+
